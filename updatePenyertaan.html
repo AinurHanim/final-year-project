@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kemaskini Penyertaan / Peserta</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cececc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+            width: 90%;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-size: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+
+        select,
+        input[type="text"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .tab {
+            display: none;
+            /* Hide all tabs by default */
+        }
+
+        .tab.active {
+            display: block;
+            /* Show active tab */
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            /* Default color for inactive tabs */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+            /* Smooth transition */
+        }
+
+        .tab-button.active {
+            background-color: #0056b3;
+            /* Color for the active tab */
+        }
+
+        .tab-button.inactive {
+            background-color: #6c757d;
+            /* Color for inactive tabs */
+
+        }
+
+        .tab-button:hover {
+            background-color: #0056b3;
+        }
+
+        .tab-button.inactive {
+            background-color: #6c757d;
+        }
+
+        .add-more {
+            background-color: #007bff;
+            color: #ffffff;
+            margin-top: 20px;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #dc3545;
+            /* Red color for no data message */
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Kemaskini Penyertaan Dan Peserta</h2>
+        <form id="updateForm" action="update.php" method="post">
+            <label for="event">Acara</label>
+            <select name="event[]" id="eventSelect" required onchange="fetchEventDetails()">
+                <option value="">Pilih Nama Acara</option>
+            </select>
+
+            <label for="kategoriBadan">Kategori Badan/Unit</label>
+            <input type="text" id="kategoriBadan" name="kategoriBadan" readonly required>
+
+            <label for="namaKelab">Nama Kelab</label>
+            <input type="text" id="namaKelab" name="namaKelab" readonly required>
+
+            <input type="hidden" id="peringkatAcara" name="peringkatAcara" required>
+
+            <div class="tabs">
+                <button type="button" class="tab-button active" onclick="showTab('daftarPelajar', this)">Daftar
+                    Pelajar</button>
+                <button type="button" class="tab-button inactive" onclick="showTab('senaraiPelajar', this)">Senarai
+                    Pelajar yang Menyertai</button>
+            </div>
+
+            <div id="daftarPelajar" class="tab active">
+                <table id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>Nama Pelajar</th>
+                            <th>No IC</th>
+                            <th>Kelas</th>
+                            <th>Pencapaian</th>
+                            <th>Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Your existing rows here -->
+                    </tbody>
+                </table>
+                <button type="button" id="addMore" class="add-more">Tambah Pelajar</button>
+                <br>
+                <button type="submit">Simpan</button>
+            </div>
+
+            <div id="senaraiPelajar" class="tab">
+                <table id="studentsTable2">
+                    <thead>
+                        <tr>
+                            <th>Nama Pelajar</th>
+                            <th>No IC</th>
+                            <th>Kelas</th>
+                            <th>Pencapaian</th>
+                            <th>Tindakan</th> <!-- New column for actions -->
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTable2Body">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+        // Function to show the selected tab
+        function showTab(tabId, button) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(tabButton => {
+                tabButton.classList.remove('active');
+                tabButton.classList.add('inactive');
+            });
+            button.classList.remove('inactive');
+            button.classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to handle autocomplete for Nama Pelajar
+            const autocompleteInputs = document.querySelectorAll('.autocomplete-input');
+
+            autocompleteInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    const query = this.value;
+                    const suggestionsDiv = this.nextElementSibling;
+
+                    if (query.length > 0) {
+                        fetch('get_students.php?query=' + encodeURIComponent(query))
+                            .then(response => response.json())
+                            .then(data => {
+                                suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                                if (data.length > 0) {
+                                    suggestionsDiv.style.display = 'block'; // Show suggestions
+                                    const suggestionsList = document.createElement('div');
+                                    suggestionsList.classList.add('suggestions-list');
+                                    data.forEach(student => {
+                                        const suggestionItem = document.createElement('div');
+                                        suggestionItem.textContent = student; // Use the student variable to access the name
+                                        suggestionItem.style.cursor = 'pointer';
+
+                                        // Handle the click event for the selected name
+                                        suggestionItem.addEventListener('click', function (event) {
+                                            event.preventDefault();
+                                            const input = event.target.parentNode.parentNode.parentNode.querySelector('.autocomplete-input');
+                                            input.value = student; // Set input value to selected name
+                                            suggestionsDiv.style.display = 'none'; // Hide suggestions
+                                        });
+
+                                        suggestionsList.appendChild(suggestionItem);
+                                    });
+                                    suggestionsDiv.appendChild(suggestionsList);
+                                } else {
+                                    suggestionsDiv.style.display = 'none'; // Hide if no matches
+                                }
+                            })
+                            .catch(error => console.error('Error fetching students:', error));
+                    } else {
+                        suggestionsDiv.style.display = 'none'; // Hide if input is empty
+                    }
+                });
+            });
+            // Hide suggestions on blur (when user clicks outside the input)
+            autocompleteInputs.forEach(input => {
+                input.addEventListener('blur', function () {
+                    setTimeout(() => {
+                        const suggestionsDiv = this.nextElementSibling;
+                        suggestionsDiv.style.display = 'none'; // Hide suggestions when input loses focus
+                    }, 200); // Slight delay to allow selection
+                });
+            });
+
+            function fetchStudents() {
+                fetch('get_students.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        const studentSelects = document.querySelectorAll('select[name=" namaPelajarText"]');
+                        studentSelects.forEach(select => {
+                            select.innerHTML = '<option value="">Pilih Nama Pelajar</option>';
+                            data.forEach(student => {
+                                const option = document.createElement('option');
+                                option.value = student;
+                                option.textContent = student;
+                                select.appendChild(option);
+                            });
+                        });
+                    });
+            }
+
+            fetchStudents();
+
+            // Fetch events specific to the logged-in teacher
+            function fetchAcara() {
+                fetch('get_acara.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        const eventSelect = document.querySelector('select[name="event[]"]');
+                        eventSelect.innerHTML = '<option value="">Pilih Nama Acara</option>';
+                        data.forEach(acara => {
+                            const option = document.createElement('option');
+                            option.value = acara.namaEvent; // Set the value to the event name
+                            option.textContent = `${acara.namaEvent} (${acara.tarikh}, ${acara.tempat})`; // Correct formatting
+
+                            eventSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching events:', error));
+            }
+
+            fetchStudents();
+            fetchAcara();
+
+            // Add event listener to the add more button
+            const addMoreButton = document.getElementById('addMore');
+            addMoreButton.addEventListener('click', function () {
+                const tableBody = document.getElementById('studentsTable').querySelector('tbody');
+                const newRow = document.createElement('tr');
+                newRow.classList.add('student-entry');
+
+                newRow.innerHTML = `
+            <td>
+                <input type="text" name="namaPelajarText[]" class="autocomplete-input" placeholder="Pilih Nama Pelajar" required>
+                <div class="suggestions-box" style="display: none;"></div>
+            </td>
+            <td>
+                <input type="text" name="noIc[]" class="autocomplete-input" placeholder="IC Pelajar" required>
+                <div class="suggestions-box" style="display: none;"></div>
+            </td>
+            <td>
+                <select name="kelas[]" required>
+                    <option value="">Nama Kelas</option>
+                    <option value="1 SAB">1 SAB</option>
+                    <option value="2 SAB">2 SAB</option>
+                    <option value="3 SAB">3 SAB</option>
+                    <option value="4 SAB">4 SAB</option>
+                    <option value="5 SAB">5 SAB</option>
+                    <option value="1 SO">1 SO</option>
+                    <option value="2 SO">2 SO</option>
+                    <option value="3 SO">3 SO</option>
+                    <option value="4 SO">4 SO</option>
+                    <option value="5 SO">5 SO</option>
+                    <option value="1 SU">1 SU</option>
+                    <option value="2 SU">2 SU</option>
+                    <option value="3 SU">3 SU</option>
+                    <option value="4 SU">4 SU</option>
+                    <option value="5 SU">5 SU</option>
+                </select>
+            </td>
+            <td>
+                <select name="pencapaian[]" required>
+                    <option value="">Peringkat Penyertaan</option>
+                    <option value="Johan / Pertama">Johan / Pertama</option>
+                    <option value="Naib Johan / Kedua">Naib Johan / Kedua</option>
+                    <option value="Ketiga">Ketiga</option>
+                    <option value="Keempat">Keempat</option>
+                    <option value="Kelima">Kelima</option>
+                    <option value="Peserta">Peserta</option>
+                </select>
+            </td>
+            <td>
+                <button type="button" class="remove-row">Buang</button>
+            </td>
+        `;
+
+                tableBody.appendChild(newRow);
+
+                // Add event listener to the new input field
+                const newInput = newRow.querySelector('.autocomplete-input');
+                newInput.addEventListener('input', function () {
+                    const query = this.value;
+                    const suggestionsDiv = this.nextElementSibling;
+
+                    if (query.length > 0) {
+                        fetch('get_students.php?query=' + encodeURIComponent(query))
+                            .then(response => response.json())
+                            .then(data => {
+                                suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                                if (data.length > 0) {
+                                    suggestionsDiv.style.display = 'block'; // Show suggestions
+                                    const suggestionsList = document.createElement('div');
+                                    suggestionsList.classList.add('suggestions-list');
+                                    data.forEach(student => {
+                                        const suggestionItem = document.createElement('div');
+                                        suggestionItem.textContent = student; // Use the student variable to access the name
+                                        suggestionItem.style.cursor = 'pointer';
+
+                                        // Handle the click event for the selected name
+                                        suggestionItem.addEventListener('click', function (event) {
+                                            event.preventDefault();
+                                            const input = event.target.parentNode.parentNode.parentNode.querySelector('.autocomplete-input');
+                                            input.value = student; // Set input value to selected name
+                                            suggestionsDiv.style.display = 'none'; // Hide suggestions
+                                        });
+
+                                        suggestionsList.appendChild(suggestionItem);
+                                    });
+                                    suggestionsDiv.appendChild(suggestionsList);
+                                } else {
+                                    suggestionsDiv.style.display = 'none'; // Hide if no matches
+                                }
+                            })
+                            .catch(error => console.error('Error fetching students:', error));
+                    } else {
+                        suggestionsDiv.style.display = 'none'; // Hide if input is empty
+                    }
+                });
+
+                // Hide suggestions on blur (when user clicks outside the input)
+                newInput.addEventListener('blur', function () {
+                    setTimeout(() => {
+                        const suggestionsDiv = this.nextElementSibling;
+                        suggestionsDiv.style.display = 'none'; // Hide suggestions when input loses focus
+                    }, 200); // Slight delay to allow selection
+                });
+            });
+
+            // Event delegation for removing rows
+            document.getElementById('studentsTable').addEventListener('click', function (event) {
+                if (event.target.classList.contains('remove-row')) {
+                    const row = event.target.closest('tr');
+                    row.parentNode.removeChild(row);
+                }
+            });
+        });
+
+        const noIcPelajarQueryInput = document.getElementById('noIcPelajarQuery');
+        // Add event listener to the No IC input field in the new row
+        const noIcInput = newRow.querySelector('input[name="noIc[]"]');
+        const suggestionsDivv = newRow.querySelector('.suggestions-box');
+
+        noIcInput.addEventListener('input', function () {
+            const query = this.value;
+
+            if (query.length > 0) {
+                fetch(`fetch_no_ic_pelajar.php?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestionsDivv.innerHTML = ''; // Clear previous suggestions
+                        if (data.length > 0) {
+                            suggestionsDivv.style.display = 'block'; // Show suggestions
+                            data.forEach(ic => {
+                                const suggestionItem = document.createElement('div');
+                                suggestionItem.textContent = ic.noIcPelajar; // Use the IC number
+                                suggestionItem.style.cursor = 'pointer';
+
+                                // Handle the click event for the selected IC
+                                suggestionItem.addEventListener('click', function () {
+                                    noIcInput.value = ic.noIcPelajar; // Set input value to selected IC
+                                    suggestionsDivv.style.display = 'none'; // Hide suggestions
+                                });
+
+                                suggestionsDivv.appendChild(suggestionItem);
+                            });
+                        } else {
+                            suggestionsDivv.style.display = ' none'; // Hide if no matches
+                        }
+                    })
+                    .catch(error => console.error('Error fetching IC suggestions:', error));
+            } else {
+                suggestionsDivv.style.display = 'none'; // Hide if input is empty
+            }
+        });
+
+        // Hide suggestions on blur (when user clicks outside the input)
+        noIcInput.addEventListener('blur', function () {
+            setTimeout(() => {
+                suggestionsDivv.style.display = 'none'; // Hide suggestions when input loses focus
+            }, 200); // Slight delay to allow selection
+        });
+
+        let studentsToDelete = []; // Array to keep track of students to delete
+
+
+        // Function to remove a student and mark for deletion
+        function removeStudent(namaPelajar, noIc) {
+            studentsToDelete.push({ nama_pelajar: namaPelajar, no_ic: noIc });
+            console.log(`Marked for deletion: ${namaPelajar} with IC ${noIc}`);
+        }
+
+
+
+
+
+        // Function to fetch IC number based on selected student name
+        function fetchIcByStudentName(studentName, inputField) {
+            fetch(`fetch_ic.php?studentName=${encodeURIComponent(studentName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.icNumber) {
+                        inputField.value = data.icNumber; // Set the IC input field to the fetched IC number
+                    } else {
+                        inputField.value = ''; // Clear the field if no data is found
+                    }
+                })
+                .catch(error => console.error('Error fetching IC number:', error));
+        }
+
+        // Modify the event listener for student name selection
+        autocompleteInputs.forEach(input => {
+            input.addEventListener('input', function () {
+                const query = this.value;
+                const suggestionsDiv = this.nextElementSibling;
+
+                if (query.length > 0) {
+                    fetch('get_students.php?query=' + encodeURIComponent(query))
+                        .then(response => response.json())
+                        .then(data => {
+                            suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                            if (data.length > 0) {
+                                suggestionsDiv.style.display = 'block'; // Show suggestions
+                                const suggestionsList = document.createElement('div');
+                                suggestionsList.classList.add('suggestions-list');
+                                data.forEach(student => {
+                                    const suggestionItem = document.createElement('div');
+                                    suggestionItem.textContent = student.name; // Assuming student.name holds the name
+                                    suggestionItem.style.cursor = 'pointer';
+
+                                    // Handle the click event for the selected name
+                                    suggestionItem.addEventListener('click', function (event) {
+                                        event.preventDefault();
+                                        input.value = student.name; // Set input value to selected name
+                                        suggestionsDiv.style.display = 'none'; // Hide suggestions
+
+                                        // Fetch the IC number for the selected student
+                                        const noIcInput = input.closest('tr').querySelector('input[name="noIc[]"]'); // Find the corresponding IC input
+                                        fetchIcByStudentName(student.name, noIcInput);
+                                    });
+
+                                    suggestionsList.appendChild(suggestionItem);
+                                });
+                                suggestionsDiv.appendChild(suggestionsList);
+                            } else {
+                                suggestionsDiv.style.display = 'none'; // Hide if no matches
+                            }
+                        })
+                        .catch(error => console.error('Error fetching students:', error));
+                } else {
+                    suggestionsDiv.style.display = 'none'; // Hide if input is empty
+                }
+            });
+        });
+
+        suggestionItem.addEventListener('click', function (event) {
+            event.preventDefault();
+            input.value = student.name; // Set input value to selected name
+            suggestionsDiv.style.display = 'none'; // Hide suggestions
+
+            // Fetch the IC number for the selected student
+            const noIcInput = input.closest('tr').querySelector('input[name="noIc[]"]'); // Find the corresponding IC input
+            console.log('Fetching IC for student:', student.name); // Log the student name
+            fetchIcByStudentName(student.name, noIcInput);
+        });
+
+        const icInput = document.getElementById('noIcPelajar');
+        const suggestionsDiv = document.getElementById('icSuggestions');
+
+        icInput.addEventListener('input', function () {
+            const query = this.value;
+
+            if (query.length > 0) {
+                fetch(`fetch_ic_suggestions.php?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                        if (data.length > 0) {
+                            suggestionsDiv.style.display = 'block'; // Show suggestions
+                            data.forEach(ic => {
+                                const suggestionItem = document.createElement('div');
+                                suggestionItem.textContent = ic; // Assuming ic holds the IC number
+                                suggestionItem.style.cursor = 'pointer';
+
+                                // Handle the click event for the selected IC
+                                suggestionItem.addEventListener('click', function () {
+                                    icInput.value = ic; // Set input value to selected IC
+                                    suggestionsDiv.style.display = 'none'; // Hide suggestions
+                                });
+
+                                suggestionsDiv.appendChild(suggestionItem);
+                            });
+                        } else {
+                            suggestionsDiv.style.display = 'none'; // Hide if no matches
+                        }
+                    })
+                    .catch(error => console.error('Error fetching IC suggestions:', error));
+            } else {
+                suggestionsDiv.style.display = 'none'; // Hide if input is empty
+            }
+        });
+
+        // Validate the selected IC number
+        icInput.addEventListener('blur', function () {
+            const selectedIc = this.value;
+
+            fetch(`validate_ic.php?ic=${encodeURIComponent(selectedIc)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.valid) {
+                        alert("IC pelajar yang diterima adalah salah");
+                        this.value = ''; // Clear the input if invalid
+                    }
+                })
+                .catch(error => console.error('Error validating IC:', error));
+        });
+
+        let registeredStudents = []; // Global variable to hold registered students
+
+        // Function to fetch students for the selected event
+        function fetchStudentsForEvent(students) {
+            const tableBody = document.getElementById('studentsTable2Body');
+            tableBody.innerHTML = ''; // Clear the table body
+
+            if (students && students.length > 0) {
+                students.forEach(student => {
+                    const newRow = document.createElement('tr');
+                    newRow.setAttribute('data-no-ic', student.no_ic); // Add data-no-ic attribute
+                    newRow.innerHTML = `
+                <td>${student.nama_pelajar}</td>
+                <td>${student.no_ic}</td>
+                <td>${student.kelas}</td>
+                <td>${student.pencapaian}</td>
+                <td>
+                    <button type="button" class="edit-button" onclick="editStudent('${student.no_ic}')">Edit</button>
+                    <button type="button" class="save-button" style="display:none;">Simpan</button>
+                    <button type="button" class="remove-button" onclick="confirmRemoveStudent('${student.no_ic}', '${student.nama_pelajar}')">Buang</button>
+                </td>
+            `;
+                    tableBody.appendChild(newRow);
+                });
+            } else {
+                const noDataRow = document.createElement('tr');
+                noDataRow.innerHTML = `
+            <td colspan="5" class="no-data" style="text-align: center;">Tiada data baru dalam rekod</td>
+        `;
+                tableBody.appendChild(noDataRow);
+            }
+        }
+
+        function editStudent(noIc) {
+            const row = document.querySelector(`tr[data-no-ic="${noIc}"]`);
+            const pencapaianCell = row.querySelector('td:nth-child(4)'); // Pencapaian cell
+            const currentPencapaian = pencapaianCell.textContent;
+
+            // Create a select dropdown for Pencapaian
+            const selectPencapaian = document.createElement('select');
+            selectPencapaian.innerHTML = `
+        <option value="">Peringkat Penyertaan</option>
+        <option value="Johan / Pertama" ${currentPencapaian === "Johan / Pertama" ? "selected" : ""}>Johan / Pertama</option>
+        <option value="Naib Johan / Kedua" ${currentPencapaian === "Naib Johan / Kedua" ? "selected" : ""}>Naib Johan / Kedua</option>
+        <option value="Ketiga" ${currentPencapaian === "Ketiga" ? "selected" : ""}>Ketiga</option>
+        <option value="Keempat" ${currentPencapaian === "Keempat" ? "selected" : ""}>Keempat</option>
+        <option value="Kelima" ${currentPencapaian === "Kelima" ? "selected" : ""}>Kelima</option>
+        <option value="Peserta" ${currentPencapaian === "Peserta" ? "selected" : ""}>Peserta</option>
+    `;
+
+            // Replace the Pencapaian cell with the select dropdown
+            pencapaianCell.innerHTML = '';
+            pencapaianCell.appendChild(selectPencapaian);
+
+            // Change the Edit button to Save button
+            const editButton = row.querySelector('.edit-button');
+            editButton.textContent = 'Simpan';
+            editButton.setAttribute('onclick', `saveStudent('${noIc}')`); // Change the onclick to save
+        }
+
+        function saveStudent(noIc) {
+            const row = document.querySelector(`tr[data-no-ic="${noIc}"]`);
+            const pencapaianCell = row.querySelector('td:nth-child(4) select'); // Get the select dropdown
+
+            // Get the new value from the select dropdown
+            const newPencapaian = pencapaianCell.value;
+
+            // Update the cell with the new value
+            pencapaianCell.parentNode.innerHTML = newPencapaian;
+
+            // Change the Save button back to Edit button
+            const saveButton = row.querySelector('.edit-button');
+            saveButton.textContent = 'Edit';
+            saveButton.setAttribute('onclick', `editStudent('${noIc}')`); // Change the onclick back to edit
+
+            // Send the updated data to the server
+            const namaPelajar = row.querySelector('td:nth-child(1)').textContent; // Get Nama Pelajar
+            const kelas = row.querySelector('td:nth-child(3)').textContent; // Get Kelas
+
+            // Make an AJAX request to update the database
+            fetch('update_pencapaian.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nama_pelajar: namaPelajar,
+                    no_ic: noIc,
+                    kelas: kelas,
+                    pencapaian: newPencapaian
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Pencapaian pelajar berjaya dikemas kini!');
+                    } else {
+                        alert('Gagal mengemaskini Pencapaian Pelajar. Sila cuba lagi.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+
+
+
+        // Function to fetch event details
+        function fetchEventDetails() {
+            const eventSelect = document.getElementById('eventSelect');
+            const selectedEvent = eventSelect.value;
+
+            if (selectedEvent) {
+                fetch(`fetch_event_details.php?event=${encodeURIComponent(selectedEvent)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            document.getElementById('kategoriBadan').value = data.kategoriUnit;
+                            document.getElementById('namaKelab').value = data.namaKelab;
+                            document.getElementById('peringkatAcara').value = data.peringkat;
+
+                            // Fetch students registered for the event
+                            fetch(`fetch_students_for_event.php?event=${encodeURIComponent(selectedEvent)}`)
+                                .then(response => response.json())
+                                .then(students => {
+                                    console.log(students); // Log the fetched students
+                                    fetchStudentsForEvent(students);
+                                })
+                                .catch(error => console.error('Error fetching students for event:', error));
+                        } else {
+                            console.error('No data found for the selected event.');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching event details:', error));
+            } else {
+                // Clear fields if no event is selected
+                document.getElementById('kategoriBadan').value = '';
+                document.getElementById('namaKelab').value = '';
+                document.getElementById('peringkatAcara').value = '';
+                document.getElementById('studentsTable2Body').innerHTML = ''; // Clear the table
+            }
+        }
+
+        // Assuming you have a function that handles the form submission
+        function updateStudentData() {
+            const formData = new FormData();
+            const studentRows = document.querySelectorAll('#studentsTable tbody tr');
+
+            studentRows.forEach(row => {
+                const noIc = row.querySelector('input[name="noIc[]"]').value; // Get the IC number
+                const namaPelajarText = row.querySelector('input[name="namaPelajarText[]"]').value;
+                const kelas = row.querySelector('select[name="kelas[]"]').value;
+                const pencapaian = row.querySelector('select[name="pencapaian[]"]').value;
+
+                formData.append('noIc[]', noIc);
+                formData.append('namaPelajarText[]', namaPelajarText);
+                formData.append('kelas[]', kelas);
+                formData.append('pencapaian[]', pencapaian);
+            });
+
+            fetch('update_student.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Student data updated successfully!');
+                    } else {
+                        console.error('Error updating student data:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error updating student data:', error));
+        }
+
+        function confirmRemoveStudent(noIc, namaPelajar) {
+            // Use a native confirm dialog instead of SweetAlert2
+            const confirmed = confirm(`Adakah anda yakin? Anda mahu buang pelajar ${namaPelajar}?`);
+            if (confirmed) {
+                // Call the function to remove the student from the database
+                removeStudent(noIc, namaPelajar);
+            }
+        }
+
+        function removeStudent(noIc, namaPelajar) {
+            console.log('Attempting to delete student:', noIc, namaPelajar); // Debugging line
+            fetch(`delete_student.php`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ no_ic: noIc, nama_pelajar: namaPelajar })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response from server :', data);
+                    if (data.success) {
+                        const row = document.querySelector(`tr[data-no-ic="${noIc}"]`);
+                        if (row) {
+                            row.remove();
+                        }
+                        alert('Pelajar telah berjaya dibuang.'); // Simple alert for success
+                    } else {
+                        alert('Gagal menghapus pelajar. Sila cuba lagi.'); // Simple alert for error
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting student:', error);
+                    alert('Terjadi masalah. Sila cuba lagi.'); // Simple alert for error
+                });
+        }
+
+
+    </script>
+</body>
+
+</html>

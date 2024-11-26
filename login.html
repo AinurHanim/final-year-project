@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Masuk</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #cececc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+           
+            width: 600px;
+            justify-content: space-between;
+            z-index: 1000; /* Ensure the container is above the background */
+        }
+
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%; /* Set to 100% to match design */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 30px; /* Adjust font size */
+            font-weight: bold; /* Make headings bold */
+            color: #0056b3; /* Heading color */
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            padding-right: 40px; /* Make space for the icon */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #4CAF50;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        .login-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px; /* Adjust size font */
+}
+
+.login-link a {
+    color: #003366; /* Change to your desired color */
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    color: #00509e; /* Change this to a suitable hover color */
+    text-decoration: underline; /* Underline on hover */
+}
+
+
+        .input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-container .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 39%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #aaa;
+        }
+
+        section {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        section .air {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url(https://1.bp.blogspot.com/-xQUc-TovqDk/XdxogmMqIRI/AAAAAAAACvI/AizpnE509UMGBcTiLJ58BC6iViPYGYQfQCLcBGAsYHQ/s1600/wave.png);
+            background-size: 1000px 100px;
+            filter: hue-rotate(180deg); /* Adjust the degree value to change the color */
+        }
+        section .air.air1 {
+            animation: wave 30s linear infinite;
+            z-index: 1000;
+            opacity: 1;
+            animation-delay: 0s;
+            bottom: 0;
+        }
+        section .air.air2 {
+            animation: wave2 15s linear infinite;
+            z-index: 999;
+            opacity: 0.5;
+            animation-delay: -5s;
+            bottom: 10px;
+        }
+        section .air.air3 {
+            animation: wave 30s linear infinite;
+            z-index: 998;
+            opacity: 0.2;
+            animation-delay: -2s;
+            bottom: 15px;
+        }
+        section .air.air4 {
+            animation: wave2 5s linear infinite;
+            z-index: 997;
+            opacity: 0.7;
+            animation-delay: -5s;
+            bottom: 20px;
+        }
+        @keyframes wave {
+            0% {
+                background-position-x: 0px; 
+            }
+            100% {
+                background-position-x: 1000px; 
+            }
+        }
+        @keyframes wave2 {
+            0% {
+                background-position-x: 0px; 
+            }
+            100% {
+                background-position-x: -1000px; 
+            }
+        }
+    </style>
+    <!-- Include Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('password');
+            var eyeIcon = document.querySelector('.eye-icon i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        function goToSchoolWebsite() {
+            window.location.href = 'SchoolWebsite.html';
+        }
+    </script>
+</head>
+<body>
+    <section>
+        <div class='air air1'></div>
+        <div class='air air2'></div>
+        <div class='air air3'></div>
+        <div class='air air4'></div>
+    </section>
+
+    
+
+    <main>
+        <div class="container">
+            <div class="login-container">
+                <h2>LOG MASUK</h2>
+                <form action="login.php" method="post">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                
+                    <label>Kata Laluan</label>
+                    <div class="input-container">
+                        <input type="password" id="password" name="password" required>
+                        
+                       
+                        <a href="password.html">Lupa kata laluan?</a>
+                    </div>
+                    
+                    
+                    <label>Jenis Pengguna</label>
+                    <select name="userType" required>
+                        <option value="Guru Pengiring">Guru Pengiring</option>
+                        <option value="Setiausaha">Setiausaha</option>
+                    </select>
+                
+                    <button type="submit" name="login_user">Log Masuk</button>
+                </form>
+                
+                <div class="login-link">
+                    <p>Belum mempunyai akaun? <a href="register.html">Daftar</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

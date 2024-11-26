@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" ></script>
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Georgia, serif; /* Change the font family here */
+            color: #f8f7f7; /* Change the font color here */
+        }
+        section {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            background: #cececc;
+            overflow: hidden;
+            z-index: -1;
+        }
+        section .air {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url(https://1.bp.blogspot.com/-xQUc-TovqDk/XdxogmMqIRI/AAAAAAAACvI/AizpnE509UMGBcTiLJ58BC6iViPYGYQfQCLcBGAsYHQ/s1600/wave.png);
+            background-size: 1000px 100px;
+           /* filter: hue-rotate(90deg) brightness(1.5); /* Adjust the degree value to change the color */
+        }
+        section .air.air1 {
+            animation: wave 30s linear infinite;
+            z-index: 1000;
+            opacity: 1;
+            animation-delay: 0s;
+            bottom: 0;
+            filter: hue-rotate(200deg) brightness(1.8);
+            
+        }
+        section .air.air2 {
+            animation: wave2 15s linear infinite;
+            z-index: 999;
+            opacity: 0.7;
+            animation-delay: -5s;
+            bottom: 10px;
+            filter: hue-rotate(180deg) brightness(2.0);
+        }
+        section .air.air3 {
+            animation: wave 30s linear infinite;
+            z-index: 998;
+            opacity: 0.5;
+            animation-delay: -2s;
+            bottom: 15px;
+            filter: hue-rotate(160deg) brightness(2.2);
+        }
+        section .air.air4 {
+            animation: wave2 5s linear infinite;
+            z-index: 997;
+            opacity: 0.7;
+            animation-delay: -5s;
+            bottom: 20px;
+            filter: hue-rotate(140deg) brightness(2.4); /* Bright aqua color */
+        }
+        @keyframes wave {
+            0% {
+                background-position-x: 0px; 
+            }
+            100% {
+                background-position-x: 1000px; 
+            }
+        }
+        @keyframes wave2 {
+            0% {
+                background-position-x: 0px; 
+            }
+            100% {
+                background-position-x: -1000px; 
+            }
+        }
+
+        .footer {
+            width: 100%;
+            padding: 10px;
+            background-color: #0078D4;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .footer a {
+            color: #f7f2f1;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .navbar {
+            background-color: rgb(105, 168, 204);
+            padding: 20px;
+            margin: 2px;
+        }
+
+        .navbar-brand h1 {
+            color: #ffffff; /* Font color for the brand name */
+            font-size: 2rem; /* Font size for the brand name */
+            font-family: Georgia, serif; /* Font style for the brand name */
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff; /* Font color for the nav links */
+            font-size: 1.2rem; /* Font size for the nav links */
+            font-family: 'Verdana', sans-serif; /* Font style for the nav links */
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffd700; /* Font color for hovered nav links */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #333333;
+        }
+
+        p {
+            color: #666666;
+        }
+
+        .logo-img {
+            width:  60%; /* Adjust the width of the logo */
+            height: auto;
+            padding: 1em; /* Adjust the padding around the logo */
+            margin-left: auto; /* Center the logo horizontally */
+            margin-right: auto;
+            display: block; /* Center the logo horizontally */
+            margin-top: 1em;
+        }
+
+        .welcome-text {
+            font-family: Georgia, serif; /* Font style for the text */
+            color: #fdfdfd; /* Font color */
+            margin-top: 1em;
+            font-size: 1em;
+        }
+
+        .welcome-text-title {
+            font-size: 50px; /* Adjust the font size for the h3 element */
+            font-weight: bold; /* Make the text bold */
+            text-align: centre; /* Center align the text */
+            color: #004578;
+            margin-top: 130px;
+            
+        }
+
+       
+
+    </style>
+    <title>Sistem Kejayaan Kokurikulum Sekolah</title>
+</head>
+<body>
+
+<section>
+    <div class='air air1'></div>
+    <div class='air air2'></div>
+    <div class='air air3'></div>
+    <div class='air air4'></div>
+</section>
+
+<nav style="padding:20px;margin:2px; background-color:#0078D4" class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><h1 style="padding-right: 10px; margin: 10px;">SMK BUKIT KAYU HITAM</h1></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="#">Halaman Utama</a>
+                <a class="nav-link" href="register.html">Daftar</a>
+                <a class="nav-link" href="login.html">Log Masuk</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div style="background-color:rgba(245, 223, 24, 0.5);"></div>
+
+<div class="container welcome-container">
+    <div class="row">
+        <div class="col-6">
+            <div class="logo-container">
+                <img src="images/LOGO_REMOVE.png" alt="School Logo" class="logo-img">
+            </div>
+        </div>
+        <div class="col-6">
+            <h3 class="welcome-text welcome-text-title">Portal Pengurusan Pencapaian dan Kecemerlangan Kokurikulum Sekolah</h3>
+           
+
+            
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    &copy; 2024 SMK Bukit Kayu Hitam | 
+    <a href="contactPage.html">Hubungi Kami : 012 - 3456789 </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

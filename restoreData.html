@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restore Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            color: #333;
+        }
+        .year-selection {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .year-selection select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ccc;
+            margin-bottom: 20px;
+        }
+        .tabs button {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background: #f4f4f4;
+            color: #333;
+            transition: background 0.3s;
+        }
+        .tabs button.active {
+            background: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+        .tabs button:hover {
+            background: #007bff;
+            color: #fff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        table th {
+            background: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Maklumat Data Sekolah pada tahun</h1>
+        </div>
+
+        <div class="year-selection">
+            <label for="year">Pilih Tahun:</label>
+            <select id="year">
+                <option value="">-- Sila Pilih Tahun --</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-link active" data-tab="data-guru">Data Guru</button>
+            <button class="tab-link" data-tab="data-pelajar">Data Pelajar</button>
+            <button class="tab-link" data-tab="data-aktiviti">Data Aktiviti Pelajar</button>
+        </div>
+
+        <div class="tab-content active" id="data-guru">
+            <h2>Data Guru</h2>
+        
+            <form action="restoreData.php" method="POST" enctype="multipart/form-data">
+                <label for="file">Choose CSV file to restore:</label>
+                <input type="file" name="file" id="file" required>
+                <br><br>
+                <button type="submit" name="action" value="restore">Restore Data</button>
+            </form>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama Guru</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data Guru will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+        
+
+        <div class="tab-content" id="data-pelajar">
+            <h2>Data Pelajar</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama Pelajar</th>
+                        <th>No IC</th>
+                        <th>Kelas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data Pelajar will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="data-aktiviti">
+            <h2>Data Aktiviti Pelajar</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama Acara</th>
+                        <th>Tarikh</th>
+                        <th>Tempat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data Aktiviti Pelajar will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-link');
+        const contents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+
+
+    const restoreForm = document.querySelector('form[action="restoreData.php"]');
+    const dataGuruTableBody = document.querySelector('#data-guru table tbody');
+
+    restoreForm.addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(restoreForm);
+
+    fetch('restoreData.php', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json()) // Change to `.json()` to parse the response
+    .then(data => {
+        console.log('Response:', data); // Log the response for debugging
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        // Clear existing table rows
+        dataGuruTableBody.innerHTML = '';
+
+        // Populate the table with the restored data
+        data.data.forEach(row => {
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.textContent = row['Nama Guru'];
+            tr.appendChild(td);
+            dataGuruTableBody.appendChild(tr);
+        });
+
+        if (data.errors && data.errors.length > 0) {
+            console.error('Some records failed to insert:', data.errors);
+            alert(`Failed to insert ${data.errors.length} record(s). Check the console for details.`);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while restoring data.');
+    });
+});
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Setiausaha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cececc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+            width: 90%;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-size: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab-button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .tab-button.active {
+            background-color: #64a3d6;
+            color: white;
+        }
+
+        .tab-button.inactive {
+            background-color: #6c757d; /* Color for inactive tabs */
+           
+        }
+
+        .tab-content {
+            padding: 20px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
+        }
+
+        .suggestions {
+            border: 1px solid #007bff; /* Customize the border color */
+            display: none; /* Hidden initially */
+            position: absolute;
+            z-index: 1000;
+            background-color: white;
+            max-height: 200px; /* Limit height for scrolling */
+            overflow-y: auto; /* Adds a scrollbar when needed */
+            width: calc(100% - 20px); /* Adjust the width to match the input field */
+            font-size: 14px; /* Adjust the font size of suggestions */
+            border-radius: 5px; /* Rounds the corners */
+            padding: 5px; /* Adds padding inside the suggestions box */
+            top: 40px; /* Position the suggestions box below the input field */
+            left: 0; /* Align the suggestions box with the input field */
+        }
+
+        .suggestions div {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #f4f4f4; /* Add subtle dividers between suggestions */
+        }
+
+        .suggestions div:hover {
+            background-color: #007bff; /* Change background color on hover */
+            color: #fff; /* Change text color on hover */
+        }
+
+        .suggestions-list {
+            display: flex;
+            flex-direction: column; /* Display suggestions in rows */
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-bottom: 1px solid #ddd; /* Add a border between suggestions */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestions-list div {
+            padding: 10px;
+            border-bottom: 1px solid #ddd; /* Add a border between suggestions */
+            cursor: pointer;
+        }
+
+        .suggestions-list div:hover {
+            background-color: #a0a150;
+        }
+
+        
+
+        table {
+            border-collapse: collapse;
+ width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        th, td {
+            font-size: 16px;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        #table-container {
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80em; /* Adjust width here */
+
+            margin: 20px auto; /* Center the container */
+        }
+
+        .edit-container {
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 95%; /* Adjust width here */
+
+            margin: 20px auto; /* Center the container */
+        }
+
+        #nama-suggestions {
+            display: none;
+            position: relative;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: calc(100% - 20px);
+            margin-top: 5px;
+        }
+
+        #nama-suggestions div {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #f4f4f4;
+        }
+
+        #nama-suggestions div:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .search-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .search-input input[type="text"] {
+            width: calc(100% - 120px);
+        }
+
+        .search-input button {
+            width: 100px;
+            padding: 10px 20px;
+            background-color: #0b385c;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-input button:hover {
+            background-color: #45a049;
+        }
+
+        #pelajar-suggestions {
+            display: none;
+            position: static;
+            background-color: hsl(0, 0%, 100%);
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: calc(100% - 20px);
+            margin-top: 5px;
+        }
+
+        #suggestionsList {
+    border: 1px solid #ccc; /* Border color */
+    background-color: #fafafa; /* Background color */
+    max-height: 150px; /* Limit height */
+    overflow-y: auto; /* Enable scrolling */
+    position: absolute; /* Position it below the input */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: calc(100% - 20px); /* Adjust width to fit the input */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+#suggestionsList li {
+    padding: 10px; /* Padding for list items */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+#suggestionsList li:hover {
+    background-color: #e0e0e0; /* Highlight on hover */
+}
+        
+
+    </style>
+
+    <script src="table2excel.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Laporan Setiausaha</h2>
+        <div class="tabs">
+            <div class="tab-header">
+                <button class="tab-button active" data-tab="kategori-badan">Kategori Badan Unit Kokurikulum</button>
+                <button class="tab-button" data-tab="pencapaian">Pencapaian</button>
+                <button class="tab-button" data-tab="pelajar">Nama Pelajar</button>
+                <button class="tab-button" data-tab="acara">Acara</button>
+            </div>
+            <div class="tab-content">
+                <div id="kategori-badan" class="tab-pane active">
+                    <label for="cari-unit">Cari:</label>
+                    <div class="search-input">
+                        <select id="cari-unit">
+                            <option value="">Pilih Kategori:</option>
+                            <option value="Sukan dan Permainan">SUKAN DAN PERMAINAN</option>
+                            <option value="Kelab dan Persatuan">KELAB DAN PERSATUAN</option> <!-- Combined category -->
+                            <option value="Unit Beruniform">UNIT BERUNIFORM</option>
+                            <option value="Lain-lain">LAIN-LAIN</option>
+                        </select>
+                        <button id="search-unit">Cari</button>
+                    </div>
+                    <div id="unit-suggestions" class="suggestions"></div>
+                    <!-- Add a table element to display the data -->
+                    <div id="table-container">
+                        <table id="unit-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Pelajar</th>
+                                    <th>Kategori Badan/Unit</th>
+                                    <th>Nama Kelab</th>
+                                    <th>Pencapaian</th>
+                                    <th>Guru Pengiring</th>
+                                    <th>Acara</th>
+                                </tr>
+                            </thead>
+                            <tbody id="unit-table-body">
+                            </tbody>
+                        </table>
+                        <br>
+                        <!-- In the Kategori Badan/Unit tab -->
+<button id="export-button-unit">Eksport ke Excel</button>
+                    </div>
+                </div>
+                <div id="pencapaian" class="tab-pane">
+                    <label for="cari-pencapaian">Cari:</label>
+                    <div class="search-pencapaian">
+                        <select id="cari-pencapaian">
+                            <option value="">Pilih Kategori:</option>
+                            <option value="Sekolah">Sekolah</option>
+                            <option value="Zon/Daerah">Zon/Daerah</option>
+                            <option value="Negeri">Negeri</option>
+                            <option value="Bahagian (Sabah & Sarawak)">Bahagian (Sabah & Sarawak)</option>
+                            <option value="Kebangsaan">Kebangsaan</option>
+                            <option value="Antarabangsa">Antarabangsa</option>
+                        </select>
+                        <button id="search-pencapaian">Cari</button>
+                    </div>
+                    <div id="pencapaian-suggestions-container"></div>
+                    <div id="table-container">
+                        <table id="pencapaian-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Pelajar</th>
+                                    <th>Kategori Badan/Unit</th>
+                                    <th>Nama Kelab</th>
+                                    <th>Pencapaian</th>
+                                    <th>Guru Pengiring</th>
+                                    <th>Acara</th>
+                                    <th>Peringkat</th> <!-- New column for Peringkat -->
+                                </tr>
+                            </thead>
+                            <tbody id="pencapaian-table-body">
+                            </tbody>
+                        </table>
+                        <br>
+                        <!-- In the Pencapaian tab -->
+<button id="export-button-pencapaian">Eksport ke Excel</button>
+                    </div>
+                </div>
+                <div id="pelajar" class="tab-pane">
+                    <label for="cari-pelajar">Cari:</label>
+                    <div>
+                        <input type="text" id="searchInput" placeholder="Pilih Nama Pelajar..." onkeyup="fetchSuggestions()">
+                        <ul id="suggestionsList" style="display:none;"></ul>
+                        <button id="searchButton" onclick="searchStudent()">Cari</button> <!-- Search button -->
+                    </div>
+                    <!-- Add a table element to display the data -->
+                    <div id="table-container">
+                        <table id="pelajar-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Pelajar</th>
+                                    <th>Kategori Badan/Unit</th>
+                                    <th>Nama Kelab</th>
+                                    <th>Pencapaian</th>
+                                    <th>Guru Pengiring</th>
+                                    <th>Acara</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pelajar-table-body">
+                            </tbody>
+                        </table>
+                        <br>
+                        <!-- In the Pelajar tab -->
+                        <button id="export-button-pelajar">Eksport ke Excel</button>
+                    </div>
+                </div>
+
+                <div id="acara" class="tab-pane">
+                    <label for="cari-acara">Cari:</label>
+                    <div class="search-acara">
+                        <select name="event[]" id="eventSelect" required onchange="fetchEventDetails()">
+                            <option value="">Pilih Nama Acara</option>
+                        </select>
+                        
+                    </div>
+                    <div id="acara-suggestions" class="suggestions"></div>
+                    <!-- Add a table element to display the data -->
+                    <div id="table-container">
+                        <!-- Event Details Table -->
+                    <table id="acara-table">
+                        <thead>
+                            <tr>
+                                
+                                <th>Nama Acara</th>
+                                <th>Tarikh</th>
+                                <th>Tempat</th>
+                                <th>Peringkat</th>
+                                <th>Guru Pengiring</th>
+                                <th>Kategori Unit</th>
+                                <th>Nama Kelab</th>
+                            </tr>
+                        </thead>
+                        <tbody id="acara-table-body"></tbody>
+                    </table>
+
+                    <!-- Participants Table -->
+                    <table id="participant-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Pelajar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="participant-table-body"></tbody>
+                    </table>
+                    <br>
+
+                    <!-- In the Acara tab -->
+<button id="export-button-acara">Eksport ke Excel</button>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+    <script>
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', switchTab);
+    });
+
+    function switchTab(event) {
+        // Remove active class from all tab buttons and panes
+        tabButtons.forEach(button => button.classList.remove('active'));
+        tabPanes.forEach(pane => pane.classList.remove('active'));
+
+        // Add active class to the clicked button
+        event.currentTarget.classList.add('active');
+
+        // Get the tab to show from the data attribute
+        const tabToShow = event.currentTarget.getAttribute('data-tab');
+
+        // Show the corresponding tab pane
+        document.getElementById(tabToShow).classList.add('active');
+
+        // Optional: Log to see which tab is clicked
+        console.log(`Switched to tab: ${tabToShow}`);
+    }
+
+    // Export buttons
+    document.getElementById('export-button-unit').addEventListener('click', function() {
+        exportTableToExcel('unit-table', 'unit_data.xls');
+    });
+
+    document.getElementById('export-button-pencapaian').addEventListener('click', function() {
+        exportTableToExcel('pencapaian-table', 'pencapaian_data.xls');
+    });
+
+    document.getElementById('export-button-pelajar').addEventListener('click', function() {
+        exportTableToExcel('pelajar-table', 'pelajar_data.xls');
+    });
+
+    document.getElementById('export-button-acara').addEventListener('click', function() {
+        let acaraTableData = document.getElementById('acara-table').innerHTML;
+        let participantTableData = document.getElementById('participant-table').innerHTML;
+        let combinedData = `<table>${acaraTableData}</table><br/><table>${participantTableData}</table>`;
+        exportDataToExcel(combinedData, 'acara_data.xls');
+    });
+
+    function exportTableToExcel(tableID, filename) {
+        const table = document.getElementById(tableID);
+        let excelData = `<table>${table.innerHTML}</table>`;
+        exportDataToExcel(excelData, filename);
+    }
+
+    function exportDataToExcel(data, filename) {
+        const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a); // Append to body for Firefox compatibility
+        a.click();
+        document.body.removeChild(a); // Remove from body
+        URL.revokeObjectURL(url); // Release memory
+    }
+
+    // Fetch events when the Acara tab is active
+    fetchAcaraSu(); // Ensure this is called initially to populate the event dropdown
+});
+
+        function fetchEventDetails() {
+            const selectedAcara = document.getElementById('eventSelect').value;
+
+            if (!selectedAcara) {
+                alert('Sila pilih acara');
+                return;
+            }
+
+            fetch('fetchEventDetails.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ acara: selectedAcara })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Check if data contains errors
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                // Display the event details
+                displayEventDetails(data.eventDetails);
+                displayParticipants(data.participants);
+            })
+            .catch(error => {
+                console.error('Error fetching event details:', error);
+            });
+        }
+
+            // Tab unit
+        document.getElementById('search-unit').addEventListener('click', function() {
+            const selectedUnit = document.getElementById('cari-unit').value;
+
+            if (!selectedUnit) {
+                alert('Sila pilih kategori');
+                return;
+            }
+
+            fetch('ReportSuUnit.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ unit: selectedUnit })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data received:', data); // Log the received data
+                const tableBody = document.getElementById('unit-table-body'); // Correct table body ID
+                tableBody.innerHTML = ''; // Clear existing data
+
+                if (data.length > 0) {
+                    data.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${item.nama_pelajar}</td>
+                            <td>${item.kategori_badan_unit}</td>
+                            <td>${item.nama_kelab}</td>
+                            <td>${item.pencapaian}</td>
+                            <td>${item.registerBy}</td>
+                            <td>${item.acara}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="7">Tiada data ditemui</td>'; // Adjust colspan to 7
+                    tableBody.appendChild(row);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        });
+
+
+                // Tab pencapaian
+        document.getElementById('search-pencapaian').addEventListener('click', function() {
+            const selectedPencapaian = document.getElementById('cari-pencapaian').value;
+
+            if (!selectedPencapaian) {
+                alert('Sila pilih kategori');
+                return;
+            }
+
+            fetch('ReportSuPencapaian.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ pencapaian: selectedPencapaian })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data received:', data); // Log the received data
+                const tableBody = document.getElementById('pencapaian-table-body');
+                tableBody.innerHTML = ''; // Clear existing data
+
+                if (data.length > 0) {
+                    data.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${item.nama_pelajar}</td>
+                            <td>${item.kategori_badan_unit}</td>
+                            <td>${item.nama_kelab}</td>
+                            <td>${item.pencapaian}</td>
+                            <td>${item.registerBy}</td>
+                            <td>${item.acara}</td>
+                            <td>${item.peringkat}</ td> <!-- Populate the new Peringkat column -->
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="8">Tiada data ditemui</td>'; // Adjust colspan to 8
+                    tableBody.appendChild(row);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        });
+
+        document.getElementById('acara-select').addEventListener('change', function() {
+            const selectedAcara = this.value;
+
+            if (!selectedAcara) {
+                alert('Sila pilih acara');
+                return;
+            }
+
+            fetch('fetchPeringkat.php', { // Send AJAX request to fetchPeringkat.php
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ acara: selectedAcara })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.peringkat) {
+                    document.getElementById('peringkat-display').innerText = data.peringkat; // Display peringkat in the relevant field
+                } else {
+                    document.getElementById('peringkat-display').innerText = 'Tiada peringkat dijumpai';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching peringkat:', error);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const autocompleteInputs = document.querySelectorAll('.autocomplete-input');
+
+            autocompleteInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    const query = this.value;
+                    const suggestionsDiv = this.nextElementSibling; // Get the suggestions div
+
+                    if (query.length > 0) {
+                        fetch('fetchSuggestions.php', { // Ensure this URL is correct
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: new URLSearchParams({ query: query }) // Send the query
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                            if (data.length > 0) {
+                                suggestionsDiv.style.display = 'block'; // Show suggestions
+                                data.forEach(student => {
+                                    const suggestionItem = document.createElement('div');
+                                    suggestionItem.textContent = student; // Assuming student is the name
+                                    suggestionItem.style.cursor = 'pointer';
+
+                                    // Handle the click event for the selected name
+                                    suggestionItem.addEventListener('click', function () {
+                                        input.value = student; // Set input value to selected name
+                                        suggestionsDiv.style.display = 'none'; // Hide suggestions
+                                    });
+
+                                    suggestionsDiv.appendChild(suggestionItem);
+                                });
+                            } else {
+                                suggestionsDiv.style.display = 'none'; // Hide if no matches
+                            }
+                        })
+                        .catch(error => console.error('Error fetching students:', error));
+                    } else {
+                        suggestionsDiv.style.display = 'none'; // Hide if input is empty
+                    }
+                });
+
+                // Hide suggestions on blur (when user clicks outside the input)
+                input.addEventListener('blur', function () {
+                    setTimeout(() => {
+                        const suggestionsDiv = this.nextElementSibling;
+                        suggestionsDiv.style.display = 'none'; // Hide suggestions when input loses focus
+                    }, 200); // Slight delay to allow selection
+                });
+            });
+        });
+
+
+        function fetchAcaraSu() {
+            fetch('fetchAcaraSuggestions.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const eventSelect = document.getElementById('eventSelect');
+                    eventSelect.innerHTML = '<option value="">Pilih Nama Acara</option>'; // Reset options
+                    data.forEach(acara => {
+                        const option = document.createElement('option');
+                        option.value = acara.namaEvent; // Use the name as value
+                        option.textContent = `${acara.namaEvent} (${acara.tarikh}, ${acara.tempat})`;
+                        eventSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching events:', error));
+        }
+
+        fetchAcaraSu();
+
+
+        
+
+        function fetchSuggestions() {
+            const input = document.getElementById('searchInput').value;
+            const suggestionsList = document.getElementById('suggestionsList');
+            suggestionsList.innerHTML = ''; // Clear previous suggestions
+
+            if (input.length < 2) {
+                suggestionsList.style.display = 'none'; // Hide suggestions if input is less than 2 characters
+                return;
+            }
+
+            fetch(`fetch_suggestions.php?query=${encodeURIComponent(input)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        data.forEach(name => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = name; // Set the suggestion text
+                            listItem.onclick = () => selectSuggestion(name); // Select suggestion on click
+                            suggestionsList.appendChild(listItem);
+                        });
+                        suggestionsList.style.display = 'block'; // Show suggestions
+                    } else {
+                        suggestionsList.style.display = 'none'; // Hide if no suggestions
+                    }
+                })
+                .catch(error => console.error('Error fetching suggestions:', error));
+        }
+
+        function selectSuggestion(name) {
+            document.getElementById('searchInput').value = name; // Set the input value to selected name
+            document.getElementById('suggestionsList').style.display = 'none'; // Hide suggestions
+        }
+
+        function searchStudent() {
+            const studentName = document.getElementById('searchInput').value;
+            const resultsTable = document.querySelector('#pelajar-table-body'); // Ensure this ID matches your HTML
+            resultsTable.innerHTML = ''; // Clear previous results
+
+            if (studentName.trim() === "") {
+                alert("Sila masukkan nama pelajar"); // Alert if input is empty
+                return;
+            }
+
+            fetch(`search_student_all.php?name=${encodeURIComponent(studentName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        data.forEach((student, index) => {
+                            const row = resultsTable.insertRow(); // Insert a new row in the tbody
+                            row.insertCell(0).textContent = index + 1; // Row number
+                            row.insertCell(1).textContent = student.nama_pelajar;
+                            row.insertCell(2).textContent = student.kategori_badan_unit;
+                            row.insertCell(3).textContent = student.nama_kelab;
+                            row.insertCell(4).textContent = student.pencapaian;
+                            row.insertCell(5).textContent = student.registerBy; // Ensure this is included
+                            row.insertCell(6).textContent = student.acara;
+                        });
+                    } else {
+                        const row = resultsTable.insertRow();
+                        const cell = row.insertCell(0);
+                        cell.colSpan = 7; // Adjust colspan to match the number of columns
+                        cell.textContent = "Tiada data dalam rekod"; // Message
+                        cell.style.textAlign = "center"; // Center the text
+                        cell.style.fontWeight = "bold"; // Make it bold
+                        cell.style.color = "red"; // Optional: Change text color to red
+                    }
+                })
+                .catch(error => console.error('Error searching student:', error));
+        }
+
+
+            function fetchEventDetails() {
+            const selectedAcara = document.getElementById('eventSelect').value;
+
+            if (!selectedAcara) {
+                alert('Sila pilih acara');
+                return;
+            }
+
+            fetch('fetchEventDetails.php', { // Create a new PHP file to fetch event details
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ acara: selectedAcara })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the event details
+                displayEventDetails(data.eventDetails);
+                displayParticipants(data.participants);
+            })
+            .catch(error => {
+                console.error('Error fetching event details:', error);
+            });
+        }
+
+        function displayEventDetails(eventDetails) {
+            const acaraTableBody = document.getElementById('acara-table-body');
+            acaraTableBody.innerHTML = ''; // Clear existing data
+
+            if (eventDetails) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    
+                    <td>${eventDetails.namaEvent}</td>
+                    <td>${eventDetails.tarikh}</td>
+                    <td >${eventDetails.tempat}</td>
+                    <td>${eventDetails.peringkat}</td>
+                    <td>${eventDetails.registerBy}</td>
+                    <td>${eventDetails.kategoriUnit}</td>
+                    <td>${eventDetails.namaKelab}</td>
+                `;
+                acaraTableBody.appendChild(row);
+            }
+        }
+
+        function displayParticipants(participants) {
+            const participantTableBody = document.getElementById('participant-table-body');
+            participantTableBody.innerHTML = ''; // Clear existing data
+
+            if (participants.length > 0) {
+                participants.forEach((student, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${student.nama_pelajar}</td>
+                    `;
+                    participantTableBody.appendChild(row);
+                });
+            } else {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="2">Tiada peserta ditemui</td>'; // Adjust colspan based on your table structure
+                participantTableBody.appendChild(row);
+            }
+        }
+
+    
+            </script>

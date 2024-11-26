@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Guru Pengiring</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cececc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+            width: 90%;
+            margin-top: 20px;
+        }
+        h2 {
+            color: #0056b3;
+            font-size: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            color: #3f3e3e;
+        }
+        .tab-button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .tab-button.active {
+            background-color: #64a3d6; /* Match the active tab color */
+            color: white;
+        }
+        .tab-content {
+            padding: 20px;
+        }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 16px; /* Consistent font size */
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        td {
+            background-color: #fff;
+        }
+
+        #suggestionsList {
+            border: 1px solid #ccc; /* Border for the suggestion list */
+            background-color: white; /* Background color */
+            max-height: 150px; /* Limit height */
+            overflow-y: auto; /* Enable scrolling */
+            position: absolute; /* Position it below the input */
+            z-index: 1000; /* Ensure it appears above other elements */
+        }
+
+        #suggestionsList li {
+            padding: 10px; /* Padding for list items */
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+
+        #suggestionsList li:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Laporan Guru Pengiring</h2>
+        <div class="tabs">
+            <div class="tab-header">
+                <button class="tab-button active" data-tab="kategori-badan-unit">Kategori Badan Unit Kokurikulum</button>
+                <button class="tab-button" data-tab="pencapaian">Peringkat Penyertaan</button>
+                <button class="tab-button" data-tab="nama-pelajar">Nama Pelajar</button>
+            </div>
+            <div class="tab-content">
+                <div id="kategori-badan-unit" class="tab-pane active">
+                    <label for="unit">Kategori Badan Unit Kokurikulum:</label>
+                    <select id="unit" name="unit">
+                        <option value="Sukan dan Permainan">Sukan dan Permainan</option>
+                        <option value="Kelab dan Persatuan">Kelab dan Persatuan</option>
+                        <option value="Badan beruniform">Badan beruniform</option>
+                        <option value="Lain-lain">Lain-lain</option>
+                    </select>
+                    <button type="button" onclick="searchByUnit()">Cari</button>
+                    <div class="results">
+                        <table id="resultsTableUnit">
+                            <thead>
+                                <tr >
+                                    <th>No</th>
+                                    <th>Nama Pelajar</th>
+                                    <th>Kategori Badan/Unit</th>
+                                    <th>Nama Kelab</th>
+                                    <th>Pencapaian</th>
+                                    <th>Nama Acara</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Results will be injected here -->
+                            </tbody>
+                        </table>
+                        <br>
+                        <button id="export-button-unit">Eksport ke Excel</button> <!-- Export button -->
+                    </div>
+                </div>
+                <div id="pencapaian" class="tab-pane">
+                    <label for="peringkat">Peringkat Penyertaan:</label>
+                    <select id="peringkat" name="peringkat">
+                        <option value="Sekolah">Sekolah</option>
+                        <option value="Zon/Daerah">Zon/Daerah</option>
+                        <option value="Bahagian (Sabah & Sarawak)">Bahagian (Sabah & Sarawak)</option>
+                        <option value="Negeri">Negeri</option>
+                        <option value="Kebangsaan">Kebangsaan</option>
+                        <option value="Antarabangsa">Antarabangsa</option>
+                    </select>
+                    <button type="button" onclick="searchByPencapaian()">Cari</button>
+                    <div class="results">
+                        <table id="resultsTablePencapaian">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Pelajar</th>
+                                    <th>Kategori Badan/Unit</th>
+                                    <th>Nama Kelab</th>
+                                    <th>Pencapaian</th>
+                                    <th>Nama Acara</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Results will be injected here -->
+                            </tbody>
+                        </table>
+                        <br>
+                        <button id="export-button-pencapaian">Eksport ke Excel</button> <!-- Export button -->
+
+                    </div>
+                </div>
+                <div id="nama-pelajar" class="tab-pane">
+                    <div>
+                        <input type="text" id="searchInput" placeholder="Sila Pilih Nama Pelajar" onkeyup="fetchSuggestions()">
+                        <button id="searchButton" onclick="searchStudent()">Cari</button>
+                        <ul id="suggestionsList" style="display:none;"></ul>
+                    </div>
+                    <table id="studentsTable">
+                        <!-- Table headers and data will be populated here -->
+                    </table>
+                    <div id="noResults" style="display:none;">Tiada rekod ditemui</div>
+                    
+                    <div class="results">
+                        <table id="resultsTableNamaPelajar">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Pelajar</th>
+                                    <th>Kategori Badan/Unit</th>
+                                    <th>Nama Kelab</th>
+                                    <th>Pencapaian</th>
+                                    <th>Nama Acara</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Results will be injected here -->
+                            </tbody>
+                        </table>
+                        <br>
+                        <button id="export-button-nama-pelajar">Eksport ke Excel</button> <!-- Export button -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add event listener to tab buttons
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                const tabPane = document.getElementById(tabId);
+
+                // Remove active class from all tab buttons
+                tabButtons.forEach(button => button.classList.remove('active'));
+
+                // Add active class to the current tab button
+                button.classList.add('active');
+
+                // Hide all tab panes
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+                // Show the current tab pane
+                tabPane.classList.add('active');
+
+                // Call loadNamaPelajar function when "Nama Pelajar" tab is selected
+                if (tabId === 'nama-pelajar') {
+                    loadNamaPelajar(); // Automatically load students
+                }
+            });
+        });
+
+        // Function to load student names and display suggestions
+        function loadNamaPelajar() {
+    const tbody = document.querySelector('#resultsTableNamaPelajar tbody');
+    tbody.innerHTML = ''; // Clear previous results
+    // No fetch call here, so the table remains empty
+}
+
+
+        function searchByUnit() {
+            const unit = document.getElementById('unit').value; // Get the selected unit
+            console.log("Selected Unit Category:", unit); // Debugging line
+
+            fetch('ReportGpUnit.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `unit=${encodeURIComponent(unit)}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Debugging line
+                    const tbody = document.querySelector('#resultsTableUnit tbody');
+                    tbody.innerHTML = ''; // Clear existing rows
+
+                    if (data.length > 0) {
+                        data.forEach((item, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td>${item.nama_pelajar}</td>
+                                <td>${item.kategori_badan_unit}</td>
+                                <td>${item.nama_kelab}</td>
+                                <td>${item.pencapaian }</td>
+                                <td>${item.acara}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="6">Tiada data ditemui</td></tr>';
+                    }
+                })
+                .catch (error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function searchByPencapaian() {
+            const pencapaian = document.getElementById('peringkat').value; // Get the selected peringkat
+            console.log("Selected Peringkat:", pencapaian);
+
+            fetch('ReportGpPencapaian.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `peringkat=${encodeURIComponent(pencapaian)}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Debugging line
+                    const tbody = document.querySelector('#resultsTablePencapaian tbody');
+                    tbody.innerHTML = ''; // Clear existing rows
+
+                    if (data.length > 0) {
+                        data.forEach((item, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td>${item.nama_pelajar}</td>
+                                <td>${item.kategori_badan_unit}</td>
+                                <td>${item.nama_kelab}</td>
+                                <td>${item.pencapaian}</td>
+                                <td>${item.acara}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="6">Tiada data ditemui</td></tr>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function fetchSuggestions() {
+    const input = document.getElementById('searchInput').value;
+    if (input.length < 2) {
+        document.getElementById('suggestionsList').style.display = 'none';
+        return;
+    }
+
+    fetch(`fetch_suggestions.php?query=${encodeURIComponent(input)}`)
+        .then(response => response.json())
+        .then(data => {
+            const suggestionsList = document.getElementById('suggestionsList');
+            suggestionsList.innerHTML = '';
+            if (data.length > 0) {
+                data.forEach(name => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = name; // Directly use the name
+                    listItem.onclick = () => selectSuggestion(name); // Pass the name directly
+                    suggestionsList.appendChild(listItem);
+                });
+                suggestionsList.style.display = 'block';
+            } else {
+                suggestionsList.style.display = 'none';
+            }
+        })
+        .catch(error => console.error('Error fetching suggestions:', error));
+}
+
+function selectSuggestion(name) {
+    document.getElementById('searchInput').value = name; // Set the input value
+    document.getElementById('suggestionsList').style.display = 'none'; // Hide suggestions
+}
+
+function searchStudent() {
+    const studentName = document.getElementById('searchInput').value;
+    console.log("Searching for student:", studentName); // Debugging line
+    const resultsTable = document.querySelector('#resultsTableNamaPelajar tbody'); // Get tbody of the correct table
+    resultsTable.innerHTML = ''; // Clear previous results
+
+    fetch(`search_student.php?name=${encodeURIComponent(studentName)}`)
+        .then(response => {
+            console.log("Response status:", response.status); // Log response status
+            return response.json();
+        })
+        .then(data => {
+            console.log("Received data:", data); // Log received data
+            if (data.length > 0) {
+                data.forEach((student, index) => {
+                    const row = resultsTable.insertRow(); // Insert a new row in the tbody
+                    row.insertCell(0).textContent = index + 1; // Row number
+                    row.insertCell(1).textContent = student.nama_pelajar;
+                    row.insertCell(2).textContent = student.kategori_badan_unit;
+                    row.insertCell(3).textContent = student.nama_kelab;
+                    row.insertCell(4).textContent = student.pencapaian;
+                    row.insertCell(5).textContent = student.acara;
+                });
+                document.getElementById('noResults').style.display = 'none'; // Hide "No records found"
+            } else {
+                // Display "No records found" in the table
+                const row = resultsTable.insertRow();
+                const cell = row.insertCell(0);
+                cell.colSpan = 6; // Span across all columns
+                cell.textContent = "Tiada data ditemui"; // Message
+                cell.style.textAlign = "center"; // Center the text
+                cell.style.fontWeight = "bold"; // Make it bold
+                cell.style.color = "red"; // Optional: Change text color to red
+            }
+        })
+        .catch(error => console.error('Error searching student:', error));
+
+
+    
+}
+
+       // Export to Excel functionality
+       document.getElementById('export-button-unit').addEventListener('click', function() {
+            exportTableToExcel('resultsTableUnit', 'unit_data.xls');
+        });
+
+        document.getElementById('export-button-pencapaian').addEventListener('click', function() {
+            exportTableToExcel('resultsTablePencapaian', 'pencapaian_data.xls');
+        });
+
+        document.getElementById('export-button-nama-pelajar').addEventListener('click', function() {
+            exportTableToExcel('resultsTableNamaPelajar', 'nama_pelajar_data.xls');
+        });
+
+        function exportTableToExcel(tableID, filename) {
+            const table = document.getElementById(tableID);
+            let excelData = `<table>${table.innerHTML}</table>`;
+            exportDataToExcel(excelData, filename);
+        }
+
+        function exportDataToExcel(data, filename) {
+            const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a); // Append to body for Firefox compatibility
+            a.click();
+            document.body.removeChild(a); // Remove from body
+            URL.revokeObjectURL(url); // Release memory
+        }
+</script>
+</body>
+</html>

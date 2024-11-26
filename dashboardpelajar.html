@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pelajar</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cececc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+    
+        .container {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+            width: 90%;
+            margin-top: 20px;
+        }
+    
+        h2 {
+            color: #0056b3;
+            font-size: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+    
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+    
+        td {
+            background-color: #fff;
+        }
+    
+        th, td {
+            font-size: 16px;
+        }
+    
+        #table-container {
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80em;
+            margin: 20px auto;
+        }
+    
+        /* Custom download button design */
+        .download-btn {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    
+        .download-btn:hover {
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
+        }
+    
+        /* Print styles */
+        @media print {
+            body {
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+            }
+    
+            .container {
+                width: 100%;
+                padding: 20px;
+                box-shadow: none;
+            }
+    
+            canvas {
+                width: 100% !important;
+                max-width: 100%;
+                height: auto !important;
+            }
+    
+            table {
+                width: 100%;
+                table-layout: fixed;
+                border: 1px solid #000;
+            }
+    
+            th, td {
+                word-wrap: break-word;
+                font-size: 12px;
+            }
+    
+            .download-btn {
+                display: none;  /* Hide the download button when printing */
+            }
+        }
+    </style>
+    
+    
+</head>
+<body>
+
+<div class="container">
+    <h2>DASHBOARD PELAJAR</h2>
+    <canvas id="topStudentsChart" width="400" height="200"></canvas>
+    
+    <!-- Table for displaying events of each top student -->
+    <div id="eventsTableContainer" class="table-container"></div>
+    
+    <!-- Button to trigger the print/download PDF -->
+    <button class="download-btn" onclick="downloadAsPDF()">Download As PDF</button>
+</div>
+
+<script>
+    // Fetch data from the PHP script
+    fetch('top_students.php')
+        .then(response => response.json())
+        .then(data => {
+            // Prepare data for Chart.js
+            const students = data.map(item => `${item.nama_pelajar} (${item.no_ic})`);
+            const participations = data.map(item => item.total_participation);
+
+            // Create the chart
+            const ctx = document.getElementById('topStudentsChart').getContext('2d');
+            const topStudentsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: students,
+                    datasets: [{
+                        label: 'Jumlah Penyertaan',
+                        data: participations,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Bilangan Acara'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Pelajar'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '3 Pelajar Terbaik mengikut Penyertaan Program'
+                        }
+                    }
+                }
+            });
+
+            // Generate the events table
+            let tableHtml = '<h3>Butiran Acara untuk Setiap Pelajar Terbaik</h3>';
+            data.forEach(student => {
+                tableHtml += `<h4>${student.nama_pelajar} (${student.no_ic})</h4>`;
+                tableHtml += `<div id="table-container">
+                                <table>
+                                    <tr>
+                                        <th>Kategori Badan / Unit Kokurikulum</th>
+                                        <th>Nama Kelab</th>
+                                        <th>Acara</th>
+                                        <th>Kelas</th>
+                                        <th>Pencapaian</th>
+                                        <th>Peringkat Acara</th>
+                                        <th>Didaftarkan oleh</th>
+                                    </tr>`;
+
+                student.events.forEach(event => {
+                    tableHtml += `<tr>
+                                    <td>${event.kategori_badan_unit}</td>
+                                    <td>${event.nama_kelab}</td>
+                                    <td>${event.acara}</td>
+                                    <td>${event.kelas}</td>
+                                    <td>${event.pencapaian}</td>
+                                    <td>${event.peringkatAcara}</td>
+                                    <td>${event.registerBy}</td>
+                                  </tr>`;
+                });
+
+                tableHtml += `</table>
+                              </div>`;
+            });
+
+            // Display the table
+            document.getElementById('eventsTableContainer').innerHTML = tableHtml;
+
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    // Function to trigger print/download PDF
+    function downloadAsPDF() {
+        window.print();  // Trigger the browser's print functionality
+    }
+</script>
+
+</body>
+</html>

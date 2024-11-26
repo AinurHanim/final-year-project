@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333333;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .card {
+            margin: 20px 0;
+        }
+        .footer {
+            width: 100%;
+            padding: 10px;
+            background-color: #4580b1;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+        }
+        .footer a {
+            color: #f7f2f1;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <title>Hubungi Kami</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">SMK Bukit Kayu Hitam</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Laman Utama</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="register.html">Daftar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html">Log Masuk</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="contact.html">Hubungi Kami</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Hubungi Kami baru</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Maklumat Hubungan Kami</h5>
+                    <p class="card-text">
+                        <strong>Alamat:</strong><br>
+                        SMK Bukit Kayu Hitam<br>
+                        1234 Jalan Bukit, Kayu Hitam<br>
+                        Kedah, Malaysia<br><br>
+                        <strong>No Telefon:</strong><br>
+                        012-3456789<br><br>
+                        <strong>Email:</strong><br>
+                        info@smkbkh.edu.my
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Sila laporkan sebarang masalah ataupun cadangan anda</h5>
+                    <form action="submit_contact.php" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Alamat Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Masalah</label>
+                            <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Hantar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    &copy; 2024 SMK Bukit Kayu Hitam | 
+    <a href="contact.html">Hubungi Kami: 012 - XXXXX </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

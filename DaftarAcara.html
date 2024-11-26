@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Acara</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cececc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+            width: 90%;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-size: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+
+        .panel {
+            margin-bottom: 20px;
+        }
+
+        .panel h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            background-color: #64a3d6;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Daftar Acara</h2>
+
+        <form action="DaftarAcara.php" method="post">
+            
+
+            <label for="namaEvent">Nama Acara</label>
+            <input type="text" id="namaEvent" name="namaEvent" required>
+
+            <label for="tarikh">Tarikh</label>
+            <input type="date" id="tarikh" name="tarikh" required>
+
+            <label for="tempat">Tempat</label>
+            <input type="text" id="tempat" name="tempat" required>
+
+            <label for="peringkat">Peringkat</label>
+            <select id="peringkat" name="peringkat" required>
+                <option value="">Pilih Peringkat</option>
+                <option value="Sekolah">Sekolah</option>
+                <option value="Zon/Daerah">Zon/Daerah</option>
+                <option value="Bahagian (Sabah & Sarawak)">Bahagian (Sabah & Sarawak)</option>
+                <option value="Negeri">Negeri</option>
+                <option value="Kebangsaan">Kebangsaan</option>
+                <option value="Antarabangsa">Antarabangsa</option>
+            </select>
+
+            <label for="kategoriUnit">Kategori Badan/Unit</label>
+            <select id="kategoriUnit" name="kategoriUnit" required onchange="updateNamaKelabOptions()">
+            <option value="">Pilih Kategori</option>
+            <option value="Sukan dan Permainan">Sukan dan Permainan</option>
+            <option value="Kelab dan Persatuan">Kelab dan Persatuan</option>
+            <option value="Unit Beruniform">Unit Beruniform</option>
+            <option value="Lain-lain">Lain-lain</option>
+            </select>
+
+            <label for="namaKelab" class="hidden">Nama Kelab</label>
+            <select id="namaKelab" name="namaKelab" class="hidden">
+                <!-- Options will be populated dynamically -->
+            </select>
+            
+            <label for="namaKelabText" class="hidden">Nama Kelab (Lain-lain)</label>
+            <input type="text" id="namaKelabText" name="namaKelabText" class="hidden" placeholder="Masukkan nama kelab">
+
+            <button type="submit">Simpan</button>
+        </form>
+    </div>
+
+    <script>
+function updateNamaKelabOptions() {
+    const kategoriUnit = document.getElementById('kategoriUnit').value;
+    const namaKelab = document.getElementById('namaKelab');
+    const namaKelabText = document.getElementById('namaKelabText');
+
+    // Reset the fields
+    namaKelab.classList.add('hidden');
+    namaKelabText.classList.add('hidden');
+    namaKelab.required = false; // Make the dropdown not required
+    namaKelabText.required = false; // Make the text input not required
+
+    if (kategoriUnit === 'Lain-lain') {
+        namaKelabText.classList.remove('hidden');
+        namaKelabText.required = true; // Make the text input required
+    } else {
+        fetchKelabData(kategoriUnit); // Fetch relevant data for the dropdown
+        namaKelab.classList.remove('hidden');
+        namaKelab.required = true; // Make the dropdown required
+    }
+}
+
+        function fetchKelabData(kategoriUnit) {
+            fetch('fetch_kelab_update.php?kategori=' + encodeURIComponent(kategoriUnit))
+                .then(response => response.json())
+                .then(data => {
+                    let options = ['<option value="">Pilih Nama Kelab</option>'];
+                    data.forEach(kelab => {
+                        options.push('<option value="' + kelab.namaKelab + '">' + kelab.namaKelab + '</option>');
+                    });
+                    document.getElementById('namaKelab').innerHTML = options.join('');
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+    console.log("Form submitted");
+    console.log("Nama Event:", document.getElementById('namaEvent').value);
+    console.log("Tarikh:", document.getElementById('tarikh').value);
+    console.log("Tempat:", document.getElementById('tempat').value);
+    console.log("Peringkat:", document.getElementById('peringkat').value);
+    console.log("Kategori Unit:", document.getElementById('kategoriUnit').value);
+    console.log("Nama Kelab:", document.getElementById('namaKelab').value);
+    console.log("Nama Kelab Text:", document.getElementById('namaKelabText').value);
+});
+    </script>
+</body>
+</html>
+

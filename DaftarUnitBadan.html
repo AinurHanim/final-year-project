@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Unit Badan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cececc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+            width: 90%;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-size: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+
+        .panel {
+            margin-bottom: 20px;
+        }
+
+        .panel h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            background-color: #0078D4;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
+        }
+
+        .suggestions {
+            border: 1px solid #007bff;
+            /* Customize the border color */
+            display: none;
+            /* Hidden initially */
+            position: absolute;
+            z-index: 1000;
+            background-color: white;
+            max-height: 200px;
+            /* Limit height for scrolling */
+            overflow-y: auto;
+            /* Adds a scrollbar when needed */
+            width: calc(100% - 20px);
+            /* Adjust the width to match the input field */
+            font-size: 14px;
+            /* Adjust the font size of suggestions */
+            border-radius: 5px;
+            /* Rounds the corners */
+            padding: 5px;
+            /* Adds padding inside the suggestions box */
+            top: 40px;
+            /* Position the suggestions box below the input field */
+            left: 0;
+            /* Align the suggestions box with the input field */
+        }
+
+        .suggestions div {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #f4f4f4;
+            /* Add subtle dividers between suggestions */
+        }
+
+        .suggestions div:hover {
+            background-color: #007bff;
+            /* Change background color on hover */
+            color: #fff;
+            /* Change text color on hover */
+        }
+
+        .suggestions-list {
+            display: flex;
+            flex-direction: column;
+            /* Display suggestions in rows */
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            /* Add a border between suggestions */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestions-list div {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            /* Add a border between suggestions */
+            cursor: pointer;
+        }
+
+        .suggestions-list div:hover {
+            background-color: #a0a150;
+            color: #fff;
+        }
+
+        #inputContainer {
+            position: relative;
+        }
+
+        #inputContainer .suggestions {
+            top: 40px;
+            left: 0;
+        }
+
+        /* Styles for the teacher list table */
+        #teacherList {
+            width: 100%;
+            /* Make the table take the full width of the container */
+            border-collapse: collapse;
+            /* Merge table borders */
+            margin-top: 10px;
+            /* Add some space above the table */
+        }
+
+        #teacherList th,
+        #teacherList td {
+            padding: 12px;
+            /* Add padding to table cells */
+            text-align: left;
+            /* Align text to the left */
+            border: 1px solid #0078D4;
+            /* Add a border to cells */
+        }
+
+        #teacherList th {
+            background-color: #0078D4;
+            /* Header background color */
+            color: white;
+            /* Header text color */
+            font-weight: bold;
+            /* Make header text bold */
+        }
+
+        #teacherList tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+            /* Add a light background color to even rows */
+        }
+
+        #teacherList tbody tr:hover {
+            background-color: #e0e0e0;
+            /* Change background color on row hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Daftar Badan Unit Kokurikulum</h2>
+
+        <form action="DaftarUnitBadan.php" method="post">
+            <div class="panel">
+                <h3>Kategori Badan Unit Kokurikulum</h3>
+                <label for="typeUnit">Kategori Badan / Unit</label>
+                <select id="typeUnit" name="typeUnit" required onchange="fetchKelabData(this)">
+                    <option value="">Pilih Kategori</option>
+                    <option value="SUKAN DAN PERMAINAN">SUKAN DAN PERMAINAN</option>
+                    <option value="PERSATUAN (AKADEMIK)">PERSATUAN (AKADEMIK)</option>
+                    <option value="KELAB (BUKAN AKADEMIK)">KELAB (BUKAN AKADEMIK)</option>
+                    <option value="BADAN BERUNIFORM">BADAN BERUNIFORM</option>
+                </select>
+
+                <label for="namaKelab">Nama Kelab</label>
+                <select id="namaKelab" name="namaUnit" required>
+                    <option value="">Pilih Nama Kelab</option>
+                    <!-- Options will be populated based on selection -->
+                </select>
+            </div>
+
+            <div id="teacherListContainer" class="hidden">
+                <h3>Senarai Guru Pengiring dalam Kelab Ini</h3>
+                <table id="teacherList" border="1">
+                    <thead>
+                        <tr>
+                            <th>Nama Guru</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teacherListBody">
+                        <tr>
+                            <td colspan="1">Tiada data dalam rekod</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+            </div>
+
+            <label for="guruPengiring">Guru Penasihat Terlibat</label>
+            <div id="inputContainer">
+                <input type="text" id="guruPengiring" name="guruPengiring[]" class="autocomplete-input"
+                    placeholder="Pilih Guru Pengiring" required>
+                <div id="guruPengiringSuggestions" class="suggestions"></div>
+            </div>
+
+            <button type="button" onclick="addGuruPenasihat()">Tambah Guru Pengiring</button>
+
+            <div>
+                <button type="submit">Simpan</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function fetchKelabData(selectElement) {
+            const selectedKategori = selectElement.value;
+            const namaKelab = document.getElementById('namaKelab');
+
+            // Send a request to the PHP file to fetch the clubs based on the selected category
+            fetch('fetch_unitbadan.php?kategori=' + encodeURIComponent(selectedKategori))
+                .then(response => response.json())
+                .then(data => {
+                    let options = ['<option value="">Pilih Nama Kelab</option>'];
+                    // Loop through the response data and add each club name as an option
+                    data.forEach(kelab => {
+                        options.push('<option value="' + kelab.name + '">' + kelab.name + '</option>');
+                    });
+                    // Update the Nama Kelab dropdown with the new options
+                    namaKelab.innerHTML = options.join('');
+                })
+                .catch(error => console.error('Error fetching kelab:', error));
+        }
+
+        document.getElementById('namaKelab').addEventListener('change', function () {
+            const selectedKelab = this.value;
+            fetchTeacherData(selectedKelab);
+        });
+
+        function fetchTeacherData(namaKelab) {
+            if (!namaKelab) {
+                document.getElementById('teacherListContainer').classList.add('hidden');
+                return;
+            }
+
+            fetch('fetch_teachers.php?namaKelab=' + encodeURIComponent(namaKelab))
+                .then(response => response.json())
+                .then(data => {
+                    const teacherListBody = document.getElementById('teacherListBody');
+                    teacherListBody.innerHTML = ''; // Clear previous entries
+
+                    if (data.length > 0) {
+                        data.forEach(teacher => {
+                            const row = document.createElement('tr');
+                            const cell = document.createElement('td');
+                            cell.textContent = teacher.nama; // Assuming 'nama' is the field for teacher names
+                            row.appendChild(cell);
+                            teacherListBody.appendChild(row);
+                        });
+                    } else {
+                        teacherListBody.innerHTML = '<tr><td colspan="1">Tiada data dalam rekod</td></tr>';
+                    }
+                    document.getElementById('teacherListContainer').classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Error fetching teachers:', error);
+                    document.getElementById('teacherListContainer').classList.add('hidden');
+                });
+        }
+
+        // Function to handle autocomplete for Guru Pengiring
+        const autocompleteInputs = document.querySelectorAll('.autocomplete-input');
+
+        autocompleteInputs.forEach(input => {
+            input.addEventListener('input', function () {
+                const query = this.value;
+                const suggestionsDiv = document.getElementById('guruPengiringSuggestions');
+
+                if (query.length > 0) {
+                    fetch('get_guru_pengiring.php?query=' + encodeURIComponent(query))
+                        .then(response => response.json())
+                        .then(data => {
+                            suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                            if (data.length > 0) {
+                                suggestionsDiv.style.display = 'block'; // Show suggestions
+                                const suggestionsList = document.createElement('div');
+                                suggestionsList.classList.add('suggestions-list');
+                                data.forEach(guru => {
+                                    const suggestionItem = document.createElement('div');
+                                    suggestionItem.textContent = guru; // Use the guru variable to access the name
+                                    suggestionItem.style.cursor = 'pointer';
+
+                                    // Handle the click event for the selected name
+                                    suggestionItem.addEventListener('click', function (event) {
+                                        event.preventDefault(); // Prevent default behavior
+                                        const input = document.getElementById('guruPengiring');
+                                        input.value = guru; // Set input value to selected name
+                                        suggestionsDiv.style.display = 'none'; // Hide suggestions
+                                    });
+
+                                    suggestionsList.appendChild(suggestionItem);
+                                });
+                                suggestionsDiv.appendChild(suggestionsList);
+                            } else {
+                                suggestionsDiv.style.display = 'none'; // Hide if no matches
+                            }
+                        })
+                        .catch(error => console.error('Error fetching guru:', error));
+                } else {
+                    suggestionsDiv.style.display = 'none'; // Hide if input is empty
+                }
+            });
+
+            // Hide suggestions on blur (when user clicks outside the input)
+            input.addEventListener('blur', function () {
+                setTimeout(() => {
+                    const suggestionsDiv = document.getElementById('guruPengiringSuggestions');
+                    suggestionsDiv.style.display = 'none'; // Hide suggestions when input loses focus
+                }, 200); // Slight delay to allow selection
+            });
+        });
+
+        function fetchGuru() {
+            fetch('get_guru_pengiring.php')
+                .then(response => response.json())
+                .then(data => {
+                    const guruSelects = document.querySelectorAll('select[name="guruPengiring"]');
+                    guruSelects.forEach(select => {
+                        select.innerHTML = '<option value="">Pilih Guru Pengiring</option>';
+                        data.forEach(guru => {
+                            const option = document.createElement('option');
+                            option.value = guru;
+                            option.textContent = guru;
+                            select.appendChild(option);
+                        });
+                    });
+                });
+        }
+
+        fetchGuru();
+
+        let guruPengiringCount = 1;
+
+        function addGuruPenasihat() {
+            console.log('addGuruPenasihat function called');
+
+            // Create a new container for the input field and suggestions
+            const newContainer = document.createElement('div');
+            newContainer.id = 'guruPengiringContainer' + guruPengiringCount;
+            newContainer.innerHTML = `
+                <input type="text" id="guruPengiring` + guruPengiringCount + `" name="guruPengiring[]" class="autocomplete-input" placeholder="Pilih Guru Pengiring" required>
+                <div id="guruPengiringSuggestions` + guruPengiringCount + `" class="suggestions"></div>
+            `;
+
+            // Append the new container to the parent element of the first input field
+            const parentElement = document.getElementById('inputContainer');
+            parentElement.appendChild(newContainer);
+
+            // Add event listener to the new input field
+            const newInput = document.getElementById('guruPengiring' + guruPengiringCount);
+            const newSuggestions = document.getElementById('guruPengiringSuggestions' + guruPengiringCount);
+
+            newInput.addEventListener('input', function () {
+                const query = this.value;
+                if (query.length > 0) {
+                    fetch('get_guru_pengiring.php?query=' + encodeURIComponent(query))
+                        .then(response => response.json())
+                        .then(data => {
+                            newSuggestions.innerHTML = ''; // Clear previous suggestions
+                            if (data.length > 0) {
+                                newSuggestions.style.display = 'block'; // Show suggestions
+                                const suggestionsList = document.createElement('div');
+                                suggestionsList.classList.add('suggestions-list');
+                                data.forEach(guru => {
+                                    const suggestionItem = document.createElement('div');
+                                    suggestionItem.textContent = guru;
+                                    suggestionItem.style.cursor = 'pointer';
+
+                                    // Handle the click event for selected name
+                                    suggestionItem.addEventListener('click', function (event) {
+                                        event.preventDefault();
+                                        newInput.value = guru; // Set input value to selected name
+                                        newSuggestions.style.display = 'none'; // Hide suggestions
+                                    });
+
+                                    suggestionsList.appendChild(suggestionItem);
+                                });
+                                newSuggestions.appendChild(suggestionsList);
+                            } else {
+                                newSuggestions.style.display = 'none'; // Hide if no matches
+                            }
+                        })
+                        .catch(error => console.error('Error fetching guru:', error));
+                } else {
+                    newSuggestions.style.display = 'none'; // Hide if input is empty
+                }
+            });
+
+            // Hide suggestions on blur (when user clicks outside the input)
+            newInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    newSuggestions.style.display = 'none'; // Hide suggestions when input loses focus
+                }, 200); // Slight delay to allow selection
+            });
+
+            // Focus on the new input field
+            newInput.focus();
+
+            guruPengiringCount++;
+        }
+    </script>
+</body>
+
+</html>
