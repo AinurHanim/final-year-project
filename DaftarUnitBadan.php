@@ -93,6 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 
 } else {
-    echo "Invalid request method.";
+    echo "Kaedah permintaan tidak sah.";
 }
 ?>

@@ -32,9 +32,9 @@ if ($result->num_rows > 0) {
 
     if ($update_stmt->execute()) {
         if ($update_stmt->affected_rows > 0) {
-            echo 'success';
+            echo 'Berjaya';
         } else {
-            echo 'Email not found or no changes made';
+            echo 'E-mel tidak ditemui atau tiada perubahan dibuat';
         }
     } else {
         echo 'SQL Error: ' . $conn->error; // Print any SQL error
@@ -42,7 +42,7 @@ if ($result->num_rows > 0) {
 
     $update_stmt->close(); // Close the update statement
 } else {
-    echo 'Email not found';
+    echo 'E-mel tidak ditemui ';
 }
 
 $check_stmt->close(); // Close the check statement

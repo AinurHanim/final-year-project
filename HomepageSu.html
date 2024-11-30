@@ -586,13 +586,19 @@
       height: auto;
       /* Maintain the aspect ratio by setting height to auto */
     }
+
+    .navbar-brand span {
+    color: #004578;
+}
+
   </style>
 </head>
 
 <body>
   <header>
     <nav class="navbar navbar-expand-lg navbar-light">
-      <a href="#" class="navbar-brand ml-3"><span style="color: #004578;">PPPKKS</span></a>
+      <a href="#" class="navbar-brand ml-3"><span class="text-color">PPPKKS</span></a>
+
       <div class="collapse navbar-collapse">
         <div class="ml-auto" id="user-info">
           <span id="user-name"></span>
@@ -669,7 +675,7 @@
 
     document.getElementById('resetButton').addEventListener('click', function () {
       // Replace Swal with standard alert
-      const confirmReset = confirm('Are you sure? This will reset all data for the new year!');
+      const confirmReset = confirm('Adakah anda pasti? Ini akan menetapkan semula semua data untuk tahun baharu!');
       if (confirmReset) {
         window.location.href = 'reset.php';  // Call the PHP script to reset data
       }
@@ -677,7 +683,7 @@
 
     document.getElementById('backupButton').addEventListener('click', function () {
       // Replace Swal with standard alert
-      const confirmBackup = confirm('Adakah anda yakin mahu backup? Semua data akan disimpan');
+      const confirmBackup = confirm('Adakah anda yakin mahu membuat salinan sandar? Semua data akan disimpan');
       if (confirmBackup) {
         window.location.href = 'backup.php';  // Call the PHP script to backup data
       }

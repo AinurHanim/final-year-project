@@ -62,11 +62,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'restore') {
     }
 
     if (!isset($_FILES['file']) || $_FILES['file']['error'] != 0) {
-        die(json_encode(['error' => 'File upload failed.']));
+        die(json_encode(['error' => 'Muat naik fail gagal.']));
     }
     
     if ($_FILES['file']['type'] != 'text/csv') {
-        die(json_encode(['error' => 'Invalid file type. Please upload a CSV file.']));
+        die(json_encode(['error' => 'Jenis fail tidak sah. Sila muat naik fail CSV.']));
     }
     
     // Before processing the file

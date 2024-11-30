@@ -22,7 +22,7 @@ file_put_contents('php://stderr', print_r($data, TRUE)); // Log the data receive
 // Check if the request method is DELETE
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     if (!isset($data['no_ic']) || empty($data['no_ic']) || !isset($data['nama_pelajar']) || empty($data['nama_pelajar'])) {
-        echo json_encode(array('success' => false, 'error' => 'No IC number or name provided.'));
+        echo json_encode(array('success' => false, 'error' => 'Tiada nombor kad pengenalan atau nama diberikan.'));
         exit; // Stop further execution
     }
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         } else {
             // Rollback if no rows were affected
             $conn->rollback();
-            echo json_encode(array('success' => false, 'error' => 'No student found with the provided IC number and name.'));
+            echo json_encode(array('success' => false, 'error' => 'Tiada pelajar ditemui dengan nombor kad pengenalan dan nama yang diberikan.'));
         }
 
         $deleteStmt->close();
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     }
 } else {
     // Return an error message if the request method is not DELETE
-    echo json_encode(array('success' => false, 'error' => 'Invalid request method'));
+    echo json_encode(array('success' => false, 'error' => 'Kaedah permintaan tidak sah'));
 }
 
 // Close the database connection

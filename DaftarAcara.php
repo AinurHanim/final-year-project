@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if required fields are filled
     if (empty($namaEvent) || empty($tarikh) || empty($tempat) || empty($peringkat) || empty($kategoriUnit) || empty($namaKelab)) {
-        echo "Please fill in all the fields.";
+        echo "Sila isi semua ruangan";
         exit();
     }
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if namaKelab is still empty
     if (empty($namaKelab)) {
-        echo "Please provide a name for the club.";
+        echo "Sila berikan nama untuk kelab.";
         exit();
     }
 
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $registerBy = $_SESSION['full_name'] ?? null;
 
     if (empty($registerBy)) {
-        echo "Error: User is not logged in or session expired.";
+        echo "Ralat: Pengguna tidak log masuk atau sesi tamat tempoh.";
         exit();
     }
 
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
     $conn->close();
 } else {
-    echo "Invalid request method.";
+    echo "Kaedah permintaan tidak sah.";
 }
 
 echo "<pre>";

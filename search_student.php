@@ -26,9 +26,9 @@ while ($row = $result->fetch_assoc()) {
 
 // Debugging: Check if any records were found
 if (empty($students)) {
-    error_log("No records found for student: $studentName registered by $currentUser ");
+    error_log("Tiada rekod ditemui untuk pelajar: $studentName registered by $currentUser ");
 } else {
-    error_log("Records found: " . print_r($students, true));
+    error_log("Rekod ditemui: " . print_r($students, true));
 }
 
 echo json_encode($students); // Return the results as JSON

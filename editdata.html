@@ -610,58 +610,50 @@
 
 
         function saveTeacher(button) {
-            const row = button.closest("tr");
-            const typeUnitCell = row.cells[1].querySelector("select").value; // Get selected value
-            const namaUnitCell = row.cells[2].querySelector("select").value; // Get selected value
-            const namaGuruCell = row.cells[0].textContent; // Get the name of the teacher
+    const row = button.closest("tr");
+    const typeUnitCell = row.cells[1].querySelector("select").value; // Get selected value
+    const namaUnitCell = row.cells[2].querySelector("select").value; // Get selected value
+    const namaGuruCell = row.cells[0].textContent; // Get the name of the teacher
 
-            console.log('Data being sent to server:', {
-                typeUnit: typeUnitCell,
-                namaUnit: namaUnitCell,
-                nama: namaGuruCell
-            });
+    console.log('Data being sent to server:', {
+        typeUnit: typeUnitCell,
+        namaUnit: namaUnitCell,
+        nama: namaGuruCell
+    });
 
-            // Send updated data to the server
-            fetch('updateTeacherData.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ typeUnit: typeUnitCell, namaUnit: namaUnitCell, nama: namaGuruCell }) // Include the name of the teacher
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Respons rangkaian tidak baik');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Update the table cells with the new values
-                        row.cells[1].textContent = typeUnitCell;
-                        row.cells[2].textContent = namaUnitCell;
+    // Send updated data to the server
+    fetch('updateTeacherData.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ typeUnit: typeUnitCell, namaUnit: namaUnitCell, nama: namaGuruCell }) // Include the name of the teacher
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Respons rangkaian tidak baik');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Update the table cells with the new values
+                row.cells[1].textContent = typeUnitCell;
+                row.cells[2].textContent = namaUnitCell;
 
-                        // Show the "Edit" button and hide the "Simpan" button
-                        button.style.display = "none";
-                        row.querySelector("button[onclick='editTeacher(this)']").style.display = "inline";
+                // Show the "Edit" button and hide the "Simpan" button
+                button.style.display = "none";
+                row.querySelector("button[onclick='editTeacher(this)']").style.display = "inline";
 
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Data berjaya dikemaskini!',
-                            icon: 'success',
-                            confirmButtonText: 'Okay'
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'Terdapat ralat semasa mengemaskini data: ' + data.message,
-                            icon: 'error',
-                            confirmButtonText: 'Okay'
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+                // Replace Swal.fire with a standard alert
+                alert('Data berjaya dikemaskini!');
+            } else {
+                alert('Terdapat ralat semasa mengemaskini data: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terdapat ralat semasa menghantar permintaan ke pelayan.');
+        });
+}
 
 
         function searchPelajarData() {
@@ -782,50 +774,43 @@
         }
 
         function savePelajarData(button) {
-            const row = button.closest("tr");
-            const pencapaianCell = row.cells[3].querySelector("select").value; // Get selected value
-            const namaPelajar = row.cells[0].textContent; // Get the name of the student
+    const row = button.closest("tr");
+    const pencapaianCell = row.cells[3].querySelector("select").value; // Get selected value
+    const namaPelajar = row.cells[0].textContent; // Get the name of the student
 
-            // Send updated data to the server
-            fetch('updatePelajarData.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pencapaian: pencapaianCell, nama_pelajar: namaPelajar }) // Include the name of the student
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Respons rangkaian tidak baik');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Update the table cell with the new value
-                        row.cells[3].innerHTML = pencapaianCell; // Set as plain text
+    // Send updated data to the server
+    fetch('updatePelajarData.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pencapaian: pencapaianCell, nama_pelajar: namaPelajar }) // Include the name of the student
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Respons rangkaian tidak baik');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Update the table cell with the new value
+                row.cells[3].innerHTML = pencapaianCell; // Set as plain text
 
-                        // Show the Edit button and hide the Simpan button
-                        button.style.display = "none";
-                        row.querySelector("button[onclick='editPelajarData(this)']").style.display = "inline";
+                // Show the Edit button and hide the Simpan button
+                button.style.display = "none";
+                row.querySelector("button[onclick='editPelajarData(this)']").style.display = "inline";
 
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Pencapaian berjaya dikemaskini!',
-                            icon: 'success',
-                            confirmButtonText: 'Okay'
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'Terdapat ralat semasa mengemaskini data: ' + data.message,
-                            icon: 'error',
-                            confirmButtonText: 'Okay'
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+                // Replace Swal.fire with alert
+                alert('Pencapaian berjaya dikemaskini!');
+            } else {
+                alert('Terdapat ralat semasa mengemaskini data: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terdapat ralat semasa menghantar permintaan ke pelayan.');
+        });
+}
+
 
 
         function displayNoPelajarDataMessage() {
@@ -842,6 +827,7 @@
             tableBody.appendChild(tr);
         }
 
+        //tab acara 
         function populateAcaraDropdown() {
             fetch('getAcaraList.php')
                 .then(response => response.json())
@@ -954,12 +940,7 @@ function saveAcaraData() {
     const peringkat = document.getElementById("editPeringkat").value;
 
     if (!namaAcara || !tarikh || !tempat || !peringkat) {
-        Swal.fire({
-            title: 'Error!',
-            text: 'Please complete all fields.',
-            icon: 'error',
-            confirmButtonText: 'Okay'
-        });
+        alert('Please complete all fields.');
         return; // Exit if any required data is missing
     }
 
@@ -974,31 +955,32 @@ function saveAcaraData() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            Swal.fire({
-                title: 'Success!',
-                text: 'Data telah berjaya dikemas kini.',
-                icon: 'success',
-                confirmButtonText: 'Okay'
-            });
+            alert('Data telah berjaya dikemas kini.');
+            
+            // Hide the edit container
+            const editContainer = document.getElementById("editContainer");
+            editContainer.style.display = "none";
+
+            // Refresh the table to reflect the updated data
+            const selectedAcara = document.getElementById("cariAcara").value;
+            if (selectedAcara) {
+                fetch(`getAcaraData.php?namaAcara=${encodeURIComponent(selectedAcara)}`)
+                    .then(response => response.json())
+                    .then(updatedData => {
+                        displayAcaraData([updatedData]); // Wrap updated data in an array
+                    })
+                    .catch(error => console.error('Error refreshing table data:', error));
+            }
         } else {
-            Swal.fire({
-                title: 'Error!',
-                text: data.message || 'Ralat berlaku semasa menyimpan data.',
-                icon: 'error',
-                confirmButtonText: 'Okay'
-            });
+            alert('' + (data.message || 'Ralat berlaku semasa menyimpan data.'));
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        Swal.fire({
-            title: 'Error!',
-            text: 'Ralat rangkaian berlaku semasa menyimpan data.',
-            icon: 'error',
-            confirmButtonText: 'Okay'
-        });
+        alert('Ralat rangkaian berlaku semasa menyimpan data.');
     });
 }
+
 
 
 
@@ -1039,45 +1021,40 @@ function saveAcaraData() {
         }
 
         function addClub(event) {
-            event.preventDefault();  // Prevent the default form submission
+    event.preventDefault(); // Prevent the default form submission
 
-            const typeUnit = document.getElementById('typeUnit').value;
-            const namaKelab = document.getElementById('namaKelab').value;
+    const typeUnit = document.getElementById('typeUnit').value;
+    const namaKelab = document.getElementById('namaKelab').value;
 
-            const data = {
-                kategori: typeUnit,
-                namaKelab: namaKelab
-            };
+    const data = {
+        kategori: typeUnit,
+        namaKelab: namaKelab
+    };
 
-            fetch('addClub.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Show success message with SweetAlert2
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Penambahan kelab baharu berjaya',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+    fetch('addClub.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success message using alert
+                alert('Penambahan kelab baharu berjaya.');
 
-                        document.getElementById('addClubForm').reset();  // Reset the form
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Penambahan kelab baharu tidak berjaya',
-                            text: data.message
-                        });
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
+                document.getElementById('addClubForm').reset(); // Reset the form
+            } else {
+                alert('Penambahan kelab baharu tidak berjaya.' + (data.message || 'Ralat tidak dikenali.'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ralat rangkaian berlaku semasa menyimpan data.');
+        });
+}
+
 
         document.getElementById("kategoriSenarai").addEventListener("change", function () {
             const selectedCategory = this.value;

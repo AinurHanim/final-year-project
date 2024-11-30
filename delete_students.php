@@ -46,7 +46,7 @@ if (is_array($data) && !empty($data)) {
     echo json_encode(['success' => true]);
 } else {
     // Respond with an error
-    echo json_encode(['success' => false, 'error' => 'No valid data received']);
+    echo json_encode(['success' => false, 'error' => 'Tiada data yang sah diterima']);
 }
 
 // Close the database connection

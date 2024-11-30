@@ -109,10 +109,10 @@
             <h2>Data Guru</h2>
         
             <form action="restoreData.php" method="POST" enctype="multipart/form-data">
-                <label for="file">Choose CSV file to restore:</label>
+                <label for="file">Pilih fail CSV untuk dipulihkan:</label>
                 <input type="file" name="file" id="file" required>
                 <br><br>
-                <button type="submit" name="action" value="restore">Restore Data</button>
+                <button type="submit" name="action" value="restore">Pulihkan Data</button>
             </form>
             
             <table>
@@ -211,12 +211,12 @@
 
         if (data.errors && data.errors.length > 0) {
             console.error('Some records failed to insert:', data.errors);
-            alert(`Failed to insert ${data.errors.length} record(s). Check the console for details.`);
+            alert(`Gagal memasukkan ${data.errors.length} rekod. Semak konsol untuk mendapatkan butiran.`);
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while restoring data.');
+        alert('Ralat berlaku semasa memulihkan data.');
     });
 });
 

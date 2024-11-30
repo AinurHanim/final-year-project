@@ -20,12 +20,12 @@ if (isset($_SESSION['username']) && isset($_SESSION['userType'])) {
             $userData = $result->fetch_assoc();
             echo json_encode($userData);
         } else {
-            echo json_encode(['error' => 'No data found']);
+            echo json_encode(['error' => 'Tiada data ditemui']);
         }
     } else {
-        echo json_encode(['error' => 'Unauthorized access']);
+        echo json_encode(['error' => 'Akses tanpa kebenaran']);
     }
 } else {
-    echo json_encode(['error' => 'User not logged in']);
+    echo json_encode(['error' => 'Pengguna tidak log masuk']);
 }
 ?>

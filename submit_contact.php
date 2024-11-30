@@ -20,24 +20,18 @@ $email = $_POST['email'];
 $message = $_POST['message'];
 
 if ($stmt->execute()) {
-    // If insertion is successful, output the SweetAlert script
+    // If insertion is successful, output the simple alert script
     echo '<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Success</title>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body>
         <script>
-            Swal.fire({
-                title: "Berjaya dihantar!",
-                text: "Terima kasih",
-                icon: "success"
-            }).then(() => {
-                window.location.href = "schoolwebsite.html"; // Redirect to schoolwebsite.html
-            });
+            alert("Berjaya dihantar! Terima kasih");
+            window.location.href = "schoolwebsite.html"; // Redirect to schoolwebsite.html
         </script>
     </body>
     </html>';

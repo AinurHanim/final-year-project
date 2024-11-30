@@ -162,9 +162,11 @@
         <h2>Kemaskini Penyertaan Dan Peserta</h2>
         <form id="updateForm" action="update.php" method="post">
             <label for="event">Acara</label>
+            <label for="eventSelect">Nama Acara</label>
             <select name="event[]" id="eventSelect" required onchange="fetchEventDetails()">
                 <option value="">Pilih Nama Acara</option>
             </select>
+            
 
             <label for="kategoriBadan">Kategori Badan/Unit</label>
             <input type="text" id="kategoriBadan" name="kategoriBadan" readonly required>

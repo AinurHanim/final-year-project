@@ -20,7 +20,7 @@ $result = $stmt->get_result();
 
 if (!isset($_SESSION['full_name'])) {
     // Redirect the user to the login page or handle the error
-    echo json_encode(array('error' => 'User not logged in'));
+    echo json_encode(array('error' => 'Pengguna tidak log masuk'));
     exit;
 }
 

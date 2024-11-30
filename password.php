@@ -31,10 +31,10 @@ if ($result->num_rows > 0) {
     
     // Check if the update was successful
     if ($update_stmt->affected_rows > 0) {
-        echo 'success';
+        echo 'Berjaya';
         
     } else {
-        echo 'Failed to reset password';
+        echo 'Gagal menetapkan semula kata laluan';
     }
     
     $update_stmt->close(); // Close the update statement

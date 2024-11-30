@@ -27,7 +27,7 @@ if ($result === false) {
 }
 
 if (empty($acaraList)) {
-    echo json_encode(['message' => 'No events found']);
+    echo json_encode(['message' => 'Tiada acara ditemui']);
     exit;
 }
 

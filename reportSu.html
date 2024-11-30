@@ -295,6 +295,11 @@
 #suggestionsList li:hover {
     background-color: #e0e0e0; /* Highlight on hover */
 }
+
+.hidden {
+    display: none;
+}
+
         
 
     </style>
@@ -388,7 +393,7 @@
                     <label for="cari-pelajar">Cari:</label>
                     <div>
                         <input type="text" id="searchInput" placeholder="Pilih Nama Pelajar..." onkeyup="fetchSuggestions()">
-                        <ul id="suggestionsList" style="display:none;"></ul>
+                        <ul id="suggestionsList" class="hidden"></ul>
                         <button id="searchButton" onclick="searchStudent()">Cari</button> <!-- Search button -->
                     </div>
                     <!-- Add a table element to display the data -->
