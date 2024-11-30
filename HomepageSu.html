@@ -591,6 +591,26 @@
     color: #004578;
 }
 
+#timeoutWarning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            display: none;
+            font-size: 16px;
+        }
+
+        #timeoutWarning button {
+            background-color: #ffcc00;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
   </style>
 </head>
 
@@ -690,6 +710,50 @@
     });
 
 
+
+    var timeout = 120000; // 2 minutes (in milliseconds)
+        var idleTime = 0;
+        var countdownTime = timeout / 1000; // Convert to seconds for countdown
+        var countdownInterval;
+        var idleInterval;
+
+        function resetIdleTime() {
+            idleTime = 0; // Reset idle time to 0
+            countdownTime = timeout / 1000; // Reset countdown time
+            clearInterval(countdownInterval); // Clear the previous countdown interval
+            countdownInterval = setInterval(updateCountdown, 1000); // Start new countdown
+            document.getElementById("timeoutWarning").style.display = "none"; // Hide warning
+        }
+
+        function updateCountdown() {
+            // Update the countdown timer every second
+            countdownTime--;
+            document.getElementById("timer").textContent = countdownTime;
+
+            // If the countdown reaches 0, log the user out
+            if (countdownTime <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = 'logout.php'; // Redirect to logout page
+            }
+        }
+
+        function timerIncrement() {
+            idleTime += 1000; // Increment idle time by 1 second
+            if (idleTime >= timeout - 30000) { // 30 seconds before timeout
+                // Show the timeout warning and start countdown
+                document.getElementById("timeoutWarning").style.display = "block";
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }
+        }
+
+        // Reset the idle time when user interacts with the page (click, move, scroll, or keypress)
+        document.onclick = resetIdleTime;
+        document.onmousemove = resetIdleTime;
+        document.onkeypress = resetIdleTime;
+        document.onscroll = resetIdleTime;
+
+        // Start the idle timer
+        idleInterval = setInterval(timerIncrement, 1000); // Check every second
 
 
   </script>
