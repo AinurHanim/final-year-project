@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Restore Data</title>
+        <style>
+                    body {
+            font-family: Arial, sans-serif;
+            background-color: #cececc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+            width: 90%;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-size: 35px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab-button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .tab-button.active {
+            background-color: #64a3d6;
+            color: white;
+        }
+
+        .tab-button.inactive {
+            background-color: #6c757d;
+            /* Color for inactive tabs */
+
+        }
+
+        .tab-content {
+            padding: 20px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
+        }
+        
+        </style>
+
+    </head>
+
+    <body>
+        <div class="container">
+            <h2>Kemaskini Semula Data</h2>
+        <div class="tabs">
+            <div class="tab-header">
+                <button class="tab-button active" data-tab="data-guru">Data Guru</button>
+                <button class="tab-button" data-tab="data-pelajar">Data Pelajar</button>
+              <!-- <button class="tab-button" data-tab="data-aktiviti">Data Aktiviti Pelajar</button>--> 
+
+            </div>
+        <div class="tab-content">
+            <div id="data-guru" class="tab-pane active"> 
+                <!--id="data-guru" is for identifier. use to target the element with css or js. sini boleh ubah ikut suka-->
+                 <!--class="tab-pane active" is class yg guna utk css styling-->
+                 <div class="success-message"></div>
+
+                <form action="restoreDataGuru.php" method="POST" enctype="multipart/form-data">  
+                    <!--action="restoreData.php" , form data will sent to this php file. dia buat action-->
+                    <!--method="POST". this will use the http post method to send data. POST is typically used for sending data that will be processed, like file uploads.-->
+                    <!--enctype="multipart/form-data", ni wajib ada utk file upload. allow the form to send files as part of data. w/o this, file would not be upload-->
+
+                    <label for="file-guru">Pilih fail CSV data guru untuk dipulihkan:</label>
+                    <input type="file" name="file-guru" id="file-guru" required>
+                    <!--type="file" = this specifies that the input element is used for selecting files from user's device. ex: user will see a file picker dialog to choose a file(this system use CSV)-->
+                    <!--name="file", this attribute defines the name of the input field. when form is submitted, the selected file will be sent to the server under the name file-->
+                    <!--id="file". this identifier. used by <label> and can also be used to target the js and css. sini boleh rename to avoid confusion-->
+                    <!--required, this attribute, means that the user must select a file before submit-->
+
+                    <br><br>  <!--add line breaks. this will space the button fro input field and label-->
+                    <button type="submit" name="action" value="restore">Pulihkan Data Guru</button>
+                </form>
+            </div>
+
+            <div id="data-pelajar" class="tab-pane">
+                <form action="restoreDataPelajar.php" method="post" enctype="multipart/form-data">
+                    <label for="file-pelajar">Pilih fail CSV data pelajar untuk dipulihkan:</label>
+                    <input type="file" name="file-pelajar" id="file-pelajar" required>
+                    <br><br>
+                    <button type="submit" name="action" value="restoreDataPelajar">Pulihkan Data Pelajar</button>
+                </form>
+     
+            </div>
+
+            
+
+        </div>
+        </div>
+
+        <script>
+            //add event listener to the tab button
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click',function(){
+                    const tabId = this.getAttribute('data-tab');
+
+                    //remove active class from all buttons and hide all tabs
+                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.remove('active'));
+
+                    //add active class to clicked down button and show the corresponding tab
+                    this.classList.add(`active`);
+                    document.getElementById(tabId).classList.add(`active`);
+                });
+            });
+
+                        // Handle success message in PHP and redirect
+                        const messageElement = document.getElementById('message');
+            if (messageElement) {
+                setTimeout(function() {
+                    window.location.href = 'restore.html';
+                }, 3000); // Redirect after 3 seconds
+            }
+        </script>
+        
+        
+    </body>
+
