@@ -154,6 +154,35 @@
             /* Red color for no data message */
             font-weight: bold;
         }
+
+
+        .suggestions-list {
+            display: flex;
+            flex-direction: column;
+            /* Display suggestions in rows */
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            /* Add a border between suggestions */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestions-list div {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            /* Add a border between suggestions */
+            cursor: pointer;
+        }
+
+        .suggestions-list div:hover {
+            background-color: #a0a150;
+            color: #fff;
+        }
     </style>
 </head>
 

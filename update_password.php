@@ -6,45 +6,46 @@ $username = "root";
 $password = "";
 $dbname = "project";
 
-// Database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    echo json_encode(["status" => "error", "message" => "Database connection failed."]);
+    exit;
 }
 
-// Retrieve the email and password from the form submission
-$email = $_POST['email'];
-$password = $_POST['password'];
+if (empty($_POST['email']) || empty($_POST['password'])) {
+    echo json_encode(["status" => "error", "message" => "Medan e-mel atau kata laluan tidak boleh kosong"]);
+    exit;
+}
 
-// Prepare the SQL statement to check if the email exists
+$email = trim($_POST['email']);
+$password = trim($_POST['password']);
+
 $check_stmt = $conn->prepare("SELECT * FROM register WHERE email = ?");
 $check_stmt->bind_param("s", $email);
 $check_stmt->execute();
 $result = $check_stmt->get_result();
 
 if ($result->num_rows > 0) {
-    // Email exists, update the password
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
     $update_stmt = $conn->prepare("UPDATE register SET password = ? WHERE email = ?");
-    $update_stmt->bind_param("ss", $passwordHash, $email); // Bind the password and email parameters
+    $update_stmt->bind_param("ss", $passwordHash, $email);
 
     if ($update_stmt->execute()) {
         if ($update_stmt->affected_rows > 0) {
-            echo 'Berjaya';
+            echo json_encode(["status" => "success", "message" => "Kata laluan berjaya dikemaskini."]);
         } else {
-            echo 'E-mel tidak ditemui atau tiada perubahan dibuat';
+            echo json_encode(["status" => "error", "message" => "Tiada perubahan dibuat atau e-mel tidak dijumpai."]);
         }
     } else {
-        echo 'SQL Error: ' . $conn->error; // Print any SQL error
+        error_log("SQL Error: " . $conn->error);
+        echo json_encode(["status" => "error", "message" => "SQL Error occurred. Sila hubungi pentadbir."]);
     }
-
-    $update_stmt->close(); // Close the update statement
+    $update_stmt->close();
 } else {
-    echo 'E-mel tidak ditemui ';
+    echo json_encode(["status" => "error", "message" => "E-mel tidak ditemui dalam pangkalan data."]);
 }
 
-$check_stmt->close(); // Close the check statement
-$conn->close(); // Close the database connection
+$check_stmt->close();
+$conn->close();
 ?>

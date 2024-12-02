@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,25 +35,30 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
-           
+
             width: 600px;
             justify-content: space-between;
-            z-index: 1000; /* Ensure the container is above the background */
+            z-index: 1000;
+            /* Ensure the container is above the background */
         }
 
         .login-container {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            width: 100%; /* Set to 100% to match design */
+            width: 100%;
+            /* Set to 100% to match design */
         }
 
         h2 {
             text-align: center;
             margin-bottom: 25px;
-            font-size: 30px; /* Adjust font size */
-            font-weight: bold; /* Make headings bold */
-            color: #0056b3; /* Heading color */
+            font-size: 30px;
+            /* Adjust font size */
+            font-weight: bold;
+            /* Make headings bold */
+            color: #0056b3;
+            /* Heading color */
             font-family: Arial, Helvetica, sans-serif;
         }
 
@@ -71,7 +77,8 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-            padding-right: 40px; /* Make space for the icon */
+            padding-right: 40px;
+            /* Make space for the icon */
         }
 
         button {
@@ -86,7 +93,9 @@
         }
 
         button:hover {
-            background-color: #4CAF50;
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
         }
 
         .error {
@@ -95,20 +104,24 @@
         }
 
         .login-link {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px; /* Adjust size font */
-}
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            /* Adjust size font */
+        }
 
-.login-link a {
-    color: #003366; /* Change to your desired color */
-    text-decoration: none;
-}
+        .login-link a {
+            color: #003366;
+            /* Change to your desired color */
+            text-decoration: none;
+        }
 
-.login-link a:hover {
-    color: #00509e; /* Change this to a suitable hover color */
-    text-decoration: underline; /* Underline on hover */
-}
+        .login-link a:hover {
+            color: #00509e;
+            /* Change this to a suitable hover color */
+            text-decoration: underline;
+            /* Underline on hover */
+        }
 
 
         .input-container {
@@ -142,8 +155,10 @@
             height: 100px;
             background: url(https://1.bp.blogspot.com/-xQUc-TovqDk/XdxogmMqIRI/AAAAAAAACvI/AizpnE509UMGBcTiLJ58BC6iViPYGYQfQCLcBGAsYHQ/s1600/wave.png);
             background-size: 1000px 100px;
-            filter: hue-rotate(180deg); /* Adjust the degree value to change the color */
+            filter: hue-rotate(180deg);
+            /* Adjust the degree value to change the color */
         }
+
         section .air.air1 {
             animation: wave 30s linear infinite;
             z-index: 1000;
@@ -151,6 +166,7 @@
             animation-delay: 0s;
             bottom: 0;
         }
+
         section .air.air2 {
             animation: wave2 15s linear infinite;
             z-index: 999;
@@ -158,6 +174,7 @@
             animation-delay: -5s;
             bottom: 10px;
         }
+
         section .air.air3 {
             animation: wave 30s linear infinite;
             z-index: 998;
@@ -165,6 +182,7 @@
             animation-delay: -2s;
             bottom: 15px;
         }
+
         section .air.air4 {
             animation: wave2 5s linear infinite;
             z-index: 997;
@@ -172,20 +190,24 @@
             animation-delay: -5s;
             bottom: 20px;
         }
+
         @keyframes wave {
             0% {
-                background-position-x: 0px; 
+                background-position-x: 0px;
             }
+
             100% {
-                background-position-x: 1000px; 
+                background-position-x: 1000px;
             }
         }
+
         @keyframes wave2 {
             0% {
-                background-position-x: 0px; 
+                background-position-x: 0px;
             }
+
             100% {
-                background-position-x: -1000px; 
+                background-position-x: -1000px;
             }
         }
     </style>
@@ -209,8 +231,36 @@
         function goToSchoolWebsite() {
             window.location.href = 'SchoolWebsite.html';
         }
+
+
+        function validateForm(event) {
+            var username = document.getElementById('username');
+            var password = document.getElementById('password');
+            var userType = document.getElementById('userType');
+
+            // Clear previous error messages
+            var errorMessage = '';
+
+            if (!username.value) {
+                errorMessage += 'Sila masukkan username anda.\n';
+            }
+
+            if (!password.value) {
+                errorMessage += 'Sila masukkan kata laluan.\n';
+            }
+
+            if (!userType.value) {
+                errorMessage += 'Sila pilih jenis pengguna.\n';
+            }
+
+            if (errorMessage) {
+                alert(errorMessage);
+                event.preventDefault(); // Prevent form submission
+            }
+        }
     </script>
 </head>
+
 <body>
     <section>
         <div class='air air1'></div>
@@ -219,7 +269,7 @@
         <div class='air air4'></div>
     </section>
 
-    
+
 
     <main>
         <div class="container">
@@ -228,28 +278,29 @@
                 <form action="login.php" method="post">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required placeholder="Masukkan username">
-                    
+
 
                     <label>Kata Laluan</label>
                     <div class="input-container">
-                        <input type="password" id="password" name="password" required placeholder="Masukkan kata laluan" >
-                        
-                       
+                        <input type="password" id="password" name="password" required
+                            placeholder="Masukkan kata laluan">
+
+
                         <a href="password.html">Lupa kata laluan?</a>
                     </div>
-                    
-                    
+
+
                     <label for="userType">Jenis Pengguna</label>
                     <select name="userType" id="userType" required>
                         <option value="" disabled selected>Pilih Jenis Pengguna</option>
                         <option value="Guru Pengiring">Guru Pengiring</option>
                         <option value="Setiausaha">Setiausaha</option>
                     </select>
-                    
-                
+
+
                     <button type="submit" name="login_user">Log Masuk</button>
                 </form>
-                
+
                 <div class="login-link">
                     <p>Belum mempunyai akaun? <a href="register.html">Daftar</a></p>
                 </div>
@@ -257,4 +308,5 @@
         </div>
     </main>
 </body>
+
 </html>

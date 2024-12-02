@@ -68,8 +68,12 @@ if (isset($_POST['login_user'])) {
             handleFailedLogin($con, $username);
         }
     } else {
-        // Invalid username
-        handleFailedLogin($con, $username);
+        // Username does not exist
+        echo "<script>
+                alert('Akaun anda tiada dalam rekod. \\n Sila daftar terlebih dahulu.');
+                window.location.href = 'login.html';
+              </script>";
+        exit;
     }
 
     // Close the statement

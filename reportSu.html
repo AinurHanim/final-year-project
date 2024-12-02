@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@
             align-items: center;
             height: 100vh;
         }
+
         .container {
             background-color: #fafafa;
             padding: 20px;
@@ -62,8 +64,9 @@
         }
 
         .tab-button.inactive {
-            background-color: #6c757d; /* Color for inactive tabs */
-           
+            background-color: #6c757d;
+            /* Color for inactive tabs */
+
         }
 
         .tab-content {
@@ -117,39 +120,54 @@
         }
 
         .suggestions {
-            border: 1px solid #007bff; /* Customize the border color */
-            display: none; /* Hidden initially */
+            border: 1px solid #007bff;
+            /* Customize the border color */
+            display: none;
+            /* Hidden initially */
             position: absolute;
             z-index: 1000;
             background-color: white;
-            max-height: 200px; /* Limit height for scrolling */
-            overflow-y: auto; /* Adds a scrollbar when needed */
-            width: calc(100% - 20px); /* Adjust the width to match the input field */
-            font-size: 14px; /* Adjust the font size of suggestions */
-            border-radius: 5px; /* Rounds the corners */
-            padding: 5px; /* Adds padding inside the suggestions box */
-            top: 40px; /* Position the suggestions box below the input field */
-            left: 0; /* Align the suggestions box with the input field */
+            max-height: 200px;
+            /* Limit height for scrolling */
+            overflow-y: auto;
+            /* Adds a scrollbar when needed */
+            width: calc(100% - 20px);
+            /* Adjust the width to match the input field */
+            font-size: 14px;
+            /* Adjust the font size of suggestions */
+            border-radius: 5px;
+            /* Rounds the corners */
+            padding: 5px;
+            /* Adds padding inside the suggestions box */
+            top: 40px;
+            /* Position the suggestions box below the input field */
+            left: 0;
+            /* Align the suggestions box with the input field */
         }
 
         .suggestions div {
             padding: 8px;
             cursor: pointer;
-            border-bottom: 1px solid #f4f4f4; /* Add subtle dividers between suggestions */
+            border-bottom: 1px solid #f4f4f4;
+            /* Add subtle dividers between suggestions */
         }
 
         .suggestions div:hover {
-            background-color: #007bff; /* Change background color on hover */
-            color: #fff; /* Change text color on hover */
+            background-color: #007bff;
+            /* Change background color on hover */
+            color: #fff;
+            /* Change text color on hover */
         }
 
         .suggestions-list {
             display: flex;
-            flex-direction: column; /* Display suggestions in rows */
+            flex-direction: column;
+            /* Display suggestions in rows */
             padding: 10px;
             background-color: #fff;
             border: 1px solid #ddd;
-            border-bottom: 1px solid #ddd; /* Add a border between suggestions */
+            border-bottom: 1px solid #ddd;
+            /* Add a border between suggestions */
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
@@ -159,7 +177,8 @@
 
         .suggestions-list div {
             padding: 10px;
-            border-bottom: 1px solid #ddd; /* Add a border between suggestions */
+            border-bottom: 1px solid #ddd;
+            /* Add a border between suggestions */
             cursor: pointer;
         }
 
@@ -167,14 +186,15 @@
             background-color: #a0a150;
         }
 
-        
+
 
         table {
             border-collapse: collapse;
- width: 100%;
+            width: 100%;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
@@ -188,7 +208,8 @@
             background-color: #fff;
         }
 
-        th, td {
+        th,
+        td {
             font-size: 16px;
         }
 
@@ -202,9 +223,11 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 80em; /* Adjust width here */
+            width: 80em;
+            /* Adjust width here */
 
-            margin: 20px auto; /* Center the container */
+            margin: 20px auto;
+            /* Center the container */
         }
 
         .edit-container {
@@ -213,9 +236,11 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 95%; /* Adjust width here */
+            width: 95%;
+            /* Adjust width here */
 
-            margin: 20px auto; /* Center the container */
+            margin: 20px auto;
+            /* Center the container */
         }
 
         #nama-suggestions {
@@ -275,37 +300,48 @@
         }
 
         #suggestionsList {
-    border: 1px solid #ccc; /* Border color */
-    background-color: #fafafa; /* Background color */
-    max-height: 150px; /* Limit height */
-    overflow-y: auto; /* Enable scrolling */
-    position: absolute; /* Position it below the input */
-    z-index: 1000; /* Ensure it appears above other elements */
-    width: calc(100% - 20px); /* Adjust width to fit the input */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
+            border: 1px solid #ccc;
+            /* Border color */
+            background-color: #fafafa;
+            /* Background color */
+            max-height: 150px;
+            /* Limit height */
+            overflow-y: auto;
+            /* Enable scrolling */
+            position: absolute;
+            /* Position it below the input */
+            z-index: 1000;
+            /* Ensure it appears above other elements */
+            width: calc(100% - 20px);
+            /* Adjust width to fit the input */
+            border-radius: 5px;
+            /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+        }
 
-#suggestionsList li {
-    padding: 10px; /* Padding for list items */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
+        #suggestionsList li {
+            padding: 10px;
+            /* Padding for list items */
+            cursor: pointer;
+            /* Change cursor to pointer on hover */
+            transition: background-color 0.3s;
+            /* Smooth transition for hover effect */
+        }
 
-#suggestionsList li:hover {
-    background-color: #e0e0e0; /* Highlight on hover */
-}
+        #suggestionsList li:hover {
+            background-color: #e0e0e0;
+            /* Highlight on hover */
+        }
 
-.hidden {
-    display: none;
-}
-
-        
-
+        .hidden {
+            display: none;
+        }
     </style>
 
     <script src="table2excel.js"></script>
 </head>
+
 <body>
     <div class="container">
         <h2>Laporan Setiausaha</h2>
@@ -349,7 +385,7 @@
                         </table>
                         <br>
                         <!-- In the Kategori Badan/Unit tab -->
-<button id="export-button-unit">Eksport ke Excel</button>
+                        <button id="export-button-unit">Eksport ke Excel</button>
                     </div>
                 </div>
                 <div id="pencapaian" class="tab-pane">
@@ -386,13 +422,14 @@
                         </table>
                         <br>
                         <!-- In the Pencapaian tab -->
-<button id="export-button-pencapaian">Eksport ke Excel</button>
+                        <button id="export-button-pencapaian">Eksport ke Excel</button>
                     </div>
                 </div>
                 <div id="pelajar" class="tab-pane">
                     <label for="cari-pelajar">Cari:</label>
                     <div>
-                        <input type="text" id="searchInput" placeholder="Pilih Nama Pelajar..." onkeyup="fetchSuggestions()">
+                        <input type="text" id="searchInput" placeholder="Pilih Nama Pelajar..."
+                            onkeyup="fetchSuggestions()">
                         <ul id="suggestionsList" class="hidden"></ul>
                         <button id="searchButton" onclick="searchStudent()">Cari</button> <!-- Search button -->
                     </div>
@@ -425,119 +462,119 @@
                         <select name="event[]" id="eventSelect" required onchange="fetchEventDetails()">
                             <option value="">Pilih Nama Acara</option>
                         </select>
-                        
+
                     </div>
                     <div id="acara-suggestions" class="suggestions"></div>
                     <!-- Add a table element to display the data -->
                     <div id="table-container">
                         <!-- Event Details Table -->
-                    <table id="acara-table">
-                        <thead>
-                            <tr>
-                                
-                                <th>Nama Acara</th>
-                                <th>Tarikh</th>
-                                <th>Tempat</th>
-                                <th>Peringkat</th>
-                                <th>Guru Pengiring</th>
-                                <th>Kategori Unit</th>
-                                <th>Nama Kelab</th>
-                            </tr>
-                        </thead>
-                        <tbody id="acara-table-body"></tbody>
-                    </table>
+                        <table id="acara-table">
+                            <thead>
+                                <tr>
 
-                    <!-- Participants Table -->
-                    <table id="participant-table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Pelajar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="participant-table-body"></tbody>
-                    </table>
-                    <br>
+                                    <th>Nama Acara</th>
+                                    <th>Tarikh</th>
+                                    <th>Tempat</th>
+                                    <th>Peringkat</th>
+                                    <th>Guru Pengiring</th>
+                                    <th>Kategori Unit</th>
+                                    <th>Nama Kelab</th>
+                                </tr>
+                            </thead>
+                            <tbody id="acara-table-body"></tbody>
+                        </table>
 
-                    <!-- In the Acara tab -->
-<button id="export-button-acara">Eksport ke Excel</button>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Participants Table -->
+                        <table id="participant-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Pelajar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="participant-table-body"></tbody>
+                        </table>
+                        <br>
+
+                        <!-- In the Acara tab -->
+                        <button id="export-button-acara">Eksport ke Excel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script>
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabPanes = document.querySelectorAll('.tab-pane');
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', switchTab);
-    });
+            tabButtons.forEach(button => {
+                button.addEventListener('click', switchTab);
+            });
 
-    function switchTab(event) {
-        // Remove active class from all tab buttons and panes
-        tabButtons.forEach(button => button.classList.remove('active'));
-        tabPanes.forEach(pane => pane.classList.remove('active'));
+            function switchTab(event) {
+                // Remove active class from all tab buttons and panes
+                tabButtons.forEach(button => button.classList.remove('active'));
+                tabPanes.forEach(pane => pane.classList.remove('active'));
 
-        // Add active class to the clicked button
-        event.currentTarget.classList.add('active');
+                // Add active class to the clicked button
+                event.currentTarget.classList.add('active');
 
-        // Get the tab to show from the data attribute
-        const tabToShow = event.currentTarget.getAttribute('data-tab');
+                // Get the tab to show from the data attribute
+                const tabToShow = event.currentTarget.getAttribute('data-tab');
 
-        // Show the corresponding tab pane
-        document.getElementById(tabToShow).classList.add('active');
+                // Show the corresponding tab pane
+                document.getElementById(tabToShow).classList.add('active');
 
-        // Optional: Log to see which tab is clicked
-        console.log(`Switched to tab: ${tabToShow}`);
-    }
+                // Optional: Log to see which tab is clicked
+                console.log(`Switched to tab: ${tabToShow}`);
+            }
 
-    // Export buttons
-    document.getElementById('export-button-unit').addEventListener('click', function() {
-        exportTableToExcel('unit-table', 'unit_data.xls');
-    });
+            // Export buttons
+            document.getElementById('export-button-unit').addEventListener('click', function () {
+                exportTableToExcel('unit-table', 'unit_data.xls');
+            });
 
-    document.getElementById('export-button-pencapaian').addEventListener('click', function() {
-        exportTableToExcel('pencapaian-table', 'pencapaian_data.xls');
-    });
+            document.getElementById('export-button-pencapaian').addEventListener('click', function () {
+                exportTableToExcel('pencapaian-table', 'pencapaian_data.xls');
+            });
 
-    document.getElementById('export-button-pelajar').addEventListener('click', function() {
-        exportTableToExcel('pelajar-table', 'pelajar_data.xls');
-    });
+            document.getElementById('export-button-pelajar').addEventListener('click', function () {
+                exportTableToExcel('pelajar-table', 'pelajar_data.xls');
+            });
 
-    document.getElementById('export-button-acara').addEventListener('click', function() {
-        let acaraTableData = document.getElementById('acara-table').innerHTML;
-        let participantTableData = document.getElementById('participant-table').innerHTML;
-        let combinedData = `<table>${acaraTableData}</table><br/><table>${participantTableData}</table>`;
-        exportDataToExcel(combinedData, 'acara_data.xls');
-    });
+            document.getElementById('export-button-acara').addEventListener('click', function () {
+                let acaraTableData = document.getElementById('acara-table').innerHTML;
+                let participantTableData = document.getElementById('participant-table').innerHTML;
+                let combinedData = `<table>${acaraTableData}</table><br/><table>${participantTableData}</table>`;
+                exportDataToExcel(combinedData, 'acara_data.xls');
+            });
 
-    function exportTableToExcel(tableID, filename) {
-        const table = document.getElementById(tableID);
-        let excelData = `<table>${table.innerHTML}</table>`;
-        exportDataToExcel(excelData, filename);
-    }
+            function exportTableToExcel(tableID, filename) {
+                const table = document.getElementById(tableID);
+                let excelData = `<table>${table.innerHTML}</table>`;
+                exportDataToExcel(excelData, filename);
+            }
 
-    function exportDataToExcel(data, filename) {
-        const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a); // Append to body for Firefox compatibility
-        a.click();
-        document.body.removeChild(a); // Remove from body
-        URL.revokeObjectURL(url); // Release memory
-    }
+            function exportDataToExcel(data, filename) {
+                const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a); // Append to body for Firefox compatibility
+                a.click();
+                document.body.removeChild(a); // Remove from body
+                URL.revokeObjectURL(url); // Release memory
+            }
 
-    // Fetch events when the Acara tab is active
-    fetchAcaraSu(); // Ensure this is called initially to populate the event dropdown
-});
+            // Fetch events when the Acara tab is active
+            fetchAcaraSu(); // Ensure this is called initially to populate the event dropdown
+        });
 
         function fetchEventDetails() {
             const selectedAcara = document.getElementById('eventSelect').value;
@@ -554,29 +591,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: new URLSearchParams({ acara: selectedAcara })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Check if data contains errors
-                if (data.error) {
-                    alert(data.error);
-                    return;
-                }
-                // Display the event details
-                displayEventDetails(data.eventDetails);
-                displayParticipants(data.participants);
-            })
-            .catch(error => {
-                console.error('Error fetching event details:', error);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Check if data contains errors
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+                    // Display the event details
+                    displayEventDetails(data.eventDetails);
+                    displayParticipants(data.participants);
+                })
+                .catch(error => {
+                    console.error('Error fetching event details:', error);
+                });
         }
 
-            // Tab unit
-        document.getElementById('search-unit').addEventListener('click', function() {
+        // Tab unit
+        document.getElementById('search-unit').addEventListener('click', function () {
             const selectedUnit = document.getElementById('cari-unit').value;
 
             if (!selectedUnit) {
@@ -591,40 +628,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: new URLSearchParams({ unit: selectedUnit })
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Data received:', data); // Log the received data
-                const tableBody = document.getElementById('unit-table-body'); // Correct table body ID
-                tableBody.innerHTML = ''; // Clear existing data
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Data received:', data); // Log the received data
+                    const tableBody = document.getElementById('unit-table-body'); // Correct table body ID
+                    tableBody.innerHTML = ''; // Clear existing data
 
-                if (data.length > 0) {
-                    data.forEach((item, index) => {
+                    if (data.length > 0) {
+                        data.forEach((item, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${item.nama_pelajar}</td>
+            <td>${item.kategori_badan_unit}</td>
+            <td>${item.nama_kelab}</td>
+            <td>${item.pencapaian}</td>
+            <td>${item.registerBy}</td>
+            <td>${item.acara}</td>
+        `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
                         const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${item.nama_pelajar}</td>
-                            <td>${item.kategori_badan_unit}</td>
-                            <td>${item.nama_kelab}</td>
-                            <td>${item.pencapaian}</td>
-                            <td>${item.registerBy}</td>
-                            <td>${item.acara}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                } else {
-                    const row = document.createElement('tr');
-                    row.innerHTML = '<td colspan="7">Tiada data ditemui</td>'; // Adjust colspan to 7
-                    tableBody.appendChild(row);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+                        const cell = document.createElement('td');
+                        cell.colSpan = 7; // Span across all 7 columns
+                        cell.textContent = "Tiada data ditemui"; // Message
+                        cell.style.textAlign = "center"; // Center the text
+                        cell.style.fontWeight = "bold"; // Make it bold
+                        cell.style.color = "red"; // Optional: Change text color to red
+                        row.appendChild(cell); // Add the styled cell to the row
+                        tableBody.appendChild(row); // Append the row to the table body
+                    }
+
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         });
 
 
-                // Tab pencapaian
-        document.getElementById('search-pencapaian').addEventListener('click', function() {
+        // Tab pencapaian
+        document.getElementById('search-pencapaian').addEventListener('click', function () {
             const selectedPencapaian = document.getElementById('cari-pencapaian').value;
 
             if (!selectedPencapaian) {
@@ -639,39 +683,46 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: new URLSearchParams({ pencapaian: selectedPencapaian })
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Data received:', data); // Log the received data
-                const tableBody = document.getElementById('pencapaian-table-body');
-                tableBody.innerHTML = ''; // Clear existing data
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Data received:', data); // Log the received data
+                    const tableBody = document.getElementById('pencapaian-table-body');
+                    tableBody.innerHTML = ''; // Clear existing data
 
-                if (data.length > 0) {
-                    data.forEach((item, index) => {
+                    if (data.length > 0) {
+                        data.forEach((item, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${item.nama_pelajar}</td>
+            <td>${item.kategori_badan_unit}</td>
+            <td>${item.nama_kelab}</td>
+            <td>${item.pencapaian}</td>
+            <td>${item.registerBy}</td>
+            <td>${item.acara}</td>
+            <td>${item.peringkat}</td> <!-- Populate the new Peringkat column -->
+        `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
                         const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${item.nama_pelajar}</td>
-                            <td>${item.kategori_badan_unit}</td>
-                            <td>${item.nama_kelab}</td>
-                            <td>${item.pencapaian}</td>
-                            <td>${item.registerBy}</td>
-                            <td>${item.acara}</td>
-                            <td>${item.peringkat}</ td> <!-- Populate the new Peringkat column -->
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                } else {
-                    const row = document.createElement('tr');
-                    row.innerHTML = '<td colspan="8">Tiada data ditemui</td>'; // Adjust colspan to 8
-                    tableBody.appendChild(row);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+                        const cell = document.createElement('td');
+                        cell.colSpan = 8; // Span across all 8 columns
+                        cell.textContent = "Tiada data ditemui"; // Message
+                        cell.style.textAlign = "center"; // Center the text
+                        cell.style.fontWeight = "bold"; // Make it bold
+                        cell.style.color = "red"; // Optional: Change text color to red
+                        row.appendChild(cell); // Add the styled cell to the row
+                        tableBody.appendChild(row); // Append the row to the table body
+                    }
+
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         });
 
-        document.getElementById('acara-select').addEventListener('change', function() {
+        document.getElementById('acara-select').addEventListener('change', function () {
             const selectedAcara = this.value;
 
             if (!selectedAcara) {
@@ -686,20 +737,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: new URLSearchParams({ acara: selectedAcara })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.peringkat) {
-                    document.getElementById('peringkat-display').innerText = data.peringkat; // Display peringkat in the relevant field
-                } else {
-                    document.getElementById('peringkat-display').innerText = 'Tiada peringkat dijumpai';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching peringkat:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.peringkat) {
+                        document.getElementById('peringkat-display').innerText = data.peringkat; // Display peringkat in the relevant field
+                    } else {
+                        document.getElementById('peringkat-display').innerText = 'Tiada peringkat dijumpai';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching peringkat:', error);
+                });
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const autocompleteInputs = document.querySelectorAll('.autocomplete-input');
 
             autocompleteInputs.forEach(input => {
@@ -715,29 +766,29 @@ document.addEventListener('DOMContentLoaded', function() {
                             },
                             body: new URLSearchParams({ query: query }) // Send the query
                         })
-                        .then(response => response.json())
-                        .then(data => {
-                            suggestionsDiv.innerHTML = ''; // Clear previous suggestions
-                            if (data.length > 0) {
-                                suggestionsDiv.style.display = 'block'; // Show suggestions
-                                data.forEach(student => {
-                                    const suggestionItem = document.createElement('div');
-                                    suggestionItem.textContent = student; // Assuming student is the name
-                                    suggestionItem.style.cursor = 'pointer';
+                            .then(response => response.json())
+                            .then(data => {
+                                suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+                                if (data.length > 0) {
+                                    suggestionsDiv.style.display = 'block'; // Show suggestions
+                                    data.forEach(student => {
+                                        const suggestionItem = document.createElement('div');
+                                        suggestionItem.textContent = student; // Assuming student is the name
+                                        suggestionItem.style.cursor = 'pointer';
 
-                                    // Handle the click event for the selected name
-                                    suggestionItem.addEventListener('click', function () {
-                                        input.value = student; // Set input value to selected name
-                                        suggestionsDiv.style.display = 'none'; // Hide suggestions
+                                        // Handle the click event for the selected name
+                                        suggestionItem.addEventListener('click', function () {
+                                            input.value = student; // Set input value to selected name
+                                            suggestionsDiv.style.display = 'none'; // Hide suggestions
+                                        });
+
+                                        suggestionsDiv.appendChild(suggestionItem);
                                     });
-
-                                    suggestionsDiv.appendChild(suggestionItem);
-                                });
-                            } else {
-                                suggestionsDiv.style.display = 'none'; // Hide if no matches
-                            }
-                        })
-                        .catch(error => console.error('Error fetching students:', error));
+                                } else {
+                                    suggestionsDiv.style.display = 'none'; // Hide if no matches
+                                }
+                            })
+                            .catch(error => console.error('Error fetching students:', error));
                     } else {
                         suggestionsDiv.style.display = 'none'; // Hide if input is empty
                     }
@@ -778,7 +829,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchAcaraSu();
 
 
-        
+
 
         function fetchSuggestions() {
             const input = document.getElementById('searchInput').value;
@@ -851,7 +902,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
 
-            function fetchEventDetails() {
+        function fetchEventDetails() {
             const selectedAcara = document.getElementById('eventSelect').value;
 
             if (!selectedAcara) {
@@ -866,15 +917,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: new URLSearchParams({ acara: selectedAcara })
             })
-            .then(response => response.json())
-            .then(data => {
-                // Display the event details
-                displayEventDetails(data.eventDetails);
-                displayParticipants(data.participants);
-            })
-            .catch(error => {
-                console.error('Error fetching event details:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    // Display the event details
+                    displayEventDetails(data.eventDetails);
+                    displayParticipants(data.participants);
+                })
+                .catch(error => {
+                    console.error('Error fetching event details:', error);
+                });
         }
 
         function displayEventDetails(eventDetails) {
@@ -917,5 +968,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-    
-            </script>
+
+    </script>

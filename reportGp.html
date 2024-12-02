@@ -114,22 +114,30 @@
         }
 
         #suggestionsList {
-            border: 1px solid #ccc; /* Border for the suggestion list */
-            background-color: white; /* Background color */
-            max-height: 150px; /* Limit height */
-            overflow-y: auto; /* Enable scrolling */
-            position: absolute; /* Position it below the input */
-            z-index: 1000; /* Ensure it appears above other elements */
-        }
+    border: 1px solid #ccc; /* Subtle border */
+    background-color: white; /* White background */
+    max-height: 150px; /* Limit the height */
+    overflow-y: auto; /* Scroll when exceeding height */
+    position: absolute; /* Ensure positioning relative to input */
+    z-index: 1000; /* Appear above other elements */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for a modern look */
+    border-radius: 4px; /* Rounded corners */
+}
 
-        #suggestionsList li {
-            padding: 10px; /* Padding for list items */
-            cursor: pointer; /* Change cursor to pointer on hover */
-        }
+#suggestionsList li {
+    padding: 10px; /* Ample padding */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    font-size: 14px; /* Consistent font size */
+    color: #333; /* Neutral text color */
+    transition: background-color 0.2s ease-in-out; /* Smooth hover effect */
+}
 
-        #suggestionsList li:hover {
-            background-color: #f0f0f0; /* Highlight on hover */
-        }
+#suggestionsList li:hover {
+    background-color: #f0f0f0; /* Light gray hover effect */
+}
+
+
+        
 
         /* styles.css */
 .hidden {
@@ -213,9 +221,9 @@
                     <div>
                         <input type="text" id="searchInput" placeholder="Sila Pilih Nama Pelajar" onkeyup="fetchSuggestions()">
                         <button id="searchButton" onclick="searchStudent()">Cari</button>
-                        <ul id="suggestionsList" class="hidden"></ul>
-
+                        <div id="suggestionsList" class="suggestions-list" style="display: none;"></div>
                     </div>
+
                     <table id="studentsTable">
                         <!-- Table headers and data will be populated here -->
                     </table>
@@ -311,7 +319,15 @@
                             tbody.appendChild(row);
                         });
                     } else {
-                        tbody.innerHTML = '<tr><td colspan="6">Tiada data ditemui</td></tr>';
+                        const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.colSpan = 6; // Span across all columns
+    cell.textContent = "Tiada data ditemui"; // Message
+    cell.style.textAlign = "center"; // Center the text
+    cell.style.fontWeight = "bold"; // Make it bold
+    cell.style.color = "red"; // Optional: Change text color to red
+    row.appendChild(cell);
+    tbody.appendChild(row);
                     }
                 })
                 .catch (error => {
@@ -350,7 +366,15 @@
                             tbody.appendChild(row);
                         });
                     } else {
-                        tbody.innerHTML = '<tr><td colspan="6">Tiada data ditemui</td></tr>';
+                        const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.colSpan = 6; // Span across all columns
+    cell.textContent = "Tiada data ditemui"; // Message
+    cell.style.textAlign = "center"; // Center the text
+    cell.style.fontWeight = "bold"; // Make it bold
+    cell.style.color = "red"; // Optional: Change text color to red
+    row.appendChild(cell);
+    tbody.appendChild(row);
                     }
                 })
                 .catch(error => {
