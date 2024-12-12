@@ -27,7 +27,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'restore') {
         $fileTmpPath = $_FILES['file-guru']['tmp_name'];
 
         // Check if file type is csv
-        if ($_FILES['file-guru']['type'] == 'text/csv') {
+        if ($_FILES['file-guru']['type'] == 'text/csv') {  //File Upload Validation -- security features (only csv file are allowed)
             if (($handle = fopen($fileTmpPath, "r")) !== FALSE) {
                 fgetcsv($handle);  // Skip the header row
                 $stmt = $conn->prepare("INSERT INTO dataguru (`Nama Guru`) VALUES (?)");

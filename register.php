@@ -1,6 +1,6 @@
 <?php
 // Retrieve and sanitize form data
-$nama = htmlspecialchars($_POST['nama']);
+$nama = strtoupper(htmlspecialchars($_POST['nama'])); // Convert to uppercase
 $email = htmlspecialchars($_POST['email']);
 $telefon = htmlspecialchars($_POST['telefon']);
 $username = htmlspecialchars($_POST['username']);
@@ -82,7 +82,7 @@ try {
     // Display success message
     echo "<script>
         alert('Akaun anda berjaya didaftarkan!');
-        window.location.href = 'login.html';
+        window.location.href = 'SchoolWebsite.html';
     </script>";
 } catch (mysqli_sql_exception $e) {
     // Handle duplicate email error

@@ -110,7 +110,7 @@
 
     <body>
         <div class="container">
-            <h2>Kemaskini Semula Data</h2>
+            <h2>MUAT NAIK DATA GURU DAN PELAJAR BARU</h2>
         <div class="tabs">
             <div class="tab-header">
                 <button class="tab-button active" data-tab="data-guru">Data Guru</button>
@@ -122,12 +122,14 @@
             <div id="data-guru" class="tab-pane active"> 
                 <!--id="data-guru" is for identifier. use to target the element with css or js. sini boleh ubah ikut suka-->
                  <!--class="tab-pane active" is class yg guna utk css styling-->
+
                  <div class="success-message"></div>
 
                 <form action="restoreDataGuru.php" method="POST" enctype="multipart/form-data">  
                     <!--action="restoreData.php" , form data will sent to this php file. dia buat action-->
                     <!--method="POST". this will use the http post method to send data. POST is typically used for sending data that will be processed, like file uploads.-->
                     <!--enctype="multipart/form-data", ni wajib ada utk file upload. allow the form to send files as part of data. w/o this, file would not be upload-->
+                    
 
                     <label for="file-guru">Pilih fail CSV data guru untuk dipulihkan:</label>
                     <input type="file" name="file-guru" id="file-guru" required>

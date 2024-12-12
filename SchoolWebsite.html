@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
 
@@ -14,9 +15,17 @@
         * {
             margin: 0;
             padding: 0;
-            font-family: Georgia, serif; /* Change the font family here */
-            color: #f8f7f7; /* Change the font color here */
+            font-family: Georgia, serif;
+            /* Change the font family here */
+            color: #f8f7f7;
+            /* Change the font color here */
         }
+
+        body{
+            background-color: #cececc;
+        }
+        
+
         section {
             position: absolute;
             width: 100%;
@@ -24,65 +33,6 @@
             background: #cececc;
             overflow: hidden;
             z-index: -1;
-        }
-        section .air {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: url(https://1.bp.blogspot.com/-xQUc-TovqDk/XdxogmMqIRI/AAAAAAAACvI/AizpnE509UMGBcTiLJ58BC6iViPYGYQfQCLcBGAsYHQ/s1600/wave.png);
-            background-size: 1000px 100px;
-           /* filter: hue-rotate(90deg) brightness(1.5); /* Adjust the degree value to change the color */
-        }
-        section .air.air1 {
-            animation: wave 30s linear infinite;
-            z-index: 1000;
-            opacity: 1;
-            animation-delay: 0s;
-            bottom: 0;
-            filter: hue-rotate(200deg) brightness(1.8);
-            
-        }
-        section .air.air2 {
-            animation: wave2 15s linear infinite;
-            z-index: 999;
-            opacity: 0.7;
-            animation-delay: -5s;
-            bottom: 10px;
-            filter: hue-rotate(180deg) brightness(2.0);
-        }
-        section .air.air3 {
-            animation: wave 30s linear infinite;
-            z-index: 998;
-            opacity: 0.5;
-            animation-delay: -2s;
-            bottom: 15px;
-            filter: hue-rotate(160deg) brightness(2.2);
-        }
-        section .air.air4 {
-            animation: wave2 5s linear infinite;
-            z-index: 997;
-            opacity: 0.7;
-            animation-delay: -5s;
-            bottom: 20px;
-            filter: hue-rotate(140deg) brightness(2.4); /* Bright aqua color */
-        }
-        @keyframes wave {
-            0% {
-                background-position-x: 0px; 
-            }
-            100% {
-                background-position-x: 1000px; 
-            }
-        }
-        @keyframes wave2 {
-            0% {
-                background-position-x: 0px; 
-            }
-            100% {
-                background-position-x: -1000px; 
-            }
         }
 
         .footer {
@@ -112,127 +62,372 @@
         }
 
         .navbar-brand h1 {
-            color: #ffffff; /* Font color for the brand name */
-            font-size: 2rem; /* Font size for the brand name */
-            font-family: Georgia, serif; /* Font style for the brand name */
+            color: #ffffff;
+            /* Font color for the brand name */
+            font-size: 2rem;
+            /* Font size for the brand name */
+            font-family: Georgia, serif;
+            /* Font style for the brand name */
         }
 
         .navbar-nav .nav-link {
-            color: #ffffff; /* Font color for the nav links */
-            font-size: 1.2rem; /* Font size for the nav links */
-            font-family: 'Verdana', sans-serif; /* Font style for the nav links */
+            color: #ffffff;
+            /* Font color for the nav links */
+            font-size: 1.2rem;
+            /* Font size for the nav links */
+            font-family: 'Verdana', sans-serif;
+            /* Font style for the nav links */
         }
 
         .navbar-nav .nav-link:hover {
-            color: #ffd700; /* Font color for hovered nav links */
+            color: #ffd700;
+            /* Font color for hovered nav links */
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             color: #333333;
         }
+
+        h1 {
+            margin-top: 30px;
+            /* Adjust this value to move the text down */
+            color: #000;
+        }
+
+
 
         p {
             color: #666666;
         }
 
         .logo-img {
-            width:  60%; /* Adjust the width of the logo */
+            width: 60%;
+            /* Adjust the width of the logo */
             height: auto;
-            padding: 1em; /* Adjust the padding around the logo */
-            margin-left: auto; /* Center the logo horizontally */
+            padding: 1em;
+            /* Adjust the padding around the logo */
+            margin-left: auto;
+            /* Center the logo horizontally */
             margin-right: auto;
-            display: block; /* Center the logo horizontally */
+            display: block;
+            /* Center the logo horizontally */
             margin-top: 1em;
         }
 
+        .logo-container {
+            transform: translateX(-80px);
+            /* Adjust this value to move the logo to the left */
+        }
+
+
+
         .welcome-text {
-            font-family: Georgia, serif; /* Font style for the text */
-            color: #fdfdfd; /* Font color */
+            font-family: Georgia, serif;
+            /* Font style for the text */
+            color: #fdfdfd;
+            /* Font color */
             margin-top: 1em;
             font-size: 1em;
         }
 
         .welcome-text-title {
-            font-size: 50px; /* Adjust the font size for the h3 element */
-            font-weight: bold; /* Make the text bold */
-            text-align: centre; /* Center align the text */
+            font-size: 50px;
+            /* Adjust the font size for the h3 element */
+            font-weight: bold;
+            /* Make the text bold */
+            text-align: centre;
+            /* Center align the text */
             color: #004578;
             margin-top: 130px;
-            
+
         }
 
         .navbar-title {
-    padding-right: 10px;
-    margin: 10px;
-}
+            padding-right: 10px;
+            margin: 10px;
+        }
 
-.navbar-custom {
-    padding: 20px;
-    margin: 2px;
-    background-color: #0078D4;
-}
+        .navbar-custom {
+            padding: 20px;
+            margin: 2px;
+            background-color: #0078D4;
+        }
 
-.background-style {
-    background-color: rgba(245, 223, 24, 0.5);
-}
+        .background-style {
+            background-color: rgba(245, 223, 24, 0.5);
+        }
 
 
 
-       
+        .container-login {
+            display: flex;
+            flex-direction: column;
+            /* Change to column layout */
+            align-items: center;
+            /* Center items horizontally */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+            width: 600px;
+            z-index: 1000;
+            /* Ensure the container is above the background */
+            margin-top: 50px;
+            /* Adjust this value to push the container down */
+        }
 
+
+
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            /* Set to 100% to match design */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 30px;
+            /* Adjust font size */
+            font-weight: bold;
+            /* Make headings bold */
+            color: #0056b3;
+            /* Heading color */
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            padding-right: 40px;
+            /* Make space for the icon */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            /* Adjust size font */
+        }
+
+        .login-link a {
+            color: #003366;
+            /* Change to your desired color */
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            color: #00509e;
+            /* Change this to a suitable hover color */
+            text-decoration: underline;
+            /* Underline on hover */
+        }
+
+
+        .input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-container .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 39%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #aaa;
+        }
+
+            /* Style the dropdown select box */
+    select {
+        color: #333; /* Default text color */
+        background-color: #f9f9f9; /* Background color of the dropdown */
+        border: 1px solid #ccc; /* Border color */
+        border-radius: 5px; /* Rounded corners */
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    /* Style for the default placeholder option */
+    select option:disabled {
+        color: #999; /* Placeholder color */
+    }
+
+    /* Style for all options */
+    select option {
+        color: #000508; /* Custom text color for options */
+        background-color: #fff; /* Background color for options */
+    }
+
+    /* Add hover effect on options in supported browsers */
+    select option:hover {
+        background-color: #e0e0e0; /* Highlight color */
+    }
+
+    /* Style the footer background and text */
+    .footer {
+        background-color: #0078D4; /* Background color of the footer */
+        color: #ffffff; /* Text color */
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    /* Style the link inside the footer */
+    .footer a {
+        color: white; /* Link color */
+        text-decoration: none; /* Remove underline */
+    }
+
+    /* Add hover effect for the link */
+    .footer a:hover {
+        color: white; /* Hover color for the link */
+        text-decoration: underline; /* Add underline on hover */
+    }
+
+    .footer p {
+        color: #ffffff; /* Text color */
+        font-size: 16px; /* Adjust text size */
+        font-family: Arial, sans-serif; /* Change the font */
+        text-align: center; /* Align the text to the center */
+    }
+
+    #username, #password {
+        color: black;
+    }
     </style>
     <title>Sistem Kejayaan Kokurikulum Sekolah</title>
 </head>
+
 <body>
 
-<section>
-    <div class='air air1'></div>
-    <div class='air air2'></div>
-    <div class='air air3'></div>
-    <div class='air air4'></div>
-</section>
 
-<nav class="navbar navbar-expand-lg navbar-custom">
+    <nav class="navbar navbar-expand-lg navbar-custom">
 
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><h1 class="navbar-title">SMK BUKIT KAYU HITAM</h1></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="#">Halaman Utama</a>
-                <a class="nav-link" href="register.html">Daftar</a>
-                <a class="nav-link" href="login.html">Log Masuk</a>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <h1 class="navbar-title">Portal Pengurusan Pencapaian dan Kecemerlangan Kokurikulum Sekolah</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <!--<a class="nav-link active" aria-current="page" href="#">Halaman Utama</a>-->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="background-style"></div>
+
+
+    <div class="container welcome-container">
+        <div class="row">
+            <div class="col-6">
+                <H1>SMK BUKIT KAYU HITAM</H1>
+                <div class="logo-container">
+                    <img src="images/LOGO_REMOVE.png" alt="School Logo" class="logo-img">
+                </div>
+            </div>
+            <div class="col-6">
+
+                <div class="container-login">
+
+
+
+                    <!-- Login Container -->
+                    <div id="loginContainer" class="login-container">
+                        <h2>LOG MASUK</h2>
+                        <form action="login.php" method="post">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" required placeholder="Masukkan username">
+
+                            <label>Kata Laluan</label>
+                            <div class="input-container">
+                                <input type="password" id="password" name="password" required
+                                    placeholder="Masukkan kata laluan">
+                                <a href="password.html">Lupa kata laluan?</a>
+                            </div>
+
+                            <label for="userType">Jenis Pengguna</label>
+                            <select name="userType" id="userType" required>
+                                <option value="" disabled selected>Pilih Jenis Pengguna</option>
+                                <option value="Guru Pengiring">Guru Pengiring</option>
+                                <option value="Setiausaha">Setiausaha</option>
+                            </select>
+
+                            <button type="submit" name="login_user">Log Masuk</button>
+                        </form>
+                        <div class="login-link">
+                            <p>Belum mempunyai akaun? <a href="register.html">Daftar</a></p>
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
         </div>
     </div>
-</nav>
 
-<div class="background-style"></div>
+    <footer class="footer">
+        <p>&copy; 2024 SMK BUKIT KAYU HITAM |
+            <a href="contactPage.html">Hubungi Kami : 01234567</a> |
+        </p>
+    </footer>
 
+    <script>
 
-<div class="container welcome-container">
-    <div class="row">
-        <div class="col-6">
-            <div class="logo-container">
-                <img src="images/LOGO_REMOVE.png" alt="School Logo" class="logo-img">
-            </div>
-        </div>
-        <div class="col-6">
-            <h3 class="welcome-text welcome-text-title">Portal Pengurusan Pencapaian dan Kecemerlangan Kokurikulum Sekolah</h3>
-           
+        // Function to convert input text to uppercase (for name field)
+        function convertToUppercase(input) {
+            input.value = input.value.toUpperCase();
+        }
 
-            
-        </div>
-    </div>
-</div>
+    </script>
 
-<div class="footer">
-    &copy; 2024 SMK Bukit Kayu Hitam | 
-    <a href="contactPage.html">Hubungi Kami : 012 - 3456789 </a>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

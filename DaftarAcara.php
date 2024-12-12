@@ -10,7 +10,7 @@ session_start(); // Start the session to access session variables
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve and sanitize form data
-    $namaEvent = filter_input(INPUT_POST, 'namaEvent', FILTER_SANITIZE_STRING);
+    $namaEvent = strtoupper(filter_input(INPUT_POST, 'namaEvent', FILTER_SANITIZE_STRING));
     $tarikh = filter_input(INPUT_POST, 'tarikh', FILTER_SANITIZE_STRING);
     $tempat = filter_input(INPUT_POST, 'tempat', FILTER_SANITIZE_STRING);
     $peringkat = filter_input(INPUT_POST, 'peringkat', FILTER_SANITIZE_STRING);

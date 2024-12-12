@@ -33,6 +33,7 @@
             text-align: center;
             margin-bottom: 20px;
             margin-top: auto;
+            
         }
 
         .panel {
@@ -89,13 +90,13 @@
 </head>
 <body>
     <div class="container">
-        <h2>Daftar Acara</h2>
+        <h2>DAFTAR ACARA</h2>
 
         <form action="DaftarAcara.php" method="post">
             
 
             <label for="namaEvent">Nama Acara</label>
-            <input type="text" id="namaEvent" name="namaEvent" required>
+            <input type="text" id="namaEvent" name="namaEvent" required oninput="converToUppercase(this)">
 
             <label for="tarikh">Tarikh</label>
             <input type="date" id="tarikh" name="tarikh" required>
@@ -180,6 +181,10 @@ function updateNamaKelabOptions() {
     console.log("Nama Kelab:", document.getElementById('namaKelab').value);
     console.log("Nama Kelab Text:", document.getElementById('namaKelabText').value);
 });
+
+function convertToUppercase(inputField) {
+            inputField.value = inputField.value.toUpperCase();
+        }
     </script>
 </body>
 </html>

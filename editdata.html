@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Penyelenggaraan Data Sekolah Koki</title>
     <style>
         /* (Styling code remains the same) */
@@ -100,7 +101,7 @@
 
         .search-input button {
             padding: 10px 20px;
-            background-color: #0b385c;
+            background-color: #0078D4;
             color: #ffffff;
             border: none;
             border-radius: 5px;
@@ -109,8 +110,9 @@
         }
 
         .search-input button:hover {
-            background-color: #45a049;
-            color: white;
+            background-color: whitesmoke;
+            color: #3f3e3e;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
         }
 
         /* Suggestions Box Styling */
@@ -270,14 +272,44 @@
         }
 
         #editContainer button:hover {
-            background-color: #218838;
+            background-color: whitesmoke;
         }
+
+        .tooltip-icon {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            width: 450px;
+            background-color: rgb(105, 161, 214);
+            color: #000000;
+            text-align: center;
+            border-radius: 6px;
+            padding: 1em;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -75px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h2>Penyelenggaraan Data Sekolah</h2>
+        <h2>PENYELENGGARAAN DATA SEKOLAH</h2>
 
         <!-- Tab Navigation -->
         <div class="tabs">
@@ -380,36 +412,46 @@
                     </table>
                 </div>
 
-<!-- Container for Editing Acara -->
-<div id="editContainer" style="display: none; margin-top: 20px;">
-    <h3>Edit Acara</h3>
-    
-    <label for="editNamaAcara">Nama Acara:</label>
-    <input type="text" id="editNamaAcara" placeholder="Sila isi nama acara" required>
-    <br>
-    
-    <label for="editTarikh">Tarikh:</label>
-    <input type="date" id="editTarikh" placeholder="dd/mm/yyyy" required>
-    <br>
-    
-    <label for="editTempat">Tempat:</label>
-    <input type="text" id="editTempat" placeholder="Sila isi lokasi acara" required>
-    <br>
-    
-    <label for="editPeringkat">Peringkat:</label>
-    <select id="editPeringkat" required>
-        <option value="" selected disabled>Sila pilih peringkat acara</option>
-        <option value="Sekolah">Sekolah</option>
-        <option value="Zon/Daerah">Zon/Daerah</option>
-        <option value="Bahagian (Sabah & Sarawak)">Bahagian (Sabah & Sarawak)</option>
-        <option value="Negeri">Negeri</option>
-        <option value="Kebangsaan">Kebangsaan</option>
-        <option value="Antarabangsa">Antarabangsa</option>
-    </select>
-    
-    <br>
-    <button id="saveButton" onclick="saveAcaraData()">Simpan</button>
-</div>
+                <!-- Container for Editing Acara -->
+                <div id="editContainer" style="display: none; margin-top: 20px;">
+                    <h3>Edit Acara</h3>
+
+                    <label for="editNamaAcara">Nama Acara:
+                        <span class="tooltip-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+                            </svg>
+                            <span class="tooltip">Pastikan Nama Acara yang diisi sama seperti Nama Acara di atas</span>
+                        </span>
+                    </label>
+
+                    <input type="text" id="editNamaAcara" placeholder="Sila isi nama acara" required>
+                    
+                    <br>
+
+                    <label for="editTarikh">Tarikh:</label>
+                    <input type="date" id="editTarikh" placeholder="dd/mm/yyyy" required>
+                    <br>
+
+                    <label for="editTempat">Tempat:</label>
+                    <input type="text" id="editTempat" placeholder="Sila isi lokasi acara" required>
+                    <br>
+
+                    <label for="editPeringkat">Peringkat:</label>
+                    <select id="editPeringkat" required>
+                        <option value="" selected disabled>Sila pilih peringkat acara</option>
+                        <option value="Sekolah">Sekolah</option>
+                        <option value="Zon/Daerah">Zon/Daerah</option>
+                        <option value="Bahagian (Sabah & Sarawak)">Bahagian (Sabah & Sarawak)</option>
+                        <option value="Negeri">Negeri</option>
+                        <option value="Kebangsaan">Kebangsaan</option>
+                        <option value="Antarabangsa">Antarabangsa</option>
+                    </select>
+
+                    <br>
+                    <button id="saveButton" onclick="saveAcaraData()">Simpan</button>
+                </div>
 
             </div>
 
@@ -484,8 +526,24 @@
             document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
         }
 
+        function displayNoGuruDataMessage() {
+    const tableBody = document.getElementById("teacherTable");
+    tableBody.innerHTML = ""; // Clear previous results
+
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.setAttribute("colspan", 4); // Adjust the colspan to match the number of columns
+    td.textContent = "Tiada data dalam rekod";
+    td.style.textAlign = "center";
+    tr.appendChild(td);
+
+    tableBody.appendChild(tr);
+}
+
         function searchData() {
+            console.log("Cari button clicked"); // Debugging statement
             const selectedGuru = document.getElementById('searchGuru').value;
+            console.log("Selected Guru:", selectedGuru); // Debugging statement
             if (selectedGuru) {
                 fetch(`getTeacherData.php?namaGuru=${encodeURIComponent(selectedGuru)}`)
                     .then(response => response.json())
@@ -493,12 +551,17 @@
                         if (data.length > 0) {
                             displayTeacherData(data);
                         } else {
-                            displayNoDataMessage();
+                            displayNoGuruDataMessage(); // Call the function when no data is returned
                         }
                     })
-                    .catch(error => console.error('Error fetching data:', error));
-            }
-        }
+                    .catch(error => {
+                console.error('Error fetching data:', error);
+                displayNoGuruDataMessage(); // Display the message if an error occurs
+            });
+    } else {
+        displayNoGuruDataMessage(); // Display the message if no input is provided
+    }
+}
 
         function liveSearch() {
             const input = document.getElementById('searchGuru').value;
@@ -610,50 +673,50 @@
 
 
         function saveTeacher(button) {
-    const row = button.closest("tr");
-    const typeUnitCell = row.cells[1].querySelector("select").value; // Get selected value
-    const namaUnitCell = row.cells[2].querySelector("select").value; // Get selected value
-    const namaGuruCell = row.cells[0].textContent; // Get the name of the teacher
+            const row = button.closest("tr");
+            const typeUnitCell = row.cells[1].querySelector("select").value; // Get selected value
+            const namaUnitCell = row.cells[2].querySelector("select").value; // Get selected value
+            const namaGuruCell = row.cells[0].textContent; // Get the name of the teacher
 
-    console.log('Data being sent to server:', {
-        typeUnit: typeUnitCell,
-        namaUnit: namaUnitCell,
-        nama: namaGuruCell
-    });
+            console.log('Data being sent to server:', {
+                typeUnit: typeUnitCell,
+                namaUnit: namaUnitCell,
+                nama: namaGuruCell
+            });
 
-    // Send updated data to the server
-    fetch('updateTeacherData.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ typeUnit: typeUnitCell, namaUnit: namaUnitCell, nama: namaGuruCell }) // Include the name of the teacher
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Respons rangkaian tidak baik');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                // Update the table cells with the new values
-                row.cells[1].textContent = typeUnitCell;
-                row.cells[2].textContent = namaUnitCell;
+            // Send updated data to the server
+            fetch('updateTeacherData.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ typeUnit: typeUnitCell, namaUnit: namaUnitCell, nama: namaGuruCell }) // Include the name of the teacher
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Respons rangkaian tidak baik');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Update the table cells with the new values
+                        row.cells[1].textContent = typeUnitCell;
+                        row.cells[2].textContent = namaUnitCell;
 
-                // Show the "Edit" button and hide the "Simpan" button
-                button.style.display = "none";
-                row.querySelector("button[onclick='editTeacher(this)']").style.display = "inline";
+                        // Show the "Edit" button and hide the "Simpan" button
+                        button.style.display = "none";
+                        row.querySelector("button[onclick='editTeacher(this)']").style.display = "inline";
 
-                // Replace Swal.fire with a standard alert
-                alert('Data berjaya dikemaskini!');
-            } else {
-                alert('Terdapat ralat semasa mengemaskini data: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terdapat ralat semasa menghantar permintaan ke pelayan.');
-        });
-}
+                        // Replace Swal.fire with a standard alert
+                        alert('Data berjaya dikemaskini!');
+                    } else {
+                        alert('Terdapat ralat semasa mengemaskini data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terdapat ralat semasa menghantar permintaan ke pelayan.');
+                });
+        }
 
 
         function searchPelajarData() {
@@ -774,42 +837,42 @@
         }
 
         function savePelajarData(button) {
-    const row = button.closest("tr");
-    const pencapaianCell = row.cells[3].querySelector("select").value; // Get selected value
-    const namaPelajar = row.cells[0].textContent; // Get the name of the student
+            const row = button.closest("tr");
+            const pencapaianCell = row.cells[3].querySelector("select").value; // Get selected value
+            const namaPelajar = row.cells[0].textContent; // Get the name of the student
 
-    // Send updated data to the server
-    fetch('updatePelajarData.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pencapaian: pencapaianCell, nama_pelajar: namaPelajar }) // Include the name of the student
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Respons rangkaian tidak baik');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                // Update the table cell with the new value
-                row.cells[3].innerHTML = pencapaianCell; // Set as plain text
+            // Send updated data to the server
+            fetch('updatePelajarData.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pencapaian: pencapaianCell, nama_pelajar: namaPelajar }) // Include the name of the student
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Respons rangkaian tidak baik');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Update the table cell with the new value
+                        row.cells[3].innerHTML = pencapaianCell; // Set as plain text
 
-                // Show the Edit button and hide the Simpan button
-                button.style.display = "none";
-                row.querySelector("button[onclick='editPelajarData(this)']").style.display = "inline";
+                        // Show the Edit button and hide the Simpan button
+                        button.style.display = "none";
+                        row.querySelector("button[onclick='editPelajarData(this)']").style.display = "inline";
 
-                // Replace Swal.fire with alert
-                alert('Pencapaian berjaya dikemaskini!');
-            } else {
-                alert('Terdapat ralat semasa mengemaskini data: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terdapat ralat semasa menghantar permintaan ke pelayan.');
-        });
-}
+                        // Replace Swal.fire with alert
+                        alert('Pencapaian berjaya dikemaskini!');
+                    } else {
+                        alert('Terdapat ralat semasa mengemaskini data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terdapat ralat semasa menghantar permintaan ke pelayan.');
+                });
+        }
 
 
 
@@ -916,70 +979,70 @@
         }
 
         function editAcaraData(id) {
-    fetch(`getAcaraData.php?id=${id}`)
-        .then(response => response.json())
-        .then(rowData => {
-            const editContainer = document.getElementById("editContainer");
-            editContainer.style.display = "block";
+            fetch(`getAcaraData.php?id=${id}`)
+                .then(response => response.json())
+                .then(rowData => {
+                    const editContainer = document.getElementById("editContainer");
+                    editContainer.style.display = "block";
 
-            // Populate the edit fields with existing data
-            document.getElementById("editNamaAcara").value = rowData.namaEvent || ""; 
-            document.getElementById("editTarikh").value = rowData.tarikh || ""; 
-            document.getElementById("editTempat").value = rowData.tempat || ""; 
-            document.getElementById("editPeringkat").value = rowData.peringkat || "";
-        })
-        .catch(error => console.error('Error fetching acara data:', error));
-}
-
-
-
-function saveAcaraData() {
-    const namaAcara = document.getElementById("editNamaAcara").value;
-    const tarikh = document.getElementById("editTarikh").value;
-    const tempat = document.getElementById("editTempat").value;
-    const peringkat = document.getElementById("editPeringkat").value;
-
-    if (!namaAcara || !tarikh || !tempat || !peringkat) {
-        alert('Please complete all fields.');
-        return; // Exit if any required data is missing
-    }
-
-    // Prepare the data for update
-    const data = { namaAcara, tarikh, tempat, peringkat };
-
-    fetch('updateAcaraData.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Data telah berjaya dikemas kini.');
-            
-            // Hide the edit container
-            const editContainer = document.getElementById("editContainer");
-            editContainer.style.display = "none";
-
-            // Refresh the table to reflect the updated data
-            const selectedAcara = document.getElementById("cariAcara").value;
-            if (selectedAcara) {
-                fetch(`getAcaraData.php?namaAcara=${encodeURIComponent(selectedAcara)}`)
-                    .then(response => response.json())
-                    .then(updatedData => {
-                        displayAcaraData([updatedData]); // Wrap updated data in an array
-                    })
-                    .catch(error => console.error('Error refreshing table data:', error));
-            }
-        } else {
-            alert('' + (data.message || 'Ralat berlaku semasa menyimpan data.'));
+                    // Populate the edit fields with existing data
+                    document.getElementById("editNamaAcara").value = rowData.namaEvent || "";
+                    document.getElementById("editTarikh").value = rowData.tarikh || "";
+                    document.getElementById("editTempat").value = rowData.tempat || "";
+                    document.getElementById("editPeringkat").value = rowData.peringkat || "";
+                })
+                .catch(error => console.error('Error fetching acara data:', error));
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Ralat rangkaian berlaku semasa menyimpan data.');
-    });
-}
+
+
+
+        function saveAcaraData() {
+            const namaAcara = document.getElementById("editNamaAcara").value;
+            const tarikh = document.getElementById("editTarikh").value;
+            const tempat = document.getElementById("editTempat").value;
+            const peringkat = document.getElementById("editPeringkat").value;
+
+            if (!namaAcara || !tarikh || !tempat || !peringkat) {
+                alert('Please complete all fields.');
+                return; // Exit if any required data is missing
+            }
+
+            // Prepare the data for update
+            const data = { namaAcara, tarikh, tempat, peringkat };
+
+            fetch('updateAcaraData.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Data telah berjaya dikemas kini.');
+
+                        // Hide the edit container
+                        const editContainer = document.getElementById("editContainer");
+                        editContainer.style.display = "none";
+
+                        // Refresh the table to reflect the updated data
+                        const selectedAcara = document.getElementById("cariAcara").value;
+                        if (selectedAcara) {
+                            fetch(`getAcaraData.php?namaAcara=${encodeURIComponent(selectedAcara)}`)
+                                .then(response => response.json())
+                                .then(updatedData => {
+                                    displayAcaraData([updatedData]); // Wrap updated data in an array
+                                })
+                                .catch(error => console.error('Error refreshing table data:', error));
+                        }
+                    } else {
+                        alert('' + (data.message || 'Ralat berlaku semasa menyimpan data.'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ralat rangkaian berlaku semasa menyimpan data.');
+                });
+        }
 
 
 
@@ -1021,39 +1084,39 @@ function saveAcaraData() {
         }
 
         function addClub(event) {
-    event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); // Prevent the default form submission
 
-    const typeUnit = document.getElementById('typeUnit').value;
-    const namaKelab = document.getElementById('namaKelab').value;
+            const typeUnit = document.getElementById('typeUnit').value;
+            const namaKelab = document.getElementById('namaKelab').value;
 
-    const data = {
-        kategori: typeUnit,
-        namaKelab: namaKelab
-    };
+            const data = {
+                kategori: typeUnit,
+                namaKelab: namaKelab
+            };
 
-    fetch('addClub.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Show success message using alert
-                alert('Penambahan kelab baharu berjaya.');
+            fetch('addClub.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message using alert
+                        alert('Penambahan kelab baharu berjaya.');
 
-                document.getElementById('addClubForm').reset(); // Reset the form
-            } else {
-                alert('Penambahan kelab baharu tidak berjaya.' + (data.message || 'Ralat tidak dikenali.'));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Ralat rangkaian berlaku semasa menyimpan data.');
-        });
-}
+                        document.getElementById('addClubForm').reset(); // Reset the form
+                    } else {
+                        alert('Penambahan kelab baharu tidak berjaya.' + (data.message || 'Ralat tidak dikenali.'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ralat rangkaian berlaku semasa menyimpan data.');
+                });
+        }
 
 
         document.getElementById("kategoriSenarai").addEventListener("change", function () {

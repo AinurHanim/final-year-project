@@ -27,7 +27,7 @@ if (isset($_POST['login_user'])) {
             $remaining_time = ceil((strtotime($user['lock_until']) - time()) / 60); // Calculate remaining lockout time in minutes
             echo "<script>
                     alert('Akaun anda dikunci kerana terlalu banyak cubaan gagal. Sila cuba lagi selepas $remaining_time minit.');
-                    window.location.href = 'login.html';
+                    window.location.href = 'SchoolWebsite.html';
                   </script>";
             exit;
         }
@@ -71,7 +71,7 @@ if (isset($_POST['login_user'])) {
         // Username does not exist
         echo "<script>
                 alert('Akaun anda tiada dalam rekod. \\n Sila daftar terlebih dahulu.');
-                window.location.href = 'login.html';
+                window.location.href = 'SchoolWebsite.html';
               </script>";
         exit;
     }
@@ -105,7 +105,7 @@ function handleFailedLogin($con, $username) {
 
         echo "<script>
                 alert('Akaun anda dikunci kerana terlalu banyak cubaan gagal. Sila cuba lagi selepas $lockout_duration minit.');
-                window.location.href = 'login.html';
+                window.location.href = 'SchoolWebsite.html';
               </script>";
         exit;
     } else {
@@ -113,7 +113,7 @@ function handleFailedLogin($con, $username) {
         $remaining_attempts = $max_attempts - $user['failed_attempts'];
         echo "<script>
                 alert('Cubaan gagal. Anda mempunyai $remaining_attempts cubaan lagi sebelum akaun anda dikunci.');
-                window.location.href = 'login.html';
+                window.location.href = 'SchoolWebsite.html';
               </script>";
         exit;
     }
