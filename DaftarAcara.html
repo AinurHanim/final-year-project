@@ -118,10 +118,10 @@
             <label for="kategoriUnit">Kategori Badan/Unit</label>
             <select id="kategoriUnit" name="kategoriUnit" required onchange="updateNamaKelabOptions()">
             <option value="">Pilih Kategori</option>
-            <option value="Sukan dan Permainan">Sukan dan Permainan</option>
-            <option value="Kelab dan Persatuan">Kelab dan Persatuan</option>
-            <option value="Unit Beruniform">Unit Beruniform</option>
-            <option value="Lain-lain">Lain-lain</option>
+            <option value="SUKAN DAN PERMAINAN">Sukan dan Permainan</option>
+            <option value="PERSATUAN (AKADEMIK)">Kelab dan Persatuan</option>
+            <option value="BADAN BERUNIFORM">Unit Beruniform</option>
+            <option value="LAIN-LAIN">Lain-lain</option>
             </select>
 
             <label for="namaKelab" class="hidden">Nama Kelab</label>
@@ -145,31 +145,33 @@ function updateNamaKelabOptions() {
     // Reset the fields
     namaKelab.classList.add('hidden');
     namaKelabText.classList.add('hidden');
-    namaKelab.required = false; // Make the dropdown not required
-    namaKelabText.required = false; // Make the text input not required
+    namaKelab.required = false;
+    namaKelabText.required = false;
 
-    if (kategoriUnit === 'Lain-lain') {
+    if (kategoriUnit.toUpperCase() === 'LAIN-LAIN') {
         namaKelabText.classList.remove('hidden');
-        namaKelabText.required = true; // Make the text input required
+        namaKelabText.required = true; // Make it required
     } else {
-        fetchKelabData(kategoriUnit); // Fetch relevant data for the dropdown
+        fetchKelabData(kategoriUnit);
         namaKelab.classList.remove('hidden');
         namaKelab.required = true; // Make the dropdown required
     }
 }
 
-        function fetchKelabData(kategoriUnit) {
-            fetch('fetch_kelab_update.php?kategori=' + encodeURIComponent(kategoriUnit))
-                .then(response => response.json())
-                .then(data => {
-                    let options = ['<option value="">Pilih Nama Kelab</option>'];
-                    data.forEach(kelab => {
-                        options.push('<option value="' + kelab.namaKelab + '">' + kelab.namaKelab + '</option>');
-                    });
-                    document.getElementById('namaKelab').innerHTML = options.join('');
-                })
-                .catch(error => console.error('Error:', error));
-        }
+
+function fetchKelabData(kategoriUnit) {
+    console.log("Fetching kelab data for category:", kategoriUnit); // Debugging line
+    fetch('fetch_kelab_update.php?kategori=' + encodeURIComponent(kategoriUnit))
+        .then(response => response.json())
+        .then(data => {
+            let options = ['<option value="">Pilih Nama Kelab</option>'];
+            data.forEach(kelab => {
+                options.push('<option value="' + kelab.name + '">' + kelab.name + '</option>'); // Ensure 'kelab.name' matches your PHP output
+            });
+            document.getElementById('namaKelab').innerHTML = options.join('');
+        })
+        .catch(error => console.error('Error:', error));
+}
 
         document.querySelector('form').addEventListener('submit', function(event) {
     console.log("Form submitted");

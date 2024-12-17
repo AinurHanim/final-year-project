@@ -622,12 +622,12 @@
         }
 
         function editTeacher(button) {
-            const row = button.closest("tr");
-            const typeUnitCell = row.cells[1];
-            const namaUnitCell = row.cells[2];
+    const row = button.closest("tr");
+    const typeUnitCell = row.cells[1];
+    const namaUnitCell = row.cells[2];
 
-            // Create the dropdown for Kategori Unit/Badan
-            typeUnitCell.innerHTML = `
+    // Create the dropdown for Kategori Unit/Badan
+    typeUnitCell.innerHTML = `
         <select id="kategoriUnit" onchange="fetchKelabData(this)">
             <option value="">Pilih Kategori</option>
             <option value="SUKAN DAN PERMAINAN">SUKAN DAN PERMAINAN</option>
@@ -637,11 +637,10 @@
         </select>
     `;
 
-            // Create the input for Nama Kelab
-            namaUnitCell.innerHTML = `
+    // Create the input for Nama Kelab
+    namaUnitCell.innerHTML = `
         <select id="namaKelab">
             <option value="">Pilih Nama Kelab</option>
-            <!-- Options will be populated based on selection -->
         </select>
     `;
 
@@ -651,25 +650,30 @@
         }
 
         function fetchKelabData(selectElement) {
-            const selectedKategori = selectElement.value;
-            const kelabDropdown = document.getElementById('namaKelab');
+    const selectedKategori = selectElement.value;
+    const kelabDropdown = document.getElementById('namaKelab');
 
-            kelabDropdown.innerHTML = '<option value="">Pilih Nama Kelab</option>'; // Reset options
+    // Reset options
+    kelabDropdown.innerHTML = '<option value="">Pilih Nama Kelab</option>';
 
-            if (selectedKategori) {
-                fetch(`getKelabByKategori.php?kategori=${encodeURIComponent(selectedKategori)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(kelab => {
-                            const option = document.createElement('option');
-                            option.value = kelab.namaKelab; // Adjust based on your database output
-                            option.textContent = kelab.namaKelab; // Adjust based on your database output
-                            kelabDropdown.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching kelab data:', error));
-            }
-        }
+    if (selectedKategori) {
+        fetch(`getKelabByKategori.php?kategori=${encodeURIComponent(selectedKategori)}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(kelab => {
+                    const option = document.createElement('option');
+                    option.value = kelab.name; // Match JSON key from PHP
+                    option.textContent = kelab.name;
+                    kelabDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching kelab data:', error);
+                alert('Failed to load club data. Please try again.');
+            });
+    }
+}
+
 
 
         function saveTeacher(button) {

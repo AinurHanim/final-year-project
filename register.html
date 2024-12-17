@@ -161,11 +161,24 @@
             const passwordError = document.getElementById('passwordError');
             const passwordPattern = /^(?=.*[!@#$%^&*])(?=.{8,})/;
 
+            const username = document.getElementById('username').value;
+            const usernameError = document.getElementById('usernameError');
+            const usernamePattern = /^[a-zA-Z]+$/;
+
             if (!passwordPattern.test(password)) {
                 passwordError.textContent = "Kata laluan mestilah sekurang-kurangnya 8 aksara panjang dan termasuk sekurang-kurangnya satu aksara khas.";
                 event.preventDefault();
             } else {
                 passwordError.textContent = "";
+            }
+
+            //check username
+
+            if (!usernamePattern.test(username)) {
+                usernameError.textContent = "Nama pengguna mestilah sekurang-kurangnya 3 aksara panjang dan tidak mengandungi aksara khas.";
+                event.preventDefault();
+            } else {
+                usernameError.textContent = "";
             }
         }
     </script>
@@ -176,7 +189,7 @@
 
     <main>
         <div class="container">
-            <h2>DAFTAR MASUK</h2>
+            <h2>DAFTAR MASUK latest</h2>
             <div id="error" class="error"></div>
             <form id="registerForm" action="register.php" method="post" onsubmit="validateForm(event)">
                 <label for="nama">Nama</label>

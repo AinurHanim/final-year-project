@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Restore Data</title>
-        <style>
-                    body {
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restore Data</title>
+    <style>
+        body {
             font-family: Arial, sans-serif;
             background-color: #cececc;
             margin: 0;
@@ -103,65 +104,213 @@
             color: #3f3e3e;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.336);
         }
-        
-        </style>
 
-    </head>
+        /* Style the form */
+        #addGuruForm {
+            display: flex;
+            flex-direction: column; /* Align items vertically */
+            align-items: flex-start; /* Align to the left */
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1300px; /* Set a fixed width for the form */
+        }
 
-    <body>
-        <div class="container">
-            <h2>MUAT NAIK DATA GURU DAN PELAJAR BARU</h2>
+        #addGuruForm label {
+            margin-bottom: 10px; /* Add space below the label */
+        }
+
+        #namaGuruBaru {
+            width: 100%; /* Make input field take full width */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 15px; /* Add space below the input field */
+        }
+
+        #emailGuruBaru {
+            width: 100%; /* Make input field take full width */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 15px; /* Add space below the input field */  
+        }
+
+                /* Style the form */
+                #addPelajarForm {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1300px;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+        }
+
+        #addPelajarForm label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        #addPelajarForm input, 
+        #addPelajarForm select {
+            width: 100%; /* Full width of the form */
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        #restorePelajar {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1300px;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+        }
+
+        #restorePelajar label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #restorePelajar input[type="file"] {
+            width: 100%; /* Full width for uniformity */
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        #restoreGuru {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1300px;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+        }
+
+        #restoreGuru label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #restoreGuru input[type="file"]{
+            width: 100%; /* Full width for uniformity */
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h2>MUAT NAIK DATA GURU DAN PELAJAR BARU</h2>
         <div class="tabs">
             <div class="tab-header">
                 <button class="tab-button active" data-tab="data-guru">Data Guru</button>
                 <button class="tab-button" data-tab="data-pelajar">Data Pelajar</button>
-              <!-- <button class="tab-button" data-tab="data-aktiviti">Data Aktiviti Pelajar</button>--> 
+                <button class="tab-button" data-tab="data-guruBaru">Penambahan Guru Baharu</button>
+                <button class="tab-button" data-tab="data-pelajarBaru">Penambahan Pelajar Baharu</button>
+                <!-- <button class="tab-button" data-tab="data-aktiviti">Data Aktiviti Pelajar</button>-->
 
             </div>
-        <div class="tab-content">
-            <div id="data-guru" class="tab-pane active"> 
-                <!--id="data-guru" is for identifier. use to target the element with css or js. sini boleh ubah ikut suka-->
-                 <!--class="tab-pane active" is class yg guna utk css styling-->
+            <div class="tab-content">
+                <div id="data-guru" class="tab-pane active">
+                    <!--id="data-guru" is for identifier. use to target the element with css or js. sini boleh ubah ikut suka-->
+                    <!--class="tab-pane active" is class yg guna utk css styling-->
 
-                 <div class="success-message"></div>
+                    <div class="success-message"></div>
 
-                <form action="restoreDataGuru.php" method="POST" enctype="multipart/form-data">  
-                    <!--action="restoreData.php" , form data will sent to this php file. dia buat action-->
-                    <!--method="POST". this will use the http post method to send data. POST is typically used for sending data that will be processed, like file uploads.-->
-                    <!--enctype="multipart/form-data", ni wajib ada utk file upload. allow the form to send files as part of data. w/o this, file would not be upload-->
-                    
+                    <form id="restoreGuru" action="restoreDataGuru.php" method="post" enctype="multipart/form-data" onsubmit="restoreGuruSemua(event)">
+                        <!--action="restoreData.php" , form data will sent to this php file. dia buat action-->
+                        <!--method="POST". this will use the http post method to send data. POST is typically used for sending data that will be processed, like file uploads.-->
+                        <!--enctype="multipart/form-data", ni wajib ada utk file upload. allow the form to send files as part of data. w/o this, file would not be upload-->
 
-                    <label for="file-guru">Pilih fail CSV data guru untuk dipulihkan:</label>
-                    <input type="file" name="file-guru" id="file-guru" required>
-                    <!--type="file" = this specifies that the input element is used for selecting files from user's device. ex: user will see a file picker dialog to choose a file(this system use CSV)-->
-                    <!--name="file", this attribute defines the name of the input field. when form is submitted, the selected file will be sent to the server under the name file-->
-                    <!--id="file". this identifier. used by <label> and can also be used to target the js and css. sini boleh rename to avoid confusion-->
-                    <!--required, this attribute, means that the user must select a file before submit-->
+                        <label for="file-guru">PILIH FAIL CSV DATA GURU UNTUK DIPULIHKAN:</label>
+                        <input type="file" name="file-guru" id="file-guru" required>
+                        <!--type="file" = this specifies that the input element is used for selecting files from user's device. ex: user will see a file picker dialog to choose a file(this system use CSV)-->
+                        <!--name="file", this attribute defines the name of the input field. when form is submitted, the selected file will be sent to the server under the name file-->
+                        <!--id="file". this identifier. used by <label> and can also be used to target the js and css. sini boleh rename to avoid confusion-->
+                        <!--required, this attribute, means that the user must select a file before submit-->
+                        <button type="submit" name="action" value="restore">Pulihkan Data Guru</button>
+                    </form>
+                </div>
 
-                    <br><br>  <!--add line breaks. this will space the button fro input field and label-->
-                    <button type="submit" name="action" value="restore">Pulihkan Data Guru</button>
-                </form>
+                <div id="data-pelajar" class="tab-pane">
+                    <form id="restorePelajar" action="restoreDataPelajar.php" method="post" enctype="multipart/form-data" onsubmit="restorePelajarSemua(event)">
+                        <label for="file-pelajar">PILIH FAIL CSV DATA PELAJAR UNTUK DIPULIHKAN:</label>
+                        <input type="file" name="file-pelajar" id="file-pelajar" required>
+                        <button type="submit" name="action" value="restoreDataPelajar">Pulihkan Data Pelajar</button>
+                    </form>
+                </div>
+
+                <div id="data-guruBaru" class="tab-pane">
+                    <h3>TAMBAH GURU BAHARU</h3>
+                    <form id="addGuruForm" onsubmit="tambahGuruBaru(event)">
+                        <label for="namaGuruBaru">Nama Guru:</label>
+                        <input type="text" id="namaGuruBaru" placeholder="Sila masukkan nama guru" required style="text-transform: uppercase;">                        
+                        <label for="emailGuruBaru">Email Guru:</label>
+                        <input type="text" id="emailGuruBaru" placeholder="Sila masukkan email guru" required>
+                        <button type="submit">Tambah Guru Baharu</button>
+                    </form>
+                </div>
+
+                <div id="data-pelajarBaru" class="tab-pane">
+                    <h3>TAMBAH PELAJAR BAHARU</h3>
+                    <form id="addPelajarForm" onsubmit="tambahPelajarBaru(event)">
+                        <label for="namaPelajarBaru">Nama Pelajar</label>
+                        <input type="text" id="namaPelajarBaru" placeholder="Sila masukkan nama pelajar" required style="text-transform: uppercase;">
+                        <label for="icPelajarBaru">IC Pelajar</label>
+                        <input type="text" id="icPelajarBaru" placeholder="Sila masukkan ic pelajar" required>
+                        <label for="kelasPelajar">Kelas</label>
+                        <select id="kelasPelajar" name="kelas[]" required>
+                            <option value="">Nama Kelas</option>
+                            <option value="1 SAB">1 SAB</option>
+                            <option value="2 SAB">2 SAB</option>
+                            <option value="3 SAB">3 SAB</option>
+                            <option value="4 SAB">4 SAB</option>
+                            <option value="5 SAB">5 SAB</option>
+                            <option value="1 SO">1 SO</option>
+                            <option value="2 SO">2 SO</option>
+                            <option value="3 SO">3 SO</option>
+                            <option value="4 SO">4 SO</option>
+                            <option value="5 SO">5 SO</option>
+                            <option value="1 SU">1 SU</option>
+                            <option value="2 SU">2 SU</option>
+                            <option value="3 SU">3 SU</option>
+                            <option value="4 SU">4 SU</option>
+                            <option value="5 SU">5 SU</option>
+                        </select>
+                
+                        <button type="submit">Tambah Pelajar Baharu</button>
+                    </form>
+                </div>
+
+
+
             </div>
-
-            <div id="data-pelajar" class="tab-pane">
-                <form action="restoreDataPelajar.php" method="post" enctype="multipart/form-data">
-                    <label for="file-pelajar">Pilih fail CSV data pelajar untuk dipulihkan:</label>
-                    <input type="file" name="file-pelajar" id="file-pelajar" required>
-                    <br><br>
-                    <button type="submit" name="action" value="restoreDataPelajar">Pulihkan Data Pelajar</button>
-                </form>
-     
-            </div>
-
-            
-
-        </div>
         </div>
 
         <script>
             //add event listener to the tab button
             document.querySelectorAll('.tab-button').forEach(button => {
-                button.addEventListener('click',function(){
+                button.addEventListener('click', function () {
                     const tabId = this.getAttribute('data-tab');
 
                     //remove active class from all buttons and hide all tabs
@@ -174,15 +323,100 @@
                 });
             });
 
-                        // Handle success message in PHP and redirect
-                        const messageElement = document.getElementById('message');
+            // Handle success message in PHP and redirect
+            const messageElement = document.getElementById('message');
             if (messageElement) {
-                setTimeout(function() {
+                setTimeout(function () {
                     window.location.href = 'restore.html';
                 }, 3000); // Redirect after 3 seconds
             }
-        </script>
-        
-        
-    </body>
 
+
+            //addGuruBaru
+
+            function tambahGuruBaru(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const namaGuruBaru = document.getElementById('namaGuruBaru').value.trim();
+        const emailGuruBaru = document.getElementById('emailGuruBaru').value.trim();
+
+        // Check for empty fields
+        if (!namaGuruBaru || !emailGuruBaru) {
+            alert('Sila isi semua medan input.');
+            return;
+        }
+
+        const data = {
+            namaGuruBaru: namaGuruBaru,
+            emailGuruBaru: emailGuruBaru
+        };
+
+        fetch('tambahGuruBaru.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Gagal berhubung dengan server.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Guru baharu berjaya ditambah dalam rekod.');
+                    document.getElementById('addGuruForm').reset(); // Clear the form
+                } else {
+                    alert('Penambahan guru baharu tidak berjaya: ' + (data.message || 'Ralat tidak dikenali'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ralat rangkaian berlaku semasa menyimpan data.');
+            });
+    }
+
+            //untuk tambah pelajar
+            function tambahPelajarBaru(event) {
+                event.preventDefault(); // Prevent the default form submission 
+
+                const namaPelajarBaru = document.getElementById('namaPelajarBaru').value;
+                const icPelajarBaru = document.getElementById('icPelajarBaru').value;
+                const kelasPelajar = document.getElementById('kelasPelajar').value; // Updated to use the correct ID
+
+                const data = {
+                    namaPelajarBaru: namaPelajarBaru,
+                    icPelajarBaru: icPelajarBaru,
+                    kelasPelajar: kelasPelajar
+                };
+
+                fetch('tambahPelajarBaru.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Pelajar baharu berjaya ditambah dalam rekod');
+                            // Clear the input fields
+                            document.getElementById('namaPelajarBaru').value = '';
+                            document.getElementById('icPelajarBaru').value = '';
+                            document.getElementById('kelasPelajar').selectedIndex = 0; // Reset the select to the first option
+                        } else {
+                            alert('Penambahan pelajar baharu tidak berjaya: ' + (data.message || 'Ralat tidak dikenali'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ralat rangkaian berlaku semasa menyimpan data');
+                    });
+            }
+        </script>
+
+
+</body>

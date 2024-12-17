@@ -1,61 +1,46 @@
 <?php
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+header('Content-Type: application/json');
 
-// DB connection parameters
 $servername = "localhost";
-$dbusername = "root";
-$dbpassword = "";
+$username = "root";
+$password = "";
 $dbname = "project";
 
 // Create connection
-$conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get the selected category from the request
-$kategori = $_GET['kategori'];
+$category = isset($_GET['kategori']) ? trim($_GET['kategori']) : '';
 
-// Determine the column to query based on the selected category
-switch($kategori) {
-    case 'SUKAN DAN PERMAINAN':
-        $column = '`SUKAN DAN PERMAINAN`';
-        break;
-    case 'PERSATUAN (AKADEMIK)':
-        $column = '`PERSATUAN (AKADEMIK)`';
-        break;
-    case 'KELAB (BUKAN AKADEMIK)':
-        $column = '`KELAB (BUKAN AKADEMIK)`';
-        break;
-    case 'BADAN BERUNIFORM':
-        $column = '`BADAN BERUNIFORM`';
-        break;
-    default:
-        $column = '';
+$validCategories = ['SUKAN DAN PERMAINAN', 'PERSATUAN (AKADEMIK)', 'KELAB (BUKAN AKADEMIK)', 'BADAN BERUNIFORM'];
+if (!in_array($category, $validCategories)) {
+    error_log("Invalid category: $category");
+    echo json_encode([]);
+    exit;
 }
 
-// Query the database to get the relevant kelab data
-if ($column) {
-    $query = "SELECT DISTINCT $column AS namaKelab FROM datakoko WHERE $column IS NOT NULL AND $column != ''";
+$clubs = [];
+$sql_newdatakoko = "SELECT name FROM newdatakoko WHERE category = ?";
+$stmt_newdatakoko = $conn->prepare($sql_newdatakoko);
 
-    $result = $conn->query($query);
+if ($stmt_newdatakoko) {
+    $stmt_newdatakoko->bind_param("s", $category);
+    $stmt_newdatakoko->execute();
+    $result_newdatakoko = $stmt_newdatakoko->get_result();
 
-    $kelabOptions = [];
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $kelabOptions[] = $row;
-        }
+    while ($row = $result_newdatakoko->fetch_assoc()) {
+        $clubs[] = $row;
     }
-
-    // Return the options as JSON
-    echo json_encode($kelabOptions);
+    $stmt_newdatakoko->close();
+} else {
+    error_log("SQL Error: " . $conn->error);
 }
 
-// Close the connection
 $conn->close();
+echo json_encode($clubs);
+
 ?>

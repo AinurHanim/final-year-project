@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 
 // Delete data from the tables
-$tables = ['dataguru', 'datapelajar', 'updatepenyertaan'];
+$tables = ['dataguru', 'datapelajar', 'updatepenyertaan', 'daftarunitbadan', 'daftaracara' ];
 foreach ($tables as $table) {
     $conn->query("DELETE FROM $table");
 }
