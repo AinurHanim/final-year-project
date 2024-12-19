@@ -498,6 +498,7 @@
                         <thead>
                             <tr>
                                 <th>Nama Kelab</th>
+                                <th>Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1124,37 +1125,66 @@
 
 
         document.getElementById("kategoriSenarai").addEventListener("change", function () {
-            const selectedCategory = this.value;
+        const selectedCategory = this.value;
 
-            if (selectedCategory) {
-                // Fetch clubs based on selected category
-                fetch(`getClubsByCategory.php?kategori=${encodeURIComponent(selectedCategory)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const clubListTable = document.getElementById("clubListTable").getElementsByTagName('tbody')[0];
-                        clubListTable.innerHTML = ""; // Clear existing rows
+        if (selectedCategory) {
+            // Fetch clubs based on selected category
+            fetch(`getClubsByCategory.php?kategori=${encodeURIComponent(selectedCategory)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const clubListTable = document.getElementById("clubListTable").getElementsByTagName('tbody')[0];
+                    clubListTable.innerHTML = ""; // Clear existing rows
 
-                        if (data.length > 0) {
-                            // Populate table with fetched data
-                            data.forEach(club => {
-                                const row = document.createElement("tr");
-                                const cell = document.createElement("td");
-                                cell.textContent = club.name; // Assuming each club has a 'name' property
-                                row.appendChild(cell);
-                                clubListTable.appendChild(row);
-                            });
-                        } else {
+                    if (data.length > 0) {
+                        // Populate table with fetched data
+                        data.forEach(club => {
                             const row = document.createElement("tr");
-                            const cell = document.createElement("td");
-                            cell.textContent = "Tiada kelab dalam kategori ini."; // Message if no clubs found
-                            cell.colSpan = 1;
-                            row.appendChild(cell);
+
+                            // Club Name Column
+                            const nameCell = document.createElement("td");
+                            nameCell.textContent = club.name; // Assuming each club has a 'name' property
+                            row.appendChild(nameCell);
+
+                            // Actions Column
+                            const actionCell = document.createElement("td");
+                            const deleteButton = document.createElement("button");
+                            deleteButton.textContent = "Buang";
+                            deleteButton.classList.add("btn", "btn-danger"); // Add Bootstrap styles if you're using Bootstrap
+                            deleteButton.addEventListener("click", function () {
+                                // Confirmation Alert
+                                if (confirm(`Adakah anda pasti ingin membuang kelab "${club.name}"?`)) {
+                                    // Call deleteClub.php to delete the club from the database
+                                    fetch(`deleteClub.php?id=${encodeURIComponent(club.id)}`, { method: "POST" })
+                                        .then(response => response.json())
+                                        .then(result => {
+                                            if (result.success) {
+                                                alert("Kelab berjaya dibuang!");
+                                                row.remove(); // Remove row from table
+                                            } else {
+                                                alert("Ralat semasa membuang kelab.");
+                                            }
+                                        })
+                                        .catch(error => console.error("Error deleting club:", error));
+                                }
+                            });
+                            actionCell.appendChild(deleteButton);
+                            row.appendChild(actionCell);
+
                             clubListTable.appendChild(row);
-                        }
-                    })
-                    .catch(error => console.error("Error fetching data:", error));
-            }
-        });
+                        });
+                    } else {
+                        // No clubs found message
+                        const row = document.createElement("tr");
+                        const cell = document.createElement("td");
+                        cell.textContent = "Tiada kelab dalam kategori ini.";
+                        cell.colSpan = 2; // Span across both columns
+                        row.appendChild(cell);
+                        clubListTable.appendChild(row);
+                    }
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+    });
 
 
     </script>

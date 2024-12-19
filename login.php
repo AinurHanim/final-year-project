@@ -11,7 +11,7 @@ if (isset($_POST['login_user'])) {
     $password = $_POST['password'];
 
     // Query to get user data
-    $stmt = $con->prepare("SELECT id, username, password, nama, userType, failed_attempts, lock_until FROM register WHERE username = ?");
+    $stmt = $con->prepare("SELECT username, password, nama, userType, failed_attempts, lock_until FROM register WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
