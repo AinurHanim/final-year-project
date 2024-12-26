@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pelajar</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cececc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px auto;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #0078D4;
+            color: white;
+            border: none;
+            margin: 0 5px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .tab:hover {
+            background-color: #0056b3;
+        }
+
+        .tab.active {
+            background-color: #0056b3;
+        }
+
+        .content {
+            display: none;
+            padding: 20px;
+            background-color: #fafafa;
+            width: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.68);
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .download-btn {
+            padding: 10px 20px;
+            background-color: #0078D4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .download-btn:hover {
+            background-color: #0056b3;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        @media print {
+            .tabs, .download-btn {
+                display: none;
+            }
+
+            .content {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="tab-container">
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" onclick="showContent(0)">Graf Penyertaan Kelab</button>
+        <button class="tab" onclick="showContent(1)">Graf Ringkasan Pencapaian</button>
+    </div>
+
+    <!-- Content for each tab -->
+    <div class="content active" id="graph1">
+        <h2>Rekod Prestasi Kelab Terunggul</h2>
+        <canvas id="activeClubsChart" width="400" height="200"></canvas>
+        <div id="clubDetailsContainer"></div>
+    </div>
+
+    <div class="content" id="graph2">
+        <h2>Analisis Pencapaian Keseluruhan</h2>
+        <canvas id="achievementChart" width="400" height="200"></canvas>
+        <div id="eventsTableContainer2"></div>
+    </div>
+</div>
+
+<script>
+    // Tab switching functionality
+    function showContent(index) {
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.content');
+        
+        tabs.forEach((tab, i) => {
+            if (i === index) {
+                tab.classList.add('active');
+                contents[i].classList.add('active');
+            } else {
+                tab.classList.remove('active');
+                contents[i].classList.remove('active');
+            }
+        });
+    }
+
+
+
+
+
+    // Fetch data for "Senarai Kelab yang Paling Aktif"
+    fetch('most_active_clubs.php')
+        .then(response => response.json())
+        .then(data => {
+            const clubNames = data.map(item => item.namaKelab);
+            const activityCounts = data.map(item => item.totalActivities);
+
+            // Create the chart for active clubs
+            const ctx = document.getElementById('activeClubsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: clubNames,
+                    datasets: [{
+                        label: 'Jumlah Aktiviti',
+                        data: activityCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Rekod Prestasi Kelab Terunggul'
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true },
+                        x: { title: { display: true, text: 'Nama Kelab' } }
+                    }
+                }
+            });
+
+            // Populate the table with club details
+            const container = document.getElementById('clubDetailsContainer');
+            data.forEach(club => {
+                const clubHeader = document.createElement('h3');
+                clubHeader.textContent = `Kelab: ${club.namaKelab} (${club.totalActivities} aktiviti)`;
+                container.appendChild(clubHeader);
+
+                const table = document.createElement('table');
+                const headerRow = `
+                    <tr>
+                        <th>Kategori Unit</th>
+                        <th>Nama Acara</th>
+                        <th>Peringkat</th>
+                        <th>Guru Mendaftar</th>
+                    </tr>`;
+                table.innerHTML = headerRow;
+
+                club.details.forEach(detail => {
+                    const row = `
+                        <tr>
+                            <td>${detail.kategoriUnit}</td>
+                            <td>${detail.namaEvent}</td>
+                            <td>${detail.peringkat}</td>
+                            <td>${detail.registerBy}</td>
+                        </tr>`;
+                    table.innerHTML += row;
+                });
+
+                container.appendChild(table);
+            });
+        });
+
+    // Fetch data for "Achievement Summary"
+    fetch('top_achievements.php')
+        .then(response => response.json())
+        .then(data => {
+            const eventNames = data.map(item => item.namaEvent);
+            const eventLevels = data.map(item => item.peringkat);
+
+            // Create the chart for Achievement Summary
+            const ctx2 = document.getElementById('achievementChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: eventNames,
+                    datasets: [{
+                        label: 'Peringkat Acara',
+                        data: eventLevels.map(level => level === 'antarabangsa' ? 3 : 2), // Use level as data
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Analisis Pencapaian Keseluruhan: Top 3 Acara Penyertaan'
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true },
+                        x: { title: { display: true, text: 'Nama Acara' } }
+                    }
+                }
+            });
+
+            // Populate the table with event details
+            const container2 = document.getElementById('eventsTableContainer2');
+            data.forEach(event => {
+                const eventHeader = document.createElement('h3');
+                eventHeader.textContent = `Acara: ${event.namaEvent} (${event.peringkat} level)`;
+                container2.appendChild(eventHeader);
+
+                const table = document.createElement('table');
+                const headerRow = `
+                    <tr>
+                        <th>Nama Acara</th>
+                        <th>Peringkat</th>
+                        <th>Tarikh Acara</th>
+                        <th>Tempat</th>
+                        <th>Kategori Unit Badan</th>
+                        <th>Nama Kelab</th>
+                        <th>Didaftarkan oleh Guru</th>
+                    </tr>`;
+                table.innerHTML = headerRow;
+
+                const row = `
+                    <tr>
+                        <td>${event.namaEvent}</td>
+                        <td>${event.peringkat}</td>
+                        <td>${event.tarikh}</td>
+                        <td>${event.tempat}</td>
+                        <td>${event.kategoriUnit}</td>
+                        <td>${event.namaKelab}</td>
+                        <td>${event.registerBy}</td>
+                    </tr>`;
+                table.innerHTML += row;
+
+                container2.appendChild(table);
+            });
+        });
+</script>
+</body>
+</html>

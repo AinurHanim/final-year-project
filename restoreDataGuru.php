@@ -35,11 +35,26 @@ if (isset($_POST['action']) && $_POST['action'] == 'restore') {
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                     $namaGuru = $data[0];
 
-                    // Correct bind_param method (underscore, not hyphen)
+                    // Correct bind_param method
                     $stmt->bind_param("s", $namaGuru);
-                    if (!$stmt->execute()) {
-                        echo "Ralat memasukkan rekod:" . $stmt->error; // Corrected typo
-                        exit;
+
+                    try {
+                        $stmt->execute();
+                    } catch (mysqli_sql_exception $e) {
+                        // Check if the error is a duplicate entry
+                        if ($e->getCode() == 1062) { // MySQL error code for duplicate entry
+                            echo "<script> 
+                                    alert('Data yang diisi sudah ada dalam rekod. Tidak boleh upload secara duplikat.');
+                                    window.location.href = 'restore.html';
+                                  </script>";
+                            exit;
+                        } else {
+                            echo "<script> 
+                                    alert('Ralat lain berlaku: {$e->getMessage()}');
+                                    window.location.href = 'restore.html';
+                                  </script>";
+                            exit;
+                        }
                     }
                 }
 
@@ -47,29 +62,29 @@ if (isset($_POST['action']) && $_POST['action'] == 'restore') {
                 echo "<script> 
                         alert('Data guru berjaya dikemaskini');
                         window.location.href = 'restore.html';
-                        </script>"; 
+                      </script>";
                 exit;
             } else {
                 echo "<script> 
                         alert('Ralat membuka fail yang dimuat naik.');
                         window.location.href = 'restore.html';
-                        </script>"; 
+                      </script>";
                 exit;
             }
         } else {
             echo "<script> 
-                        alert('Jenis fail tidak sah. Sila muat naik fail CSV.');
-                        window.location.href = 'restore.html';
-                        </script>"; 
-                exit;
-            
+                    alert('Jenis fail tidak sah. Sila muat naik fail CSV.');
+                    window.location.href = 'restore.html';
+                  </script>";
+            exit;
         }
     } else {
         echo "<script> 
-                        alert('Tiada fail dimuat naik atau terdapat ralat dengan fail.');
-                        window.location.href = 'restore.html';
-                        </script>"; 
-                exit; 
+                alert('Tiada fail dimuat naik atau terdapat ralat dengan fail.');
+                window.location.href = 'restore.html';
+              </script>";
+        exit;
     }
 }
+
 ?>

@@ -48,7 +48,9 @@ if (isset($_POST['login_user'])) {
             $stmt->execute();
 
             // Redirect based on user role
-            if ($user['userType'] === 'Guru Pengiring') {
+            if ($user['userType'] === 'PK KOKO') {
+                header("Location: homepagePk.html");
+            } elseif ($user['userType'] === 'Guru Pengiring') {
                 header("Location: homepageGp.html");
             } elseif ($user['userType'] === 'Setiausaha') {
                 header("Location: homepageSu.html");

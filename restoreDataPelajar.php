@@ -28,8 +28,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'restoreDataPelajar') {
             // Open the file for reading
             if (($handle = fopen($fileTmpPath, "r")) !== FALSE) {
                 fgetcsv($handle); // Skip header row
-                $stmt = $conn->prepare("INSERT INTO datapelajar (`NAMA`, `NO K/P`, `TING`) VALUES (?,?,?)");
-
+                $stmt = $conn->prepare("INSERT IGNORE INTO datapelajar (`NAMA`, `NO K/P`, `TING`) VALUES (?, ?, ?)");
+                
                 // Read the file line by line and insert data into the database
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                     $namaPelajar = $data[0]; // First column for NAMA
@@ -40,7 +40,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'restoreDataPelajar') {
                     $stmt->bind_param("sss", $namaPelajar, $noIc, $ting);
                     if (!$stmt->execute()) {
                         // Error message for insertion failure
-                        echo "Ralat memasukkan rekod:" . $stmt->error;
+                        echo "<script>
+                                alert('Ralat memasukkan rekod: " . $stmt->error . "');
+                                window.location.href = 'restore.html';
+                              </script>";
                         exit;  // Stop further execution if error occurs
                     }
                 }
@@ -50,31 +53,31 @@ if (isset($_POST['action']) && $_POST['action'] == 'restoreDataPelajar') {
                 echo "<script> 
                         alert('Data pelajar berjaya dikemaskini');
                         window.location.href = 'restore.html';
-                        </script>"; 
+                      </script>"; 
                 exit;
             } else {
                 // Error message for file opening failure
                 echo "<script> 
-                alert('Ralat membuka fail yang dimuat naik');
-                window.location.href = 'restore.html';
-                </script>"; 
-        exit;
+                        alert('Ralat membuka fail yang dimuat naik');
+                        window.location.href = 'restore.html';
+                      </script>"; 
+                exit;
             }
         } else {
             // Error message for invalid file type
             echo "<script> 
-                        alert('Jenis fail tidak sah. Sila muat naik fail CSV.');
-                        window.location.href = 'restore.html';
-                        </script>"; 
-                exit;
+                    alert('Jenis fail tidak sah. Sila muat naik fail CSV.');
+                    window.location.href = 'restore.html';
+                  </script>"; 
+            exit;
         }
     } else {
         // Error message if no file was uploaded
         echo "<script> 
-                        alert('Tiada fail dimuat naik atau terdapat ralat dengan fail.');
-                        window.location.href = 'restore.html';
-                        </script>"; 
-                exit;
+                alert('Tiada fail dimuat naik atau terdapat ralat dengan fail.');
+                window.location.href = 'restore.html';
+              </script>"; 
+        exit;
     }
 }
 ?>

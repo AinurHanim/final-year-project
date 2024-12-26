@@ -28,7 +28,7 @@ if ($kategoriUnit === 'LAIN-LAIN' && !empty($namaKelabText)) {
 
     // Check if required fields are filled
 // Check if required fields are filled
-if (empty($namaEvent) || empty($tarikh) || empty($tempat) || empty($peringkat) || empty($kategoriUnit) || (empty($namaKelab && $kategoriUnit === 'LAIN-LAIN'))) {
+if (empty($namaEvent) || empty($tarikh) || empty($tempat) || empty($peringkat) || empty($kategoriUnit) || ($kategoriUnit === 'LAIN-LAIN' && empty($namaKelab))) {
     echo "Sila isi semua ruangan";
     exit();
 }
